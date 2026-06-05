@@ -75,10 +75,6 @@ export default function ComingSoonPage() {
             <span className="gradient-text">{t.title2}</span>
           </h1>
 
-          <p className="mt-7 max-w-2xl text-lg leading-relaxed text-white/70 animate-fade-up [animation-delay:120ms]">
-            {t.subtitle}
-          </p>
-
           <div className="mt-12 grid grid-cols-4 gap-3 sm:gap-5 max-w-2xl animate-fade-up [animation-delay:240ms]">
             <TimeBlock value={timeLeft.days} label={t.days} />
             <TimeBlock value={timeLeft.hours} label={t.hours} />
@@ -162,8 +158,6 @@ const mn = {
   badge: "10 жилийн ой · 2016 — 2026",
   title1: "Удахгүй",
   title2: "нээгдэнэ",
-  subtitle:
-    "Шинэ Амь Христийн Чуулганы шинэ вэб сайт 10 жилийн ойн зориулалтаар бэлтгэгдэж байна. Бид Бурханы итгэмжит байдлын түүхийг тантай хуваалцахаар хүлээж байна.",
   days: "Өдөр",
   hours: "Цаг",
   minutes: "Минут",
@@ -181,8 +175,6 @@ const en = {
   badge: "10th Anniversary · 2016 — 2026",
   title1: "Something new",
   title2: "is coming",
-  subtitle:
-    "We're preparing a brand new website for New Life Christian Church — a tribute to ten years of God's faithfulness. We can't wait to share the story with you.",
   days: "Days",
   hours: "Hours",
   minutes: "Minutes",
