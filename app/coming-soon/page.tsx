@@ -7,8 +7,6 @@ const LAUNCH_DATE = new Date("2026-09-20T18:00:00+08:00");
 
 export default function ComingSoonPage() {
   const [lang, setLang] = useState<"mn" | "en">("mn");
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft());
 
   useEffect(() => {
@@ -64,12 +62,7 @@ export default function ComingSoonPage() {
         </header>
 
         <main className="flex flex-1 flex-col justify-center py-12 lg:py-16">
-          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-gold-500/30 bg-gold-500/5 px-4 py-1.5 text-xs font-medium tracking-widest text-gold-400 uppercase animate-fade-in">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
-            {t.badge}
-          </div>
-
-          <h1 className="mt-6 font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl animate-fade-up">
+          <h1 className="font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl animate-fade-up">
             {t.title1}
             <br />
             <span className="gradient-text">{t.title2}</span>
@@ -81,54 +74,12 @@ export default function ComingSoonPage() {
             <TimeBlock value={timeLeft.minutes} label={t.minutes} />
             <TimeBlock value={timeLeft.seconds} label={t.seconds} />
           </div>
-
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (email) setSubmitted(true);
-            }}
-            className="mt-12 max-w-xl animate-fade-up [animation-delay:360ms]"
-          >
-            <label className="text-xs font-semibold uppercase tracking-widest text-white/40">
-              {t.notifyLabel}
-            </label>
-            <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={t.emailPlaceholder}
-                className="flex-1 rounded-full border border-white/10 bg-ink-900/60 px-5 py-3.5 text-sm text-white placeholder-white/30 outline-none transition focus:border-gold-500/60 focus:bg-ink-900"
-              />
-              <button
-                type="submit"
-                disabled={submitted}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink-950 transition hover:bg-gold-400 disabled:bg-leaf-500 disabled:text-white"
-              >
-                {submitted ? t.submitted : t.notifyBtn}
-                {!submitted && (
-                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path
-                      fillRule="evenodd"
-                      d="M3 10a.75.75 0 0 1 .75-.75h10.69L11.22 6a.75.75 0 1 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l3.22-3.19H3.75A.75.75 0 0 1 3 10Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
-          </form>
         </main>
 
         <footer className="border-t border-white/5 py-8">
           <div className="flex flex-col items-start justify-between gap-4 text-xs text-white/40 md:flex-row md:items-center">
             <p>© {new Date().getFullYear()} {t.churchName}. {t.rights}.</p>
             <div className="flex items-center gap-4">
-              <a href={`mailto:${t.email}`} className="hover:text-white">
-                {t.email}
-              </a>
-              <span className="text-white/20">·</span>
               <SocialLink href="https://facebook.com" label="Facebook">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
                   <path d="M22 12a10 10 0 1 0-11.6 9.88V14.9H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.78-3.9 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.9h-2.33v6.98A10 10 0 0 0 22 12Z" />
@@ -155,37 +106,25 @@ export default function ComingSoonPage() {
 }
 
 const mn = {
-  badge: "10 жилийн ой · 2016 — 2026",
   title1: "Удахгүй",
   title2: "нээгдэнэ",
   days: "Өдөр",
   hours: "Цаг",
   minutes: "Минут",
   seconds: "Секунд",
-  notifyLabel: "Нээлтийн мэдээллийг авах",
-  emailPlaceholder: "имэйл@жишээ.mn",
-  notifyBtn: "Мэдэгдээрэй",
-  submitted: "Баярлалаа",
   churchName: "Шинэ Амь Христийн Чуулган",
   rights: "Бүх эрх хуулиар хамгаалагдсан",
-  email: "info@newlife.mn",
 };
 
 const en = {
-  badge: "10th Anniversary · 2016 — 2026",
   title1: "Something new",
   title2: "is coming",
   days: "Days",
   hours: "Hours",
   minutes: "Minutes",
   seconds: "Seconds",
-  notifyLabel: "Notify me at launch",
-  emailPlaceholder: "you@example.com",
-  notifyBtn: "Notify me",
-  submitted: "Thank you",
   churchName: "New Life Christian Church",
   rights: "All rights reserved",
-  email: "info@newlife.mn",
 };
 
 function getTimeLeft() {
