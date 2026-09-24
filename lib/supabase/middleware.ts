@@ -34,6 +34,10 @@ export async function handlePortalRequest(request: NextRequest) {
   const signedIn = Boolean(data?.claims?.sub);
   const { pathname, search } = request.nextUrl;
 
+  // A 307 on a Server Action POST re-posts to a page that doesn't own the action and
+  // the client silently gets `undefined`. Actions enforce auth themselves (RLS/RPC checks).
+  if (request.method === "POST") return response;
+
   if (!signedIn && !isPublicPortalPath(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = "/portal/login";
@@ -43,10 +47,19 @@ export async function handlePortalRequest(request: NextRequest) {
   }
 
   if (signedIn && pathname === "/portal/login") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/portal";
-    url.search = "";
-    return redirectKeepingSession(url, response);
+    // getClaims() only checks the JWT locally, while the member layout asks the Auth
+    // server via getUser(). Ask it here too, or a revoked session loops
+    // /portal <-> /portal/login until the JWT expires. getUser() also clears the
+    // dead session's cookies through setAll above.
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/portal";
+      url.search = "";
+      return redirectKeepingSession(url, response);
+    }
   }
 
   return response;

@@ -35,13 +35,13 @@ export default async function ProfilePage() {
 
         <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-white/5 pt-6 text-sm">
           <div>
-            <dt className="text-xs uppercase tracking-widest text-white/40">Эрх</dt>
+            <dt className="text-xs uppercase tracking-widest text-white/55">Эрх</dt>
             <dd className="mt-2">
               <RoleBadge role={profile.role} />
             </dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-widest text-white/40">Бүлэг</dt>
+            <dt className="text-xs uppercase tracking-widest text-white/55">Бүлэг</dt>
             <dd className="mt-2 text-white/80">{group?.name ?? "Хуваарилагдаагүй"}</dd>
           </div>
         </dl>

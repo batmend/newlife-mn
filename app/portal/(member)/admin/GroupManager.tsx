@@ -3,12 +3,34 @@
 import { useState } from "react";
 import type { Group, Profile } from "@/lib/supabase/types";
 import { hasRole } from "@/lib/portal/roles";
-import { deleteGroup, saveGroup } from "./actions";
+import { deleteGroup, saveGroup, type ActionResult } from "./actions";
 
 type Member = Pick<Profile, "id" | "full_name" | "email" | "role" | "group_id">;
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-ink-950/70 px-3 py-2 text-sm text-white placeholder-white/30 outline-none transition focus:border-gold-500/60 disabled:opacity-60";
+  "w-full rounded-xl border border-white/10 bg-ink-950/70 px-3 py-2 text-base text-white placeholder-white/50 outline-none transition focus:border-gold-500/60 disabled:opacity-60 lg:text-sm";
+
+const SAVE_FAILED = "Хадгалж чадсангүй. Дахин оролдоно уу.";
+const NETWORK_FAILED = "Сүлжээний алдаа гарлаа. Дахин оролдоно уу.";
+
+async function run(
+  action: () => Promise<ActionResult>,
+  setBusy: (busy: boolean) => void,
+  setError: (error: string | null) => void,
+) {
+  setBusy(true);
+  setError(null);
+  try {
+    const result = await action();
+    if (!result?.ok) setError(result?.error ?? SAVE_FAILED);
+    return Boolean(result?.ok);
+  } catch {
+    setError(NETWORK_FAILED);
+    return false;
+  } finally {
+    setBusy(false);
+  }
+}
 
 export function GroupManager({
   groups,
@@ -22,7 +44,7 @@ export function GroupManager({
   return (
     <section>
       <h2 className="font-display text-xl font-bold">Бүлгүүд</h2>
-      <p className="mt-1 text-sm text-white/50">
+      <p className="mt-1 text-sm text-white/55">
         Чиглүүлэгч зөвхөн өөрт оноогдсон бүлгийн гишүүдийн идэвхийг харна. Чиглүүлэгч сонгохын тулд тухайн хүнд эхлээд
         &ldquo;Чиглүүлэгч&rdquo; буюу түүнээс дээш эрх олгоно.
       </p>
@@ -58,25 +80,17 @@ function GroupRow({
 
   const dirty = name.trim() !== group.name || mentorId !== (group.mentor_id ?? "");
 
-  async function onSave() {
-    setBusy(true);
-    setError(null);
-    const result = await saveGroup({ groupId: group.id, name, mentorId: mentorId || null });
-    setBusy(false);
-    if (!result.ok) setError(result.error);
+  function onSave() {
+    return run(() => saveGroup({ groupId: group.id, name, mentorId: mentorId || null }), setBusy, setError);
   }
 
-  async function onDelete() {
+  function onDelete() {
     const warning =
       memberCount > 0
         ? `"${group.name}" бүлгийг устгах уу? ${memberCount} гишүүн бүлэггүй болно.`
         : `"${group.name}" бүлгийг устгах уу?`;
     if (!window.confirm(warning)) return;
-    setBusy(true);
-    setError(null);
-    const result = await deleteGroup(group.id);
-    setBusy(false);
-    if (!result.ok) setError(result.error);
+    return run(() => deleteGroup(group.id), setBusy, setError);
   }
 
   return (
@@ -88,12 +102,12 @@ function GroupRow({
         </label>
         <MentorSelect mentors={mentors} value={mentorId} onChange={setMentorId} disabled={busy} />
         <div className="flex items-center gap-2">
-          <span className="whitespace-nowrap text-xs text-white/45">{memberCount} гишүүн</span>
+          <span className="whitespace-nowrap text-xs text-white/55">{memberCount} гишүүн</span>
           <button
             type="button"
             onClick={onSave}
             disabled={!dirty || busy || !name.trim()}
-            className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-950 transition hover:bg-gold-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/35"
+            className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-950 transition hover:bg-gold-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40"
           >
             Хадгалах
           </button>
@@ -124,27 +138,22 @@ function NewGroupRow({ mentors }: { mentors: Member[] }) {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true);
-    setError(null);
-    const result = await saveGroup({ groupId: null, name, mentorId: mentorId || null });
-    setBusy(false);
-    if (result.ok) {
+    const ok = await run(() => saveGroup({ groupId: null, name, mentorId: mentorId || null }), setBusy, setError);
+    if (ok) {
       setName("");
       setMentorId("");
-    } else {
-      setError(result.error);
     }
   }
 
   return (
     <form onSubmit={onSubmit} className="rounded-2xl border border-dashed border-white/15 p-4">
-      <div className="grid gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto] md:items-center">
+      <div className="grid gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto] md:items-end">
         <label className="block">
-          <span className="sr-only">Шинэ бүлгийн нэр</span>
+          <span className="mb-1 block text-xs font-semibold uppercase tracking-widest text-white/60">Шинэ бүлгийн нэр</span>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Шинэ бүлгийн нэр (ж: Баянзүрхийн гэрийн бүлэг)"
+            placeholder="ж: Баянзүрхийн гэрийн бүлэг"
             maxLength={80}
             disabled={busy}
             className={inputClass}
@@ -154,7 +163,7 @@ function NewGroupRow({ mentors }: { mentors: Member[] }) {
         <button
           type="submit"
           disabled={busy || !name.trim()}
-          className="rounded-full bg-gold-400 px-4 py-2 text-xs font-semibold text-ink-950 transition hover:bg-gold-500 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full bg-gold-400 px-4 py-2.5 text-xs font-semibold text-ink-950 transition hover:bg-gold-500 disabled:cursor-not-allowed disabled:opacity-40"
         >
           + Бүлэг нэмэх
         </button>
@@ -183,7 +192,7 @@ function MentorSelect({
     <label className="block">
       <span className="sr-only">Чиглүүлэгч</span>
       <select value={value} onChange={(e) => onChange(e.target.value)} disabled={disabled} className={inputClass}>
-        <option value="">Чиглүүлэгчгүй</option>
+        <option value="">Чиглүүлэгч сонгоогүй</option>
         {mentors.map((m) => (
           <option key={m.id} value={m.id}>
             {m.full_name || m.email}

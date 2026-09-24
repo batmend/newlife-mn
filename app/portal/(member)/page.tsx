@@ -11,11 +11,11 @@ const UPCOMING = [
     body: "Өглөө бүр шинэ үг ирж, уншсаныхаа дараа бодлоо тэмдэглэнэ.",
   },
   {
-    title: "Нэгдсэн календар",
+    title: "Нэгдсэн календарь",
     body: "Чуулганы бүх цуглаан, арга хэмжээ нэг дор харагдана.",
   },
   {
-    title: "Үйлчлэлийн checklist",
+    title: "Үйлчлэлийн чеклист",
     body: "Үйлчлэл бүрийн хийх ажлуудыг удирдагчид хөтөлж, та харах боломжтой болно.",
   },
 ];
@@ -110,7 +110,7 @@ export default async function PortalHomePage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="glass rounded-3xl p-6 sm:p-7">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-white/45">Миний бүлэг</h2>
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Миний бүлэг</h2>
           {group ? (
             <>
               <p className="mt-3 font-display text-2xl font-bold">{group.name}</p>
@@ -137,7 +137,7 @@ export default async function PortalHomePage() {
 
         {hasRole(profile.role, "mentor") && (
           <section className="glass rounded-3xl p-6 sm:p-7">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-white/45">Миний хариуцсан гишүүд</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Миний хариуцсан гишүүд</h2>
             {mentoredGroups.length === 0 ? (
               <p className="mt-3 text-sm leading-relaxed text-white/60">
                 Танд одоогоор хариуцах бүлэг оноогоогүй байна.
@@ -149,7 +149,7 @@ export default async function PortalHomePage() {
                   return (
                     <div key={g.id}>
                       <p className="text-sm font-semibold text-gold-400">
-                        {g.name} <span className="font-normal text-white/40">· {members.length} гишүүн</span>
+                        {g.name} <span className="font-normal text-white/55">· {members.length} гишүүн</span>
                       </p>
                       {members.length > 0 ? (
                         <ul className="mt-3 flex flex-wrap gap-2">
@@ -164,7 +164,7 @@ export default async function PortalHomePage() {
                           ))}
                         </ul>
                       ) : (
-                        <p className="mt-2 text-sm text-white/45">Энэ бүлэгт гишүүн хараахан алга.</p>
+                        <p className="mt-2 text-sm text-white/55">Энэ бүлэгт гишүүн хараахан алга.</p>
                       )}
                     </div>
                   );
@@ -176,7 +176,7 @@ export default async function PortalHomePage() {
       </div>
 
       <section>
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/45">Удахгүй нэмэгдэнэ</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Удахгүй нэмэгдэнэ</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {UPCOMING.map((item) => (
             <div key={item.title} className="rounded-2xl border border-dashed border-white/10 p-5">

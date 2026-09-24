@@ -5,7 +5,7 @@ import type { MemberRole } from "@/lib/supabase/types";
 import { ROLE_LABELS } from "@/lib/portal/roles";
 
 export const inputClass =
-  "mt-2 w-full rounded-xl border border-white/10 bg-ink-950/60 px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition focus:border-gold-500/60 focus:bg-ink-900 disabled:opacity-60";
+  "mt-2 w-full rounded-xl border border-white/10 bg-ink-950/60 px-4 py-3 text-base text-white placeholder-white/50 outline-none transition focus:border-gold-500/60 focus:bg-ink-900 disabled:opacity-60 lg:text-sm";
 
 export function Field({
   label,
@@ -16,7 +16,7 @@ export function Field({
     <label className="block">
       <span className="text-xs font-semibold uppercase tracking-widest text-white/60">{label}</span>
       <input {...input} className={inputClass} />
-      {hint && <span className="mt-1.5 block text-xs text-white/40">{hint}</span>}
+      {hint && <span className="mt-1.5 block text-xs text-white/55">{hint}</span>}
     </label>
   );
 }
@@ -65,7 +65,7 @@ const ROLE_STYLES: Record<MemberRole, string> = {
 export function RoleBadge({ role }: { role: MemberRole }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold tracking-wide ${ROLE_STYLES[role]}`}
+      className={`inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[11px] font-semibold tracking-wide ${ROLE_STYLES[role]}`}
     >
       {ROLE_LABELS[role]}
     </span>

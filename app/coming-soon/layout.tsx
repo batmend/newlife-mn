@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "Удахгүй нээгдэнэ · Шинэ Амь Христийн Чуулган",
+  title: { absolute: "Удахгүй нээгдэнэ · Шинэ Амь Христийн Чуулган" },
   description:
     "10 жилийн ойн зориулалтаар бэлтгэгдэж буй Шинэ Амь Христийн Чуулганы шинэ вэб сайт. Удахгүй нээгдэнэ.",
   robots: { index: false, follow: false },

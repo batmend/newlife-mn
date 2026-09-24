@@ -3,14 +3,16 @@
 import { useMemo, useState } from "react";
 import type { Group, MemberRole, Profile } from "@/lib/supabase/types";
 import { ROLES, ROLE_LABELS } from "@/lib/portal/roles";
-import { Avatar, RoleBadge } from "@/components/portal/ui";
+import { Avatar } from "@/components/portal/ui";
 import { updateMember } from "./actions";
 
-type Member = Pick<Profile, "id" | "email" | "full_name" | "avatar_url" | "role" | "group_id" | "created_at">;
+type Member = Pick<Profile, "id" | "email" | "full_name" | "avatar_url" | "role" | "group_id"> & {
+  joined: string;
+};
 type Filter = "all" | MemberRole;
 
 const selectClass =
-  "w-full rounded-xl border border-white/10 bg-ink-950/70 px-3 py-2 text-sm text-white outline-none transition focus:border-gold-500/60 disabled:opacity-60";
+  "w-full rounded-xl border border-white/10 bg-ink-950/70 px-3 py-2 text-base text-white outline-none transition focus:border-gold-500/60 disabled:opacity-60 lg:text-sm";
 
 export function MemberTable({
   members,
@@ -35,6 +37,15 @@ export function MemberTable({
     );
   }, [members, query, filter]);
 
+  const emptyMessage =
+    members.length === 0
+      ? "Одоогоор бүртгэл алга."
+      : query.trim()
+        ? "Хайлтад тохирох гишүүн олдсонгүй."
+        : filter === "pending"
+          ? "Баталгаажуулалт хүлээж буй бүртгэл алга."
+          : `“${ROLE_LABELS[filter as MemberRole]}” эрхтэй гишүүн алга.`;
+
   return (
     <section>
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -45,7 +56,7 @@ export function MemberTable({
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Нэр эсвэл имэйлээр хайх"
           aria-label="Гишүүн хайх"
-          className="w-full rounded-full border border-white/10 bg-ink-950/60 px-4 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-gold-500/60 md:w-72"
+          className="w-full rounded-full border border-white/10 bg-ink-950/60 px-4 py-2.5 text-base text-white placeholder-white/50 outline-none focus:border-gold-500/60 md:w-72 lg:text-sm"
         />
       </div>
 
@@ -68,16 +79,14 @@ export function MemberTable({
       </div>
 
       <div className="mt-5 overflow-hidden rounded-2xl border border-white/10">
-        <div className="hidden grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] gap-4 border-b border-white/10 bg-white/[0.03] px-5 py-3 text-[11px] font-semibold uppercase tracking-widest text-white/40 md:grid">
+        <div className="hidden grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] gap-4 border-b border-white/10 bg-white/[0.03] px-5 py-3 text-[11px] font-semibold uppercase tracking-widest text-white/55 md:grid">
           <span>Гишүүн</span>
           <span>Эрх</span>
           <span>Бүлэг</span>
-          <span className="w-24" />
+          <span className="w-32" />
         </div>
         {visible.length === 0 ? (
-          <p className="px-5 py-10 text-center text-sm text-white/45">
-            {members.length === 0 ? "Одоогоор бүртгэл алга." : "Хайлтад тохирох гишүүн олдсонгүй."}
-          </p>
+          <p className="px-5 py-10 text-center text-sm text-white/55">{emptyMessage}</p>
         ) : (
           <ul className="divide-y divide-white/5">
             {visible.map((m) => (
@@ -110,42 +119,39 @@ function MemberRow({
   const [error, setError] = useState<string | null>(null);
 
   const dirty = role !== member.role || groupId !== (member.group_id ?? "");
-  const joined = new Date(member.created_at).toLocaleDateString("mn-MN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+  const displayName = member.full_name || member.email || "Нэргүй";
 
   async function save() {
     if (isSelf && member.role === "admin" && role !== "admin") {
       if (!window.confirm("Та өөрийн админ эрхийг хасах гэж байна. Үргэлжлүүлэх үү?")) return;
     } else if (role === "admin" && member.role !== "admin") {
-      if (!window.confirm(`${member.full_name || member.email}-д бүрэн админ эрх олгох уу?`)) return;
+      if (!window.confirm(`Энэ хэрэглэгчид бүрэн админ эрх олгох уу?\n\n${displayName}`)) return;
     }
 
     setSaving(true);
     setError(null);
-    const result = await updateMember({ memberId: member.id, role, groupId: groupId || null });
-    setSaving(false);
-    if (!result.ok) setError(result.error);
+    try {
+      const result = await updateMember({ memberId: member.id, role, groupId: groupId || null });
+      if (!result?.ok) setError(result?.error ?? "Хадгалж чадсангүй. Дахин оролдоно уу.");
+    } catch {
+      setError("Сүлжээний алдаа гарлаа. Дахин оролдоно уу.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
     <li className="grid gap-3 px-5 py-4 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center md:gap-4">
       <div className="flex min-w-0 items-center gap-3">
-        <Avatar name={member.full_name || member.email || "?"} url={member.avatar_url} size={40} />
+        <Avatar name={displayName} url={member.avatar_url} size={40} />
         <div className="min-w-0">
           <p className="flex items-center gap-2 truncate text-sm font-semibold">
             <span className="truncate">{member.full_name || "Нэргүй"}</span>
-            {isSelf && <span className="text-[11px] font-normal text-white/40">(та)</span>}
+            {isSelf && <span className="text-[11px] font-normal text-white/55">(та)</span>}
           </p>
-          <p className="truncate text-xs text-white/45">
-            {member.email} · {joined}
-          </p>
+          <p className="truncate text-xs text-white/55">{member.email}</p>
+          <p className="text-xs text-white/55">{member.joined}</p>
         </div>
-        <span className="ml-auto md:hidden">
-          <RoleBadge role={member.role} />
-        </span>
       </div>
 
       <label className="block">
@@ -181,14 +187,14 @@ function MemberRow({
         </select>
       </label>
 
-      <div className="flex items-center gap-2 md:w-24 md:justify-end">
+      <div className="flex items-center gap-2 md:w-32 md:justify-end">
         <button
           type="button"
           onClick={save}
           disabled={!dirty || saving}
-          className="w-full rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-950 transition hover:bg-gold-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/35 md:w-auto"
+          className="w-full rounded-full bg-white px-4 py-2.5 text-xs font-semibold text-ink-950 transition hover:bg-gold-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40 md:w-auto md:py-2"
         >
-          {saving ? "…" : "Хадгалах"}
+          {saving ? "Хадгалж байна…" : "Хадгалах"}
         </button>
       </div>
 

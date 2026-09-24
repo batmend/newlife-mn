@@ -3,6 +3,6 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   const supabase = createClient();
-  await supabase.auth.signOut();
+  await supabase.auth.signOut({ scope: "local" });
   return NextResponse.redirect(new URL("/portal/login", request.url), { status: 303 });
 }

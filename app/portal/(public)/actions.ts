@@ -52,6 +52,12 @@ export async function signUp(_prev: FormState, formData: FormData): Promise<Form
   });
   if (error) return { error: authErrorMessage(error) };
 
+  // With "Confirm email" on, a repeat signup for a confirmed address returns an
+  // obfuscated user with no identities, no session, no error — and sends nothing.
+  if (data.user && data.user.identities?.length === 0) {
+    return { error: authErrorMessage({ code: "user_already_exists" }) };
+  }
+
   if (data.session) redirect("/portal");
 
   return {
@@ -90,7 +96,11 @@ export async function requestPasswordReset(_prev: FormState, formData: FormData)
     redirectTo: `${requestOrigin()}/portal/auth/callback?next=/portal/reset-password`,
   });
 
-  if (error?.code === "over_email_send_rate_limit" || error?.code === "over_request_rate_limit") {
+  if (
+    error?.code === "over_email_send_rate_limit" ||
+    error?.code === "over_request_rate_limit" ||
+    error?.code === "email_address_not_authorized"
+  ) {
     return { error: authErrorMessage(error) };
   }
 

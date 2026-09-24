@@ -30,7 +30,15 @@ export default async function AdminPage() {
     );
   }
 
-  const members = profiles ?? [];
+  // Formatted here with an explicit zone: the client re-render would otherwise use the
+  // browser's UTC+8 while the server uses UTC, and the dates would mismatch on hydration.
+  const joinedFormat = new Intl.DateTimeFormat("mn-MN", {
+    timeZone: "Asia/Ulaanbaatar",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const members = (profiles ?? []).map((p) => ({ ...p, joined: joinedFormat.format(new Date(p.created_at)) }));
   const counts = ROLES.map((role) => ({ role, count: members.filter((m) => m.role === role).length }));
 
   return (
@@ -43,7 +51,7 @@ export default async function AdminPage() {
       <dl className="grid grid-cols-2 gap-3 sm:grid-cols-5">
         {counts.map(({ role, count }) => (
           <div key={role} className="glass rounded-2xl px-4 py-4">
-            <dt className="text-[11px] uppercase tracking-widest text-white/45">{ROLE_LABELS[role]}</dt>
+            <dt className="text-[11px] uppercase tracking-widest text-white/55">{ROLE_LABELS[role]}</dt>
             <dd className={`mt-1 font-display text-2xl font-bold ${role === "pending" && count > 0 ? "text-gold-400" : ""}`}>
               {count}
             </dd>

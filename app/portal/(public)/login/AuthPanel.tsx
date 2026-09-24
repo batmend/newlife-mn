@@ -48,7 +48,7 @@ export function AuthPanel({
               </form>
             ))}
           </div>
-          <div className="my-6 flex items-center gap-3 text-xs text-white/35">
+          <div className="my-6 flex items-center gap-3 text-xs text-white/55">
             <span className="h-px flex-1 bg-white/10" />
             эсвэл имэйлээр
             <span className="h-px flex-1 bg-white/10" />
@@ -56,7 +56,11 @@ export function AuthPanel({
         </>
       )}
 
-      <div role="tablist" className="grid grid-cols-2 rounded-full border border-white/10 bg-ink-950/60 p-1">
+      <div
+        role="group"
+        aria-label="Нэвтрэх эсвэл бүртгүүлэх"
+        className="grid grid-cols-2 rounded-full border border-white/10 bg-ink-950/60 p-1"
+      >
         <TabButton active={tab === "signin"} onClick={() => setTab("signin")}>
           Нэвтрэх
         </TabButton>
@@ -103,7 +107,7 @@ export function AuthPanel({
           ) : (
             <SubmitButton pendingLabel="Бүртгэж байна…">Бүртгүүлэх</SubmitButton>
           )}
-          <p className="text-center text-xs leading-relaxed text-white/45">
+          <p className="text-center text-xs leading-relaxed text-white/55">
             Бүртгүүлсний дараа чуулганы админ таны эрхийг баталгаажуулна.
           </p>
         </form>
@@ -124,8 +128,7 @@ function TabButton({
   return (
     <button
       type="button"
-      role="tab"
-      aria-selected={active}
+      aria-pressed={active}
       onClick={onClick}
       className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
         active ? "bg-white text-ink-950" : "text-white/60 hover:text-white"

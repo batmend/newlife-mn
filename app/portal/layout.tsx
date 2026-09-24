@@ -3,7 +3,7 @@ import "../globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Гишүүдийн портал · Шинэ Амь",
+    absolute: "Гишүүдийн портал · Шинэ Амь",
     template: "%s · Шинэ Амь портал",
   },
   robots: { index: false, follow: false },

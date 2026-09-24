@@ -10,6 +10,9 @@ export async function GET(request: NextRequest) {
     const supabase = createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) return NextResponse.redirect(new URL(next, request.url));
+    if (error.code === "pkce_code_verifier_not_found") {
+      return NextResponse.redirect(new URL("/portal/login?error=other_browser", request.url));
+    }
   }
 
   return NextResponse.redirect(new URL("/portal/login?error=callback", request.url));

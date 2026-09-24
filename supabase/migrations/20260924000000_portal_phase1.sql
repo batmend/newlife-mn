@@ -59,8 +59,10 @@ as $$
     select 1
     from public.profiles p
     join public.groups g on g.id = p.group_id
+    join public.profiles me on me.id = g.mentor_id
     where p.id = p_profile_id
       and g.mentor_id = (select auth.uid())
+      and me.role >= 'mentor'
   );
 $$;
 
@@ -184,11 +186,15 @@ begin
     raise exception 'Бүлгийн нэр 80 тэмдэгтээс хэтрэхгүй байх ёстой';
   end if;
 
-  if p_mentor_id is not null
-     and not exists (
-       select 1 from public.profiles where id = p_mentor_id and role >= 'mentor'
-     ) then
-    raise exception 'Сонгосон хүн чиглүүлэгчийн эрхгүй байна';
+  -- FOR SHARE waits for a concurrent admin_update_member on this person, then
+  -- re-checks the committed role, so a just-demoted member can't become mentor.
+  if p_mentor_id is not null then
+    perform 1 from public.profiles
+     where id = p_mentor_id and role >= 'mentor'
+       for share;
+    if not found then
+      raise exception 'Сонгосон хүн чиглүүлэгчийн эрхгүй байна';
+    end if;
   end if;
 
   if p_group_id is null then
@@ -262,6 +268,26 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
 
+-- Accounts created before this migration never fired the trigger.
+insert into public.profiles (id, email, full_name, avatar_url)
+select
+  u.id,
+  u.email,
+  left(
+    coalesce(
+      nullif(btrim(u.raw_user_meta_data ->> 'full_name'), ''),
+      nullif(btrim(u.raw_user_meta_data ->> 'name'), ''),
+      split_part(coalesce(u.email, ''), '@', 1)
+    ),
+    120
+  ),
+  case
+    when coalesce(u.raw_user_meta_data ->> 'avatar_url', u.raw_user_meta_data ->> 'picture') ~ '^https://'
+    then coalesce(u.raw_user_meta_data ->> 'avatar_url', u.raw_user_meta_data ->> 'picture')
+  end
+from auth.users u
+on conflict (id) do nothing;
+
 create function public.handle_user_email_change()
 returns trigger
 language plpgsql
@@ -300,5 +326,6 @@ grant execute on function
   public.admin_delete_group(uuid)
 to authenticated;
 
--- First admin: sign in once through the portal, then run (with your email):
+-- First admin: once your account exists (sign up through the portal, or add the
+-- user under Authentication > Users), run with your email:
 --   update public.profiles set role = 'admin' where email = 'you@example.com';
