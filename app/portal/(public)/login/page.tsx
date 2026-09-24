@@ -25,14 +25,14 @@ const QUERY_NOTICES: Record<string, string> = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { next?: string; error?: string; notice?: string; tab?: string };
+  searchParams: { next?: string; error?: string; code?: string; notice?: string; tab?: string };
 }) {
   const next = safeNextPath(searchParams.next);
   // Own-key checks: a bare lookup would match inherited names like ?error=constructor.
+  const errorCode = searchParams.code && /^[a-z0-9_]{1,40}$/i.test(searchParams.code) ? searchParams.code : null;
   const queryError = searchParams.error
-    ? Object.hasOwn(QUERY_ERRORS, searchParams.error)
-      ? QUERY_ERRORS[searchParams.error]
-      : QUERY_ERRORS.callback
+    ? (Object.hasOwn(QUERY_ERRORS, searchParams.error) ? QUERY_ERRORS[searchParams.error] : QUERY_ERRORS.callback) +
+      (errorCode ? ` (Алдааны код: ${errorCode})` : "")
     : undefined;
   const queryNotice =
     searchParams.notice && Object.hasOwn(QUERY_NOTICES, searchParams.notice)

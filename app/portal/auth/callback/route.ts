@@ -16,8 +16,17 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(new URL(`/portal/login?error=${failureReason(params)}`, request.url));
+  const target = new URL(`/portal/login?error=${failureReason(params)}`, request.url);
+  const detail = params.get("error_code") ?? params.get("error");
+  if (detail && ERROR_CODE.test(detail)) target.searchParams.set("code", detail);
+  if (params.get("error")) {
+    console.error("auth callback error", params.get("error"), params.get("error_code"), params.get("error_description"));
+  }
+  return NextResponse.redirect(target);
 }
+
+// Only short machine codes are echoed back to the page, never free-form provider text.
+const ERROR_CODE = /^[a-z0-9_]{1,40}$/i;
 
 // Supabase forwards provider failures as ?error=…&error_code=…&error_description=…;
 // expired email links arrive the same way with error_code=otp_expired.
