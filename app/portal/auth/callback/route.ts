@@ -16,8 +16,17 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Supabase forwards provider failures (e.g. the member cancelled the Facebook dialog)
-  // as ?error=…; expired email links arrive the same way with error_code=otp_expired.
-  const reason = params.get("error") && params.get("error_code") !== "otp_expired" ? "oauth" : "callback";
-  return NextResponse.redirect(new URL(`/portal/login?error=${reason}`, request.url));
+  return NextResponse.redirect(new URL(`/portal/login?error=${failureReason(params)}`, request.url));
+}
+
+// Supabase forwards provider failures as ?error=…&error_code=…&error_description=…;
+// expired email links arrive the same way with error_code=otp_expired.
+function failureReason(params: URLSearchParams) {
+  const error = params.get("error");
+  const code = params.get("error_code");
+  if (!error || code === "otp_expired") return "callback";
+  // Phone-only Facebook accounts, or a declined email permission.
+  if (/email/i.test(params.get("error_description") ?? "")) return "oauth_email";
+  if (error === "access_denied") return "oauth";
+  return "oauth_failed";
 }

@@ -30,8 +30,9 @@ export default function DataDeletionPage() {
           </li>
         </ol>
         <p>
-          Таны бүртгэл, нэр, имэйл, профайл зураг, эрх, бүлгийн мэдээлэл болон порталд оруулсан бүх агуулга тэр даруй
-          бүрмөсөн устана. Үүнийг буцаах боломжгүй.
+          Таны бүртгэл, нэр, имэйл, профайл зураг, эрх, бүлгийн мэдээлэл порталаас тэр даруй бүрмөсөн устана. Үүнийг
+          буцаах боломжгүй. Үйлчилгээ үзүүлэгчдийн техникийн бүртгэлд (log) таны имэйл, IP хаяг хязгаарлагдмал хугацаанд
+          үлдэж, дараа нь автоматаар устдаг.
         </p>
       </LegalSection>
 
@@ -64,8 +65,9 @@ export default function DataDeletionPage() {
             </li>
           </ol>
           <p>
-            Your account, name, email, profile picture, role, group and everything you added to the portal are deleted
-            immediately and permanently.
+            Your account, name, email, profile picture, role and group are deleted from the portal immediately and
+            permanently. Technical logs kept by our service providers may retain your email and IP address for a limited
+            time before they are deleted automatically.
           </p>
           <p>
             To stop Facebook sharing data with the portal, go to Facebook → Settings &amp; privacy → Settings → Apps and

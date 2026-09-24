@@ -72,8 +72,7 @@ export default async function ProfilePage() {
       <section className="rounded-3xl border border-red-400/20 bg-red-500/[0.04] p-6 sm:p-8">
         <h2 className="font-display text-lg font-bold">Бүртгэл устгах</h2>
         <p className="mt-1 text-sm leading-relaxed text-white/60">
-          Таны нэр, имэйл, зураг, эрх, бүлгийн мэдээлэл болон порталд оруулсан бүх зүйл бүрмөсөн устана. Буцаах
-          боломжгүй.{" "}
+          Таны нэр, имэйл, зураг, эрх, бүлгийн мэдээлэл порталаас бүрмөсөн устана. Буцаах боломжгүй.{" "}
           <Link href="/portal/data-deletion" className="text-white/80 underline underline-offset-4 hover:text-white">
             Дэлгэрэнгүй
           </Link>

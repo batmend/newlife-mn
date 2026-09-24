@@ -24,17 +24,17 @@ export default function PrivacyPage() {
             нэг талын шифрлэлтээр хадгалдаг тул хэн ч, тэр дундаа бид ч харах боломжгүй.
           </li>
           <li>
-            <strong className="text-white">Facebook эсвэл Google-ээр нэвтэрвэл:</strong> тухайн үйлчилгээнээс зөвхөн таны
-            нэр, имэйл хаяг, профайл зургийг авна. Найзуудын жагсаалт, нийтлэл, мессеж зэрэг бусад мэдээллийг авахгүй
-            бөгөөд таны өмнөөс юу ч нийтлэхгүй.
+            <strong className="text-white">Facebook эсвэл Google-ээр нэвтэрвэл:</strong> тухайн үйлчилгээнээс таны нэр,
+            имэйл хаяг, профайл зураг болон тухайн үйлчилгээн дэх хэрэглэгчийн дугаарыг (ID) авна. Найзуудын жагсаалт,
+            нийтлэл, мессеж зэрэг бусад мэдээллийг авахгүй бөгөөд таны өмнөөс юу ч нийтлэхгүй.
           </li>
           <li>
             <strong className="text-white">Чуулганы мэдээлэл:</strong> админаас олгосон эрх (гишүүн, чиглүүлэгч, удирдагч
             г.м) болон таны харьяалагдах бүлэг.
           </li>
           <li>
-            <strong className="text-white">Таны оруулсан агуулга:</strong> порталд өөрөө бичиж үлдээсэн зүйлс, жишээ нь
-            өдрийн үгэнд үлдээсэн сэтгэгдэл.
+            <strong className="text-white">Техникийн мэдээлэл:</strong> нэвтрэх үед аюулгүй байдлын зорилгоор IP хаяг,
+            хөтчийн мэдээлэл бүртгэгдэнэ.
           </li>
           <li>
             <strong className="text-white">Cookie:</strong> зөвхөн таныг нэвтэрсэн төлөвт байлгахад ашиглана. Зар
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
           <li>Таныг порталд нэвтрүүлж, бүртгэлийг тань хамгаалах</li>
           <li>Чуулганы гишүүнчлэлийг баталгаажуулж, эрх олгох</li>
           <li>Чиглүүлэгч, удирдагчид өөрийн хариуцсан гишүүдийг хөтлөх</li>
-          <li>Бүртгэл баталгаажуулах, нууц үг сэргээх, өдрийн үг зэрэг порталын мэдэгдлийг имэйлээр илгээх</li>
+          <li>Бүртгэл баталгаажуулах, нууц үг сэргээх зэрэг порталын мэдэгдлийг имэйлээр илгээх</li>
         </LegalList>
       </LegalSection>
 
@@ -61,7 +61,8 @@ export default function PrivacyPage() {
             <strong className="text-white">Чиглүүлэгч:</strong> зөвхөн өөрт оноогдсон бүлгийн гишүүдийн мэдээлэл
           </li>
           <li>
-            <strong className="text-white">Бусад гишүүд:</strong> зөвхөн таны өөрөө бусдад харуулахаар сонгосон зүйлс
+            <strong className="text-white">Бүлгийн гишүүд:</strong> өөрийн бүлгийн чиглүүлэгчийн нэр, профайл зургийг
+            харна. Үүнээс гадна гишүүд бие биеийн мэдээллийг харахгүй.
           </li>
         </LegalList>
         <p>Бид таны мэдээллийг худалдахгүй, зар сурталчилгааны зорилгоор гуравдагч этгээдэд өгөхгүй.</p>
@@ -73,20 +74,29 @@ export default function PrivacyPage() {
           <li>Supabase — өгөгдлийн сан, нэвтрэлт (сервер нь Сингапурт)</li>
           <li>Vercel — вэб хостинг</li>
           <li>Resend — имэйл илгээлт</li>
-          <li>Meta (Facebook), Google — зөвхөн та тэдгээрээр нэвтрэхийг сонгосон үед</li>
+          <li>Google Fonts — сайтын үсгийн фонт. Таны хөтөч фонтыг Google-ийн серверээс татдаг.</li>
+          <li>
+            Meta (Facebook), Google — та тэдгээрээр нэвтрэх үед. Мөн тэдгээрээр нэвтэрсэн гишүүдийн профайл зураг
+            тэдний серверээс шууд ачаалагддаг.
+          </li>
         </LegalList>
       </LegalSection>
 
       <LegalSection title="5. Хадгалах хугацаа">
         <p>
-          Таны мэдээллийг бүртгэл тань идэвхтэй байх хугацаанд хадгална. Бүртгэлээ устгахад бүх мэдээлэл тань бүрмөсөн
-          устана.
+          Таны мэдээллийг бүртгэл тань идэвхтэй байх хугацаанд хадгална. Бүртгэлээ устгахад порталд хадгалагдсан таны
+          мэдээлэл бүрмөсөн устана. Үйлчилгээ үзүүлэгчдийн техникийн бүртгэлд (log) таны имэйл, IP хаяг хязгаарлагдмал
+          хугацаанд үлдэж, дараа нь автоматаар устдаг. Өмнө нь танд илгээсэн имэйлүүд таны шуудангийн хайрцагт хэвээр
+          үлдэнэ.
         </p>
       </LegalSection>
 
       <LegalSection title="6. Таны эрх">
         <LegalList>
-          <li>Профайл хэсгээс өөрийн мэдээллийг харах, засах</li>
+          <li>
+            Профайл хэсгээс өөрийн мэдээллийг харах, нэрээ засах, нууц үг тохируулах. Бусад мэдээллээ засуулах бол
+            чуулганы админд хандах
+          </li>
           <li>
             Бүртгэлээ хүссэн үедээ устгах —{" "}
             <Link href="/portal/data-deletion" className="text-gold-400 underline underline-offset-4">
@@ -103,8 +113,8 @@ export default function PrivacyPage() {
 
       <LegalSection title="8. Өөрчлөлт ба холбоо барих">
         <p>
-          Энэ бодлогыг өөрчлөх бүрд дээрх огноог шинэчилнэ. Асуулт байвал чуулганы удирдлагад биечлэн эсвэл портал дахь
-          чиглүүлэгчээрээ дамжуулан хандана уу.
+          Шинэ боломж нэмэгдэж нэмэлт мэдээлэл цуглуулах болбол энэ бодлогыг урьдчилан шинэчилж, дээрх огноог өөрчилнө.
+          Асуулт байвал чуулганы удирдлагад биечлэн эсвэл портал дахь чиглүүлэгчээрээ дамжуулан хандана уу.
         </p>
       </LegalSection>
 
@@ -118,32 +128,41 @@ export default function PrivacyPage() {
           </p>
           <p>
             <strong className="text-white">What we collect.</strong> Your name, email address and password (stored only as a
-            one-way hash). If you sign in with Facebook or Google we receive only your name, email address and profile
-            picture — never your friends list, posts or messages — and we never post on your behalf. We also store the
-            role and group an administrator assigns to you, content you add to the portal (such as reflections), and a
-            session cookie that keeps you signed in. We use no advertising or tracking cookies.
+            one-way hash). If you sign in with Facebook or Google we receive your name, email address, profile picture and
+            your user ID with that service — never your friends list, posts or messages — and we never post on your
+            behalf. We also store the role and group an administrator assigns to you, the IP address and browser
+            information recorded when you sign in (for security), and a session cookie that keeps you signed in. We use
+            no advertising or tracking cookies.
           </p>
           <p>
             <strong className="text-white">How we use it.</strong> To sign you in, verify church membership, let mentors
-            and leaders care for the members assigned to them, and send portal emails (account confirmation, password
-            reset, daily devotionals).
+            and leaders care for the members assigned to them, and send portal emails (account confirmation and password
+            reset).
           </p>
           <p>
             <strong className="text-white">Who can see it.</strong> Administrators and leaders see members&apos; names,
-            emails, roles and groups; mentors see only the members of their own group. We do not sell your data or share
-            it with advertisers.
+            emails, roles and groups; mentors see only the members of their own group; members see their group
+            mentor&apos;s name and profile picture and otherwise cannot see each other&apos;s information. We do not sell
+            your data or share it with advertisers.
           </p>
           <p>
             <strong className="text-white">Processors.</strong> Supabase (database and authentication, Singapore), Vercel
-            (hosting), Resend (email delivery), and Meta or Google only when you choose to sign in with them.
+            (hosting), Resend (email delivery), Google Fonts (your browser downloads the site&apos;s fonts from Google),
+            and Meta or Google when you sign in with them; profile pictures of members who signed in with Facebook or
+            Google load directly from those services.
           </p>
           <p>
             <strong className="text-white">Retention and your rights.</strong> We keep your data while your account exists.
-            You can view and edit it on your Profile page and delete your account at any time — see the{" "}
+            When you delete your account, the data stored in the portal is deleted permanently; technical logs kept by
+            our service providers may retain your email and IP address for a limited time before they are deleted
+            automatically, and emails already sent to you stay in your mailbox. You can view your data, edit your name
+            and set a password on your Profile page (ask a church administrator to correct anything else), and delete
+            your account at any time — see the{" "}
             <Link href="/portal/data-deletion" className="text-gold-400 underline underline-offset-4">
               data deletion instructions
             </Link>
-            . The portal is not intended for children under 13.
+            . The portal is not intended for children under 13. We will update this policy before any new feature
+            collects additional data.
           </p>
         </div>
       </EnglishVersion>

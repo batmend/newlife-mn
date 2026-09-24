@@ -70,7 +70,7 @@ export default async function PortalHomePage() {
   const group = groupResult.data;
   const mentor =
     group?.mentor_id && group.mentor_id !== profile.id
-      ? (await supabase.from("profiles").select("id, full_name, avatar_url").eq("id", group.mentor_id).maybeSingle()).data
+      ? (await supabase.rpc("my_group_mentor").maybeSingle()).data
       : null;
 
   const mentoredGroups = menteesResult.data ?? [];

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useFormStatus } from "react-dom";
 import type { MemberRole } from "@/lib/supabase/types";
 import { ROLE_LABELS } from "@/lib/portal/roles";
@@ -80,11 +81,17 @@ export function RoleBadge({ role }: { role: MemberRole }) {
 }
 
 export function Avatar({ name, url, size = 36 }: { name: string; url: string | null; size?: number }) {
+  const [failed, setFailed] = useState(false);
   const initial = name.trim().charAt(0).toUpperCase() || "?";
-  if (url && url.startsWith("https://")) {
+  if (url && url.startsWith("https://") && !failed) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
+        // Signed Facebook photo links expire; the ref catches failures that happened before hydration.
+        ref={(img) => {
+          if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+        }}
+        onError={() => setFailed(true)}
         src={url}
         alt=""
         width={size}

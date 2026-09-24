@@ -82,7 +82,11 @@ export async function signInWithProvider(formData: FormData) {
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider as OAuthProvider,
-    options: { redirectTo: callback.toString() },
+    options: {
+      redirectTo: callback.toString(),
+      // Without this Facebook never re-asks for an email permission the member declined once.
+      ...(provider === "facebook" ? { queryParams: { auth_type: "rerequest" } } : {}),
+    },
   });
 
   if (error || !data.url) redirect("/portal/login?error=provider");

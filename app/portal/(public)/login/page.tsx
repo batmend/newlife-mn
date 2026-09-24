@@ -12,11 +12,14 @@ const QUERY_ERRORS: Record<string, string> = {
   other_browser:
     "Холбоосыг хүсэлт илгээсэн хөтчөөс өөр хөтөч дээр нээсэн тул нэвтрүүлж чадсангүй. Имэйлээ баталгаажуулж байсан бол бүртгэл тань баталгаажсан тул доороос нэвтэрнэ үү.",
   oauth: "Нэвтрэлт цуцлагдсан эсвэл зөвшөөрөл олгогдсонгүй. Дахин оролдоно уу.",
+  oauth_email:
+    "Facebook таны имэйл хаягийг дамжуулсангүй. Дахин оролдохдоо Facebook-ийн цонхонд имэйлээ хуваалцахыг зөвшөөрнө үү. Хэрэв Facebook бүртгэл тань утасны дугаартай, имэйлгүй бол доорх «Бүртгүүлэх» хэсгээс имэйлээрээ бүртгүүлнэ үү.",
+  oauth_failed: "Нэвтрэх үед алдаа гарлаа. Түр хүлээгээд дахин оролдох эсвэл имэйлээрээ нэвтэрнэ үү.",
   provider: "Энэ аргаар нэвтрэх боломж одоогоор идэвхгүй байна.",
 };
 
 const QUERY_NOTICES: Record<string, string> = {
-  deleted: "Таны бүртгэл болон бүх мэдээлэл устгагдлаа.",
+  deleted: "Таны бүртгэл болон порталд хадгалагдсан мэдээлэл устгагдлаа.",
 };
 
 export default async function LoginPage({
@@ -25,8 +28,16 @@ export default async function LoginPage({
   searchParams: { next?: string; error?: string; notice?: string; tab?: string };
 }) {
   const next = safeNextPath(searchParams.next);
-  const queryError = searchParams.error ? QUERY_ERRORS[searchParams.error] ?? QUERY_ERRORS.callback : undefined;
-  const queryNotice = searchParams.notice ? QUERY_NOTICES[searchParams.notice] : undefined;
+  // Own-key checks: a bare lookup would match inherited names like ?error=constructor.
+  const queryError = searchParams.error
+    ? Object.hasOwn(QUERY_ERRORS, searchParams.error)
+      ? QUERY_ERRORS[searchParams.error]
+      : QUERY_ERRORS.callback
+    : undefined;
+  const queryNotice =
+    searchParams.notice && Object.hasOwn(QUERY_NOTICES, searchParams.notice)
+      ? QUERY_NOTICES[searchParams.notice]
+      : undefined;
   const providers = await getEnabledOAuthProviders();
 
   return (

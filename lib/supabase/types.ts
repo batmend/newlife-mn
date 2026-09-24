@@ -75,7 +75,10 @@ export type Database = {
     Functions: {
       my_role: { Args: never; Returns: MemberRole };
       is_my_mentee: { Args: { p_profile_id: string }; Returns: boolean };
-      is_my_mentor: { Args: { p_profile_id: string }; Returns: boolean };
+      my_group_mentor: {
+        Args: never;
+        Returns: { id: string; full_name: string; avatar_url: string | null }[];
+      };
       admin_update_member: {
         Args: { p_member_id: string; p_role: MemberRole; p_group_id: string | null };
         Returns: undefined;
