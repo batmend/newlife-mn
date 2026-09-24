@@ -3,12 +3,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getEnabledOAuthProviders } from "@/lib/supabase/providers";
-import type { OAuthProvider } from "@/lib/supabase/config";
+import { SUPPORTED_OAUTH_PROVIDERS, type OAuthProvider } from "@/lib/supabase/config";
 import { getViewer } from "@/lib/portal/viewer";
 import { Avatar, Notice, RoleBadge } from "@/components/portal/ui";
 import { ProfileForm } from "./ProfileForm";
 import { DeleteAccountForm } from "./DeleteAccountForm";
 import { linkProvider } from "./actions";
+import { LinkProviderButton } from "./LinkProviderButton";
 
 export const metadata: Metadata = { title: "Профайл" };
 
@@ -29,7 +30,7 @@ const NOTICES: Record<string, string> = {
 export default async function ProfilePage({
   searchParams,
 }: {
-  searchParams: { error?: string; code?: string; notice?: string };
+  searchParams: { error?: string; code?: string; notice?: string; provider?: string };
 }) {
   const viewer = await getViewer();
   if (!viewer?.profile) redirect("/portal/login");
@@ -51,12 +52,25 @@ export default async function ProfilePage({
   const hasPassword = linked.has("email");
   const hasEmail = Boolean(user.email);
 
+  // GoTrue returns identity_already_exists both for "linked to another account" and
+  // "already linked to you"; only the first needs the delete-the-other-account advice.
+  const alreadyMine =
+    searchParams.error === "identity_exists" &&
+    (SUPPORTED_OAUTH_PROVIDERS as readonly string[]).includes(searchParams.provider ?? "") &&
+    linked.has(searchParams.provider as OAuthProvider);
+
   const errorCode = searchParams.code && /^[a-z0-9_]{1,40}$/i.test(searchParams.code) ? searchParams.code : null;
   const error =
-    searchParams.error && Object.hasOwn(ERRORS, searchParams.error)
+    !alreadyMine && searchParams.error && Object.hasOwn(ERRORS, searchParams.error)
       ? ERRORS[searchParams.error] + (errorCode ? ` (Алдааны код: ${errorCode})` : "")
       : null;
-  const notice = searchParams.notice && Object.hasOwn(NOTICES, searchParams.notice) ? NOTICES[searchParams.notice] : null;
+  const notice = alreadyMine
+    ? NOTICES.linked
+    : searchParams.notice && Object.hasOwn(NOTICES, searchParams.notice)
+      ? NOTICES[searchParams.notice]
+      : null;
+
+  const providerRows = SUPPORTED_OAUTH_PROVIDERS.filter((p) => linked.has(p) || enabledProviders.includes(p));
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -102,9 +116,11 @@ export default async function ProfilePage({
             <li className="flex flex-wrap items-center justify-between gap-3 py-3">
               <div className="min-w-0">
                 <p className="text-sm font-semibold">Имэйл ба нууц үг</p>
-                <p className="truncate text-xs text-white/55">
-                  {hasPassword ? user.email : "Нууц үг тохируулбал имэйлээрээ ч нэвтэрч болно"}
-                </p>
+                {hasPassword ? (
+                  <p className="truncate text-xs text-white/55">{user.email}</p>
+                ) : (
+                  <p className="text-xs leading-relaxed text-white/55">Нууц үг тохируулбал имэйлээрээ ч нэвтэрч болно</p>
+                )}
               </div>
               <Link
                 href="/portal/reset-password"
@@ -114,7 +130,7 @@ export default async function ProfilePage({
               </Link>
             </li>
           )}
-          {enabledProviders.map((provider) => (
+          {providerRows.map((provider) => (
             <li key={provider} className="flex flex-wrap items-center justify-between gap-3 py-3">
               <p className="text-sm font-semibold">{PROVIDER_NAMES[provider]}</p>
               {linked.has(provider) ? (
@@ -124,12 +140,7 @@ export default async function ProfilePage({
               ) : (
                 <form action={linkProvider}>
                   <input type="hidden" name="provider" value={provider} />
-                  <button
-                    type="submit"
-                    className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-950 transition hover:bg-gold-400"
-                  >
-                    {PROVIDER_NAMES[provider]} холбох
-                  </button>
+                  <LinkProviderButton name={PROVIDER_NAMES[provider]} />
                 </form>
               )}
             </li>

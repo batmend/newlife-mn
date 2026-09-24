@@ -22,6 +22,8 @@ export async function GET(request: NextRequest) {
     : new URL(`/portal/login?error=${failureReason(params)}`, request.url);
   const detail = params.get("error_code") ?? params.get("error");
   if (detail && ERROR_CODE.test(detail)) target.searchParams.set("code", detail);
+  const provider = params.get("provider");
+  if (linking && provider && /^(facebook|google)$/.test(provider)) target.searchParams.set("provider", provider);
   if (params.get("error")) {
     console.error("auth callback error", params.get("error"), params.get("error_code"), params.get("error_description"));
   }

@@ -51,10 +51,22 @@ export async function linkProvider(formData: FormData) {
   const enabled = await getEnabledOAuthProviders();
   if (!enabled.includes(provider as OAuthProvider)) redirect("/portal/profile?error=link_failed");
 
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/portal/login");
+  // A stale Profile tab can still show the button; GoTrue would answer with the same
+  // identity_already_exists code it uses for "linked to someone else".
+  if (user.identities?.some((identity) => identity.provider === provider)) {
+    redirect("/portal/profile?notice=linked");
+  }
+
   const callback = new URL("/portal/auth/callback", requestOrigin());
   callback.searchParams.set("flow", "link");
+  callback.searchParams.set("provider", provider as OAuthProvider);
 
-  const { data, error } = await createClient().auth.linkIdentity({
+  const { data, error } = await supabase.auth.linkIdentity({
     provider: provider as OAuthProvider,
     options: {
       redirectTo: callback.toString(),
