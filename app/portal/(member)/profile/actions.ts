@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { authErrorMessage, dbErrorMessage } from "@/lib/portal/errors";
+import { DELETE_CONFIRMATION } from "@/lib/portal/account";
 
 export type FormState = { error?: string; message?: string } | null;
 
@@ -25,6 +26,21 @@ export async function updateProfile(_prev: FormState, formData: FormData): Promi
 
   revalidatePath("/portal", "layout");
   return { message: "Хадгаллаа." };
+}
+
+export async function deleteAccount(_prev: FormState, formData: FormData): Promise<FormState> {
+  const typed = String(formData.get("confirm") ?? "").trim().toUpperCase();
+  if (typed !== DELETE_CONFIRMATION) {
+    return { error: `Баталгаажуулахын тулд «${DELETE_CONFIRMATION}» гэж бичнэ үү.` };
+  }
+
+  const supabase = createClient();
+  const { error } = await supabase.rpc("delete_my_account");
+  if (error) return { error: dbErrorMessage(error) };
+
+  // The user row is gone, so this can fail server-side; it still clears the local session cookies.
+  await supabase.auth.signOut({ scope: "local" });
+  redirect("/portal/login?notice=deleted");
 }
 
 export async function updatePassword(_prev: FormState, formData: FormData): Promise<FormState> {

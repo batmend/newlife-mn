@@ -21,13 +21,20 @@ export function Field({
   );
 }
 
+const BUTTON_VARIANTS = {
+  primary: "bg-white text-ink-950 hover:bg-gold-400",
+  danger: "bg-red-500 text-white hover:bg-red-600",
+};
+
 export function SubmitButton({
   children,
   pendingLabel,
+  variant = "primary",
   className = "",
 }: {
   children: React.ReactNode;
   pendingLabel?: string;
+  variant?: keyof typeof BUTTON_VARIANTS;
   className?: string;
 }) {
   const { pending } = useFormStatus();
@@ -35,7 +42,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={pending}
-      className={`inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink-950 transition hover:bg-gold-400 disabled:cursor-wait disabled:opacity-70 ${className}`}
+      className={`inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition disabled:cursor-wait disabled:opacity-70 ${BUTTON_VARIANTS[variant]} ${className}`}
     >
       {pending ? pendingLabel ?? "Түр хүлээнэ үү…" : children}
     </button>

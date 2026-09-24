@@ -85,6 +85,7 @@ export type Database = {
         Returns: string;
       };
       admin_delete_group: { Args: { p_group_id: string }; Returns: undefined };
+      delete_my_account: { Args: never; Returns: undefined };
     };
     Enums: { member_role: MemberRole };
     CompositeTypes: { [_ in never]: never };

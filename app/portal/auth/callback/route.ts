@@ -3,8 +3,9 @@ import { createClient } from "@/lib/supabase/server";
 import { safeNextPath } from "@/lib/portal/urls";
 
 export async function GET(request: NextRequest) {
-  const code = request.nextUrl.searchParams.get("code");
-  const next = safeNextPath(request.nextUrl.searchParams.get("next"));
+  const params = request.nextUrl.searchParams;
+  const code = params.get("code");
+  const next = safeNextPath(params.get("next"));
 
   if (code) {
     const supabase = createClient();
@@ -15,5 +16,8 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(new URL("/portal/login?error=callback", request.url));
+  // Supabase forwards provider failures (e.g. the member cancelled the Facebook dialog)
+  // as ?error=…; expired email links arrive the same way with error_code=otp_expired.
+  const reason = params.get("error") && params.get("error_code") !== "otp_expired" ? "oauth" : "callback";
+  return NextResponse.redirect(new URL(`/portal/login?error=${reason}`, request.url));
 }

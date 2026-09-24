@@ -2,7 +2,7 @@
 export const SUPABASE_URL = "https://fvatmkuyyqtpevzlhdjx.supabase.co";
 export const SUPABASE_PUBLISHABLE_KEY = "sb_publishable__DXJ3UEmk6K6iiW09hiTaA_-ULyS7HA";
 
-// Add a provider here only after it is enabled in Supabase → Authentication → Providers.
-export const OAUTH_PROVIDERS: readonly OAuthProvider[] = [];
+// Buttons appear only for the ones enabled in Supabase → Authentication → Sign In / Providers.
+export const SUPPORTED_OAUTH_PROVIDERS = ["facebook", "google"] as const;
 
-export type OAuthProvider = "google" | "facebook";
+export type OAuthProvider = (typeof SUPPORTED_OAUTH_PROVIDERS)[number];

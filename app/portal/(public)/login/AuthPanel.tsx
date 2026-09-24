@@ -19,11 +19,13 @@ export function AuthPanel({
   providers,
   initialTab,
   queryError,
+  queryNotice,
 }: {
   next: string;
   providers: OAuthProvider[];
   initialTab: Tab;
   queryError?: string;
+  queryNotice?: string;
 }) {
   const [tab, setTab] = useState<Tab>(initialTab);
   const [signInState, signInAction] = useFormState(signIn, null);
@@ -72,6 +74,11 @@ export function AuthPanel({
       {queryError && (
         <div className="mt-5">
           <Notice tone="error">{queryError}</Notice>
+        </div>
+      )}
+      {queryNotice && (
+        <div className="mt-5">
+          <Notice tone="success">{queryNotice}</Notice>
         </div>
       )}
 

@@ -2,7 +2,8 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { OAUTH_PROVIDERS, type OAuthProvider } from "@/lib/supabase/config";
+import type { OAuthProvider } from "@/lib/supabase/config";
+import { getEnabledOAuthProviders } from "@/lib/supabase/providers";
 import { authErrorMessage } from "@/lib/portal/errors";
 import { requestOrigin, safeNextPath } from "@/lib/portal/urls";
 
@@ -70,7 +71,8 @@ export async function signInWithProvider(formData: FormData) {
   const provider = formData.get("provider");
   const next = safeNextPath(formData.get("next"));
 
-  if (!OAUTH_PROVIDERS.includes(provider as OAuthProvider)) {
+  const enabled = await getEnabledOAuthProviders();
+  if (!enabled.includes(provider as OAuthProvider)) {
     redirect("/portal/login?error=provider");
   }
 

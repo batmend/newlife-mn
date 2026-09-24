@@ -1,0 +1,152 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { EnglishVersion, LegalList, LegalSection, LegalTitle } from "@/components/portal/legal";
+
+export const metadata: Metadata = {
+  title: "Нууцлалын бодлого",
+  robots: { index: true, follow: true },
+};
+
+export default function PrivacyPage() {
+  return (
+    <>
+      <LegalTitle updated="Шинэчилсэн: 2026 оны 9-р сарын 24">Нууцлалын бодлого</LegalTitle>
+
+      <p>
+        Энэхүү бодлого нь Шинэ Амь Христийн Чуулганы гишүүдийн портал (newlife.mn/portal, цаашид «портал») таны мэдээллийг
+        хэрхэн цуглуулж, ашиглаж, хамгаалдгийг тайлбарлана.
+      </p>
+
+      <LegalSection title="1. Бидний цуглуулдаг мэдээлэл">
+        <LegalList>
+          <li>
+            <strong className="text-white">Бүртгэлийн мэдээлэл:</strong> овог нэр, имэйл хаяг, нууц үг. Нууц үгийг зөвхөн
+            нэг талын шифрлэлтээр хадгалдаг тул хэн ч, тэр дундаа бид ч харах боломжгүй.
+          </li>
+          <li>
+            <strong className="text-white">Facebook эсвэл Google-ээр нэвтэрвэл:</strong> тухайн үйлчилгээнээс зөвхөн таны
+            нэр, имэйл хаяг, профайл зургийг авна. Найзуудын жагсаалт, нийтлэл, мессеж зэрэг бусад мэдээллийг авахгүй
+            бөгөөд таны өмнөөс юу ч нийтлэхгүй.
+          </li>
+          <li>
+            <strong className="text-white">Чуулганы мэдээлэл:</strong> админаас олгосон эрх (гишүүн, чиглүүлэгч, удирдагч
+            г.м) болон таны харьяалагдах бүлэг.
+          </li>
+          <li>
+            <strong className="text-white">Таны оруулсан агуулга:</strong> порталд өөрөө бичиж үлдээсэн зүйлс, жишээ нь
+            өдрийн үгэнд үлдээсэн сэтгэгдэл.
+          </li>
+          <li>
+            <strong className="text-white">Cookie:</strong> зөвхөн таныг нэвтэрсэн төлөвт байлгахад ашиглана. Зар
+            сурталчилгааны болон хяналтын cookie ашигладаггүй.
+          </li>
+        </LegalList>
+      </LegalSection>
+
+      <LegalSection title="2. Мэдээллийг юунд ашиглах вэ">
+        <LegalList>
+          <li>Таныг порталд нэвтрүүлж, бүртгэлийг тань хамгаалах</li>
+          <li>Чуулганы гишүүнчлэлийг баталгаажуулж, эрх олгох</li>
+          <li>Чиглүүлэгч, удирдагчид өөрийн хариуцсан гишүүдийг хөтлөх</li>
+          <li>Бүртгэл баталгаажуулах, нууц үг сэргээх, өдрийн үг зэрэг порталын мэдэгдлийг имэйлээр илгээх</li>
+        </LegalList>
+      </LegalSection>
+
+      <LegalSection title="3. Хэн харах вэ">
+        <LegalList>
+          <li>
+            <strong className="text-white">Админ болон удирдагчид:</strong> бүх гишүүний нэр, имэйл, эрх, бүлэг
+          </li>
+          <li>
+            <strong className="text-white">Чиглүүлэгч:</strong> зөвхөн өөрт оноогдсон бүлгийн гишүүдийн мэдээлэл
+          </li>
+          <li>
+            <strong className="text-white">Бусад гишүүд:</strong> зөвхөн таны өөрөө бусдад харуулахаар сонгосон зүйлс
+          </li>
+        </LegalList>
+        <p>Бид таны мэдээллийг худалдахгүй, зар сурталчилгааны зорилгоор гуравдагч этгээдэд өгөхгүй.</p>
+      </LegalSection>
+
+      <LegalSection title="4. Үйлчилгээ үзүүлэгчид">
+        <p>Порталыг ажиллуулахад дараах үйлчилгээг ашигладаг. Тэд зөвхөн бидний өмнөөс мэдээллийг боловсруулна:</p>
+        <LegalList>
+          <li>Supabase — өгөгдлийн сан, нэвтрэлт (сервер нь Сингапурт)</li>
+          <li>Vercel — вэб хостинг</li>
+          <li>Resend — имэйл илгээлт</li>
+          <li>Meta (Facebook), Google — зөвхөн та тэдгээрээр нэвтрэхийг сонгосон үед</li>
+        </LegalList>
+      </LegalSection>
+
+      <LegalSection title="5. Хадгалах хугацаа">
+        <p>
+          Таны мэдээллийг бүртгэл тань идэвхтэй байх хугацаанд хадгална. Бүртгэлээ устгахад бүх мэдээлэл тань бүрмөсөн
+          устана.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="6. Таны эрх">
+        <LegalList>
+          <li>Профайл хэсгээс өөрийн мэдээллийг харах, засах</li>
+          <li>
+            Бүртгэлээ хүссэн үедээ устгах —{" "}
+            <Link href="/portal/data-deletion" className="text-gold-400 underline underline-offset-4">
+              мэдээлэл устгах заавар
+            </Link>
+          </li>
+          <li>Facebook-ийн тохиргооноос порталын холболтыг салгах</li>
+        </LegalList>
+      </LegalSection>
+
+      <LegalSection title="7. Насны хязгаар">
+        <p>13-аас доош насны хүүхэд порталд бүртгүүлэх ёсгүй.</p>
+      </LegalSection>
+
+      <LegalSection title="8. Өөрчлөлт ба холбоо барих">
+        <p>
+          Энэ бодлогыг өөрчлөх бүрд дээрх огноог шинэчилнэ. Асуулт байвал чуулганы удирдлагад биечлэн эсвэл портал дахь
+          чиглүүлэгчээрээ дамжуулан хандана уу.
+        </p>
+      </LegalSection>
+
+      <EnglishVersion>
+        <h2 className="mt-4 font-display text-2xl font-bold text-white">Privacy Policy</h2>
+        <p className="mt-2 text-sm text-white/55">Last updated: 24 September 2026</p>
+        <div className="mt-6 space-y-4">
+          <p>
+            This policy explains how the member portal of New Life Christian Church (newlife.mn/portal) collects, uses and
+            protects your information.
+          </p>
+          <p>
+            <strong className="text-white">What we collect.</strong> Your name, email address and password (stored only as a
+            one-way hash). If you sign in with Facebook or Google we receive only your name, email address and profile
+            picture — never your friends list, posts or messages — and we never post on your behalf. We also store the
+            role and group an administrator assigns to you, content you add to the portal (such as reflections), and a
+            session cookie that keeps you signed in. We use no advertising or tracking cookies.
+          </p>
+          <p>
+            <strong className="text-white">How we use it.</strong> To sign you in, verify church membership, let mentors
+            and leaders care for the members assigned to them, and send portal emails (account confirmation, password
+            reset, daily devotionals).
+          </p>
+          <p>
+            <strong className="text-white">Who can see it.</strong> Administrators and leaders see members&apos; names,
+            emails, roles and groups; mentors see only the members of their own group. We do not sell your data or share
+            it with advertisers.
+          </p>
+          <p>
+            <strong className="text-white">Processors.</strong> Supabase (database and authentication, Singapore), Vercel
+            (hosting), Resend (email delivery), and Meta or Google only when you choose to sign in with them.
+          </p>
+          <p>
+            <strong className="text-white">Retention and your rights.</strong> We keep your data while your account exists.
+            You can view and edit it on your Profile page and delete your account at any time — see the{" "}
+            <Link href="/portal/data-deletion" className="text-gold-400 underline underline-offset-4">
+              data deletion instructions
+            </Link>
+            . The portal is not intended for children under 13.
+          </p>
+        </div>
+      </EnglishVersion>
+    </>
+  );
+}

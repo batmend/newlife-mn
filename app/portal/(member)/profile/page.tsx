@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getViewer } from "@/lib/portal/viewer";
 import { Avatar, RoleBadge } from "@/components/portal/ui";
 import { ProfileForm } from "./ProfileForm";
+import { DeleteAccountForm } from "./DeleteAccountForm";
 
 export const metadata: Metadata = { title: "Профайл" };
 
@@ -67,6 +68,24 @@ export default async function ProfilePage() {
           {hasPassword ? "Нууц үг солих" : "Нууц үг тохируулах"}
         </Link>
       </section>
+
+      <section className="rounded-3xl border border-red-400/20 bg-red-500/[0.04] p-6 sm:p-8">
+        <h2 className="font-display text-lg font-bold">Бүртгэл устгах</h2>
+        <p className="mt-1 text-sm leading-relaxed text-white/60">
+          Таны нэр, имэйл, зураг, эрх, бүлгийн мэдээлэл болон порталд оруулсан бүх зүйл бүрмөсөн устана. Буцаах
+          боломжгүй.{" "}
+          <Link href="/portal/data-deletion" className="text-white/80 underline underline-offset-4 hover:text-white">
+            Дэлгэрэнгүй
+          </Link>
+        </p>
+        <DeleteAccountForm />
+      </section>
+
+      <p className="text-center text-xs text-white/55">
+        <Link href="/portal/privacy" className="underline-offset-4 hover:text-white hover:underline">
+          Нууцлалын бодлого
+        </Link>
+      </p>
     </div>
   );
 }
