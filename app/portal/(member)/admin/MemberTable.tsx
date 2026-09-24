@@ -149,7 +149,7 @@ function MemberRow({
             <span className="truncate">{member.full_name || "Нэргүй"}</span>
             {isSelf && <span className="text-[11px] font-normal text-white/55">(та)</span>}
           </p>
-          <p className="truncate text-xs text-white/55">{member.email}</p>
+          <p className="truncate text-xs text-white/55">{member.email ?? "Имэйлгүй (Facebook)"}</p>
           <p className="text-xs text-white/55">{member.joined}</p>
         </div>
       </div>

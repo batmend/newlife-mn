@@ -5,6 +5,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { authErrorMessage, dbErrorMessage } from "@/lib/portal/errors";
 import { DELETE_CONFIRMATION } from "@/lib/portal/account";
+import { requestOrigin } from "@/lib/portal/urls";
+import type { OAuthProvider } from "@/lib/supabase/config";
+import { getEnabledOAuthProviders } from "@/lib/supabase/providers";
 
 export type FormState = { error?: string; message?: string } | null;
 
@@ -41,6 +44,27 @@ export async function deleteAccount(_prev: FormState, formData: FormData): Promi
   // The user row is gone, so this can fail server-side; it still clears the local session cookies.
   await supabase.auth.signOut({ scope: "local" });
   redirect("/portal/login?notice=deleted");
+}
+
+export async function linkProvider(formData: FormData) {
+  const provider = formData.get("provider");
+  const enabled = await getEnabledOAuthProviders();
+  if (!enabled.includes(provider as OAuthProvider)) redirect("/portal/profile?error=link_failed");
+
+  const callback = new URL("/portal/auth/callback", requestOrigin());
+  callback.searchParams.set("flow", "link");
+
+  const { data, error } = await createClient().auth.linkIdentity({
+    provider: provider as OAuthProvider,
+    options: {
+      redirectTo: callback.toString(),
+      ...(provider === "facebook" ? { queryParams: { auth_type: "rerequest" } } : {}),
+    },
+  });
+
+  if (error?.code === "manual_linking_disabled") redirect("/portal/profile?error=linking_disabled");
+  if (error || !data.url) redirect("/portal/profile?error=link_failed");
+  redirect(data.url);
 }
 
 export async function updatePassword(_prev: FormState, formData: FormData): Promise<FormState> {

@@ -5,18 +5,21 @@ import { safeNextPath } from "@/lib/portal/urls";
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   const code = params.get("code");
-  const next = safeNextPath(params.get("next"));
+  const linking = params.get("flow") === "link";
+  const next = linking ? "/portal/profile?notice=linked" : safeNextPath(params.get("next"));
 
   if (code) {
     const supabase = createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) return NextResponse.redirect(new URL(next, request.url));
-    if (error.code === "pkce_code_verifier_not_found") {
+    if (error.code === "pkce_code_verifier_not_found" && !linking) {
       return NextResponse.redirect(new URL("/portal/login?error=other_browser", request.url));
     }
   }
 
-  const target = new URL(`/portal/login?error=${failureReason(params)}`, request.url);
+  const target = linking
+    ? new URL(`/portal/profile?error=${linkFailureReason(params)}`, request.url)
+    : new URL(`/portal/login?error=${failureReason(params)}`, request.url);
   const detail = params.get("error_code") ?? params.get("error");
   if (detail && ERROR_CODE.test(detail)) target.searchParams.set("code", detail);
   if (params.get("error")) {
@@ -38,4 +41,12 @@ function failureReason(params: URLSearchParams) {
   if (/email/i.test(params.get("error_description") ?? "")) return "oauth_email";
   if (error === "access_denied") return "oauth";
   return "oauth_failed";
+}
+
+function linkFailureReason(params: URLSearchParams) {
+  const code = params.get("error_code");
+  if (code === "identity_already_exists") return "identity_exists";
+  if (code === "manual_linking_disabled") return "linking_disabled";
+  if (params.get("error") === "access_denied") return "link_cancelled";
+  return "link_failed";
 }
