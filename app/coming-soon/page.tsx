@@ -3,11 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
-const LAUNCH_DATE = new Date("2026-09-20T18:00:00+08:00");
-
 export default function ComingSoonPage() {
   const [lang, setLang] = useState<"mn" | "en">("mn");
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
 
   useEffect(() => {
     const stored = (typeof window !== "undefined"
@@ -16,12 +13,12 @@ export default function ComingSoonPage() {
     if (stored === "mn" || stored === "en") setLang(stored);
   }, []);
 
-  useEffect(() => {
-    const id = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
-    return () => clearInterval(id);
-  }, []);
-
   const t = lang === "mn" ? mn : en;
+
+  const choose = (next: "mn" | "en") => {
+    setLang(next);
+    if (typeof window !== "undefined") localStorage.setItem("nl_lang", next);
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-ink-950 text-white">
@@ -38,24 +35,10 @@ export default function ComingSoonPage() {
             className="h-12 w-auto object-contain lg:h-14"
           />
           <div className="inline-flex rounded-full border border-white/10 bg-ink-900/60 backdrop-blur p-1">
-            <LangButton
-              active={lang === "mn"}
-              onClick={() => {
-                setLang("mn");
-                if (typeof window !== "undefined")
-                  localStorage.setItem("nl_lang", "mn");
-              }}
-            >
+            <LangButton active={lang === "mn"} onClick={() => choose("mn")}>
               MN
             </LangButton>
-            <LangButton
-              active={lang === "en"}
-              onClick={() => {
-                setLang("en");
-                if (typeof window !== "undefined")
-                  localStorage.setItem("nl_lang", "en");
-              }}
-            >
+            <LangButton active={lang === "en"} onClick={() => choose("en")}>
               EN
             </LangButton>
           </div>
@@ -67,13 +50,6 @@ export default function ComingSoonPage() {
             <br />
             <span className="gradient-text">{t.title2}</span>
           </h1>
-
-          <div className="mt-12 grid grid-cols-4 gap-3 sm:gap-5 max-w-2xl animate-fade-up [animation-delay:240ms]">
-            <TimeBlock value={timeLeft.days} label={t.days} />
-            <TimeBlock value={timeLeft.hours} label={t.hours} />
-            <TimeBlock value={timeLeft.minutes} label={t.minutes} />
-            <TimeBlock value={timeLeft.seconds} label={t.seconds} />
-          </div>
         </main>
 
         <footer className="border-t border-white/5 py-8">
@@ -108,10 +84,6 @@ export default function ComingSoonPage() {
 const mn = {
   title1: "Удахгүй",
   title2: "нээгдэнэ",
-  days: "Өдөр",
-  hours: "Цаг",
-  minutes: "Минут",
-  seconds: "Секунд",
   churchName: "Шинэ Амь Христийн Чуулган",
   rights: "Бүх эрх хуулиар хамгаалагдсан",
 };
@@ -119,37 +91,9 @@ const mn = {
 const en = {
   title1: "Something new",
   title2: "is coming",
-  days: "Days",
-  hours: "Hours",
-  minutes: "Minutes",
-  seconds: "Seconds",
   churchName: "New Life Christian Church",
   rights: "All rights reserved",
 };
-
-function getTimeLeft() {
-  const now = Date.now();
-  const diff = Math.max(0, LAUNCH_DATE.getTime() - now);
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-  return { days, hours, minutes, seconds };
-}
-
-function TimeBlock({ value, label }: { value: number; label: string }) {
-  return (
-    <div className="glass relative rounded-2xl p-4 text-center sm:p-6">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />
-      <div className="font-display text-3xl font-extrabold tabular-nums text-white sm:text-5xl">
-        {String(value).padStart(2, "0")}
-      </div>
-      <div className="mt-1 text-[10px] uppercase tracking-widest text-white/40 sm:text-xs">
-        {label}
-      </div>
-    </div>
-  );
-}
 
 function LangButton({
   active,
