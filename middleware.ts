@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { handlePortalRequest } from "@/lib/supabase/middleware";
 
 // Coming-soon gate.
 // Set COMING_SOON=false in Vercel env to disable the gate when ready to launch.
@@ -7,7 +8,12 @@ const COMING_SOON_DEFAULT = true;
 const PREVIEW_TOKEN = "NEWLIFE10";
 const PREVIEW_COOKIE = "nl_preview";
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
+  const { pathname: path } = req.nextUrl;
+  if (path === "/portal" || path.startsWith("/portal/")) {
+    return handlePortalRequest(req);
+  }
+
   const flag = process.env.COMING_SOON;
   const gateOn = flag === undefined ? COMING_SOON_DEFAULT : flag !== "false";
 
