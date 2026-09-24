@@ -25,7 +25,8 @@ export default async function PortalHomePage() {
   if (!viewer?.profile) redirect("/portal/login");
   const { profile } = viewer;
 
-  const firstName = profile.full_name.split(/\s+/).filter(Boolean).pop() ?? "";
+  // Members write names both as "Ганбатын Батмэнд" and "Batmend Ganbat", so no token is reliably the given name.
+  const firstName = profile.full_name.trim();
 
   if (profile.role === "pending") {
     return (
