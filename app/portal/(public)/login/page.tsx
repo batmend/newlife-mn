@@ -39,9 +39,10 @@ export default async function LoginPage({
     searchParams.notice && Object.hasOwn(QUERY_NOTICES, searchParams.notice)
       ? QUERY_NOTICES[searchParams.notice]
       : undefined;
-  const providers = await getEnabledOAuthProviders();
-  // Inside the Facebook/Messenger in-app browser the member is already signed in to Facebook.
+  // Inside the Facebook/Messenger in-app browser the member is already signed in to Facebook,
+  // and Google refuses OAuth in embedded browsers (disallowed_useragent).
   const inFacebookApp = /FBAN|FBAV|FB_IAB/.test(headers().get("user-agent") ?? "");
+  const providers = (await getEnabledOAuthProviders()).filter((p) => !(inFacebookApp && p === "google"));
 
   return (
     <>
