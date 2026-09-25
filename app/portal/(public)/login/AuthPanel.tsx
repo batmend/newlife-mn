@@ -126,7 +126,8 @@ export function AuthPanel({
             <SubmitButton pendingLabel="Бүртгэж байна…">Бүртгүүлэх</SubmitButton>
           )}
           <p className="text-center text-xs leading-relaxed text-sage-600">
-            Бүртгүүлсний дараа чуулганы админ таны эрхийг баталгаажуулна.
+            Бүртгүүлсний дараа чуулганы бүлгийн удирдагч, бүсийн удирдагч эсвэл үйлчлэл хариуцсан удирдагчдаа хандаж
+            гишүүний эрхээ баталгаажуулна уу.
           </p>
         </form>
       )}

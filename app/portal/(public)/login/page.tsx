@@ -49,7 +49,7 @@ export default async function LoginPage({
       <div className="card rounded-3xl p-7 sm:p-9">
         <h1 className="text-center font-display text-2xl font-bold text-forest-800">Гишүүдийн портал</h1>
         <p className="mt-2 text-center text-sm text-sage-600">
-          Өдрийн үг, бүлгийн мэдээлэл, чуулганы үйл ажиллагаа нэг дор.
+          Өдөр бүрийн ЭЗЭНий үг, бүлгийн мэдээлэл, чуулганы үйл ажиллагаа нэг дор.
         </p>
         <AuthPanel
           next={next}
