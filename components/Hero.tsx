@@ -11,14 +11,16 @@ export function Hero({ lang, dict }: Props) {
   return (
     <section className="relative isolate overflow-hidden pt-32 pb-24 lg:pt-44 lg:pb-32">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(233,201,135,0.18),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_80%_60%,rgba(63,179,127,0.12),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_85%_0%,rgba(139,197,66,0.20),transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_5%_70%,rgba(196,154,108,0.14),transparent_70%)]" />
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.05]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+              "linear-gradient(rgba(5,104,57,1) 1px, transparent 1px), linear-gradient(90deg, rgba(5,104,57,1) 1px, transparent 1px)",
             backgroundSize: "80px 80px",
+            maskImage: "radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 80%)",
+            WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 80%)",
           }}
         />
       </div>
@@ -26,25 +28,25 @@ export function Hero({ lang, dict }: Props) {
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/30 bg-gold-500/5 px-4 py-1.5 text-xs font-medium tracking-widest text-gold-400 uppercase animate-fade-in">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-sprout-300 bg-sprout-100 px-4 py-1.5 font-brand text-xs font-semibold tracking-[0.2em] text-forest-700 uppercase animate-fade-in">
+              <span className="h-1.5 w-1.5 rounded-full bg-forest-500 animate-pulse" />
               {dict.hero.badge}
             </div>
 
-            <h1 className="mt-6 font-display text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl animate-fade-up">
+            <h1 className="mt-6 font-display text-5xl font-extrabold leading-[1.05] tracking-tight text-forest-800 sm:text-6xl lg:text-7xl animate-fade-up">
               {dict.hero.title}
               <br />
-              <span className="gradient-text">{dict.hero.titleHighlight}</span>
+              <span className="text-gradient-brand">{dict.hero.titleHighlight}</span>
             </h1>
 
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-white/70 animate-fade-up [animation-delay:120ms]">
+            <p className="mt-7 max-w-xl text-lg leading-relaxed text-sage-600 animate-fade-up [animation-delay:120ms]">
               {dict.hero.subtitle}
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-4 animate-fade-up [animation-delay:240ms]">
               <Link
                 href={`/${lang}/contact`}
-                className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink-950 transition hover:bg-gold-400"
+                className="group inline-flex items-center gap-2 rounded-full bg-forest-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-forest-700/20 transition hover:bg-forest-800"
               >
                 {dict.hero.ctaPrimary}
                 <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor">
@@ -57,19 +59,19 @@ export function Hero({ lang, dict }: Props) {
               </Link>
               <Link
                 href={`/${lang}/about`}
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5"
+                className="inline-flex items-center gap-2 rounded-full border border-forest-700/25 px-6 py-3.5 text-sm font-semibold text-forest-800 transition hover:border-forest-700/50 hover:bg-forest-50"
               >
                 {dict.hero.ctaSecondary}
               </Link>
             </div>
 
-            <dl className="mt-14 grid grid-cols-3 gap-6 border-t border-white/5 pt-8 max-w-lg animate-fade-up [animation-delay:360ms]">
+            <dl className="mt-14 grid grid-cols-3 gap-6 border-t border-sage-200 pt-8 max-w-lg animate-fade-up [animation-delay:360ms]">
               {dict.anniversary.stats.slice(0, 3).map((stat) => (
                 <div key={stat.label}>
-                  <dt className="font-display text-3xl font-bold text-white sm:text-4xl">
+                  <dt className="font-brand text-4xl font-bold text-forest-700 sm:text-5xl">
                     {stat.number}
                   </dt>
-                  <dd className="mt-1 text-xs text-white/50">{stat.label}</dd>
+                  <dd className="mt-1 text-xs text-sage-600">{stat.label}</dd>
                 </div>
               ))}
             </dl>
@@ -77,21 +79,21 @@ export function Hero({ lang, dict }: Props) {
 
           <div className="lg:col-span-5 relative animate-fade-in [animation-delay:200ms]">
             <div className="relative aspect-square max-w-md mx-auto">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-gold-500/20 via-leaf-500/10 to-transparent blur-2xl animate-slow-zoom" />
-              <div className="absolute inset-4 rounded-full border border-white/10 glow-ring" />
-              <div className="absolute inset-12 rounded-full border border-white/5" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sprout-200/70 via-clay-100/60 to-transparent blur-2xl animate-slow-zoom" />
+              <div className="absolute inset-4 rounded-full bg-white/70 ring-brand" />
+              <div className="absolute inset-12 rounded-full border border-sage-200" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <Image
-                  src="/logo-white.png"
+                  src="/logo-mark.png"
                   alt={dict.meta.siteName}
-                  width={420}
-                  height={168}
+                  width={600}
+                  height={734}
                   priority
-                  className="w-3/4 h-auto object-contain"
+                  className="h-1/2 w-auto object-contain drop-shadow-[0_12px_24px_rgba(5,67,38,0.15)]"
                 />
               </div>
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-ink-900/80 backdrop-blur border border-white/10 px-4 py-1.5">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-white/60">
+              <div className="absolute -bottom-2 left-1/2 max-w-[calc(100%-1.5rem)] -translate-x-1/2 whitespace-normal rounded-full border border-sage-200 bg-white/90 px-3 py-1.5 text-center shadow-sm backdrop-blur sm:max-w-none sm:whitespace-nowrap sm:px-4">
+                <p className="font-brand text-[11px] font-semibold uppercase tracking-[0.18em] text-clay-600 sm:tracking-[0.3em]">
                   {dict.meta.tagline}
                 </p>
               </div>

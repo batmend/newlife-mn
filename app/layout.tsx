@@ -15,7 +15,11 @@ export const metadata: Metadata = {
     siteName: "Шинэ Амь Христийн Чуулган",
   },
   icons: {
-    icon: "/logo-white.png",
+    icon: [
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/apple-icon.png",
   },
 };
 

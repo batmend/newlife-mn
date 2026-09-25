@@ -23,15 +23,15 @@ export function ServiceTimes({ dict }: { dict: Dictionary }) {
   ] as const;
 
   return (
-    <section className="relative py-24 lg:py-32">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink-950 via-ink-900/50 to-ink-950" />
+    <section className="relative isolate py-24 lg:py-32">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-forest-50/70 to-white" />
 
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="text-center max-w-2xl mx-auto">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">
+          <p className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">
             {dict.services.eyebrow}
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-forest-800 sm:text-5xl">
             {dict.services.title}
           </h2>
         </div>
@@ -40,14 +40,14 @@ export function ServiceTimes({ dict }: { dict: Dictionary }) {
           {items.map((item) => (
             <div
               key={item.title}
-              className="glass group relative overflow-hidden rounded-2xl p-8 transition hover:translate-y-[-2px]"
+              className="card group relative overflow-hidden rounded-2xl p-8 transition hover:translate-y-[-2px] hover:border-forest-600/30"
             >
               <IconBadge name={item.icon} />
-              <h3 className="mt-6 font-display text-xl font-bold text-white">
+              <h3 className="mt-6 font-display text-xl font-bold text-sage-900">
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm font-medium text-gold-400">{item.time}</p>
-              <p className="mt-4 text-sm leading-relaxed text-white/65">{item.body}</p>
+              <p className="mt-2 font-brand text-base font-semibold tracking-wide text-clay-600">{item.time}</p>
+              <p className="mt-4 text-sm leading-relaxed text-sage-600">{item.body}</p>
             </div>
           ))}
         </div>
@@ -58,7 +58,7 @@ export function ServiceTimes({ dict }: { dict: Dictionary }) {
 
 function IconBadge({ name }: { name: "sun" | "home" | "hands" }) {
   return (
-    <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-gold-500/20 to-leaf-500/10 border border-white/10 text-gold-400">
+    <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-forest-50 to-sprout-100 border border-forest-100 text-forest-700">
       {name === "sun" && (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
           <circle cx="12" cy="12" r="4" />

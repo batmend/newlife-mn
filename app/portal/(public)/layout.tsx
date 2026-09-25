@@ -9,10 +9,10 @@ export default function PublicPortalLayout({ children }: { children: React.React
       <div className="relative w-full max-w-md">
         <Link href="/portal" className="mx-auto mb-8 block w-fit">
           <Image
-            src="/logo-white.png"
+            src="/logo-on-dark.png"
             alt="Шинэ Амь Христийн Чуулган"
-            width={240}
-            height={96}
+            width={1200}
+            height={563}
             priority
             className="h-14 w-auto object-contain"
           />

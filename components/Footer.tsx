@@ -11,54 +11,55 @@ export function Footer({ lang, dict }: Props) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-white/5 bg-ink-950">
-      <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />
+    <footer className="relative isolate overflow-hidden border-t border-sage-200 bg-clay-50">
+      <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-clay-400/60 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_45%_60%_at_100%_0%,rgba(139,197,66,0.12),transparent_70%)]" />
       <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
             <Image
-              src="/logo-white.png"
+              src="/logo.png"
               alt={dict.meta.siteName}
-              width={180}
-              height={72}
-              className="h-12 w-auto object-contain"
+              width={1200}
+              height={563}
+              className="h-14 w-auto object-contain lg:h-16"
             />
-            <p className="mt-6 max-w-md text-sm leading-relaxed text-white/60">
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-sage-600">
               {dict.meta.description}
             </p>
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-gold-500/30 bg-gold-500/5 px-3 py-1 text-xs font-medium text-gold-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-clay-300 bg-white px-3 py-1 font-brand text-xs font-semibold tracking-[0.12em] text-clay-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-sprout-500 animate-pulse" />
               2016 — 2026 · 10
             </div>
           </div>
 
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-white/40">
+            <h3 className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">
               {dict.footer.quickLinks}
             </h3>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href={`/${lang}/about`} className="text-white/70 hover:text-white">
+                <Link href={`/${lang}/about`} className="text-sage-700 transition-colors hover:text-forest-700">
                   {dict.nav.about}
                 </Link>
               </li>
               <li>
-                <Link href={`/${lang}/ministries`} className="text-white/70 hover:text-white">
+                <Link href={`/${lang}/ministries`} className="text-sage-700 transition-colors hover:text-forest-700">
                   {dict.nav.ministries}
                 </Link>
               </li>
               <li>
-                <Link href={`/${lang}/sermons`} className="text-white/70 hover:text-white">
+                <Link href={`/${lang}/sermons`} className="text-sage-700 transition-colors hover:text-forest-700">
                   {dict.nav.sermons}
                 </Link>
               </li>
               <li>
-                <Link href={`/${lang}/events`} className="text-white/70 hover:text-white">
+                <Link href={`/${lang}/events`} className="text-sage-700 transition-colors hover:text-forest-700">
                   {dict.nav.events}
                 </Link>
               </li>
               <li>
-                <Link href={`/${lang}/donate`} className="text-gold-400 hover:text-gold-300">
+                <Link href={`/${lang}/donate`} className="font-semibold text-forest-700 transition-colors hover:text-forest-800">
                   {dict.nav.donate}
                 </Link>
               </li>
@@ -66,18 +67,18 @@ export function Footer({ lang, dict }: Props) {
           </div>
 
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-white/40">
+            <h3 className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">
               {dict.footer.connect}
             </h3>
-            <ul className="mt-4 space-y-2 text-sm text-white/70">
+            <ul className="mt-4 space-y-2 text-sm text-sage-700">
               <li>{dict.contact.address}</li>
               <li>
-                <a href={`tel:${dict.contact.phone.replace(/\s/g, "")}`} className="hover:text-white">
+                <a href={`tel:${dict.contact.phone.replace(/\s/g, "")}`} className="transition-colors hover:text-forest-700">
                   {dict.contact.phone}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${dict.contact.email}`} className="hover:text-white">
+                <a href={`mailto:${dict.contact.email}`} className="transition-colors hover:text-forest-700">
                   {dict.contact.email}
                 </a>
               </li>
@@ -104,9 +105,9 @@ export function Footer({ lang, dict }: Props) {
           </div>
         </div>
 
-        <div className="section-divider mt-12" />
+        <div className="divider-light mt-12" />
 
-        <div className="mt-6 flex flex-col items-start justify-between gap-3 text-xs text-white/40 md:flex-row md:items-center">
+        <div className="mt-6 flex flex-col items-start justify-between gap-3 text-xs text-sage-600 md:flex-row md:items-center">
           <p>
             © {year} {dict.meta.siteName}. {dict.footer.rights}.
           </p>
@@ -132,7 +133,7 @@ function SocialIcon({
       aria-label={label}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition hover:border-gold-500/60 hover:text-gold-400"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-sage-300 bg-white text-sage-600 transition hover:border-forest-600 hover:bg-forest-50 hover:text-forest-700"
     >
       {children}
     </a>

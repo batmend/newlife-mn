@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap");
+/* Fonts are loaded with next/font in app/fonts.ts (a CSS @import here would land
+   after the Tailwind output, where browsers ignore it). */
 
 :root {
   --bg: #0a0a0c;
@@ -100,4 +101,65 @@ body {
     rgba(255, 255, 255, 0.12),
     transparent
   );
+}
+
+/* ---------------------------------------------------------------------------
+   Light brand theme for the public site and coming-soon page (body.site-light).
+   The utilities above (.glass, .gradient-text, …) belong to the dark portal.
+   These live in the components layer so Tailwind utilities on the same element
+   (absolute, bg-*, border-*, shadow-*) still win.
+   ------------------------------------------------------------------------- */
+
+.site-light ::selection {
+  background: rgba(139, 197, 66, 0.35); /* sprout-500 */
+  color: #022515;
+}
+
+@layer components {
+  /* Headline highlight: wordmark green into the leaf greens. Darkest-to-mid so it
+     stays readable on white at display sizes. */
+  .text-gradient-brand {
+    background: linear-gradient(100deg, #056839 0%, #0e7f40 35%, #209947 70%, #4f9a2c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Surface card on white. */
+  .card {
+    background: #ffffff;
+    border: 1px solid #dce3de; /* sage-200 */
+    box-shadow:
+      0 1px 2px rgba(5, 67, 38, 0.04),
+      0 12px 32px -16px rgba(5, 67, 38, 0.16);
+  }
+
+  .divider-light {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #c2ccc5, transparent);
+  }
+
+  /* Soft brand gradient border (light counterpart of .glow-ring). The element
+     must be positioned; `relative` is only a default that utilities override. */
+  .ring-brand {
+    position: relative;
+  }
+
+  .ring-brand::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(196, 154, 108, 0.7), rgba(139, 197, 66, 0.5), rgba(5, 104, 57, 0.15));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 }

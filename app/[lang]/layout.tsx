@@ -1,8 +1,12 @@
+import type { Viewport } from "next";
 import { notFound } from "next/navigation";
 import { SUPPORTED_LANGS, type Lang, getDictionary } from "@/lib/i18n/dictionaries";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { fontVariables } from "../fonts";
 import "../globals.css";
+
+export const viewport: Viewport = { themeColor: "#ffffff" };
 
 // Only mn and en exist. Without this, paths the middleware skips (/api/about, /mn.png,
 // /portal/events) render a [lang] page on demand, and the notFound() below still leaves
@@ -27,8 +31,8 @@ export default function LangLayout({
   const dict = getDictionary(lang);
 
   return (
-    <html lang={lang === "mn" ? "mn" : "en"} className="bg-ink-950">
-      <body className="bg-ink-950 text-white antialiased">
+    <html lang={lang === "mn" ? "mn" : "en"} className={`${fontVariables} bg-white`}>
+      <body className="site-light bg-white text-sage-800 antialiased">
         <Header lang={lang} dict={dict} />
         <main className="min-h-screen">{children}</main>
         <Footer lang={lang} dict={dict} />

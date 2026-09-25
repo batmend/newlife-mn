@@ -77,16 +77,26 @@ export default function DonatePage() {
       <>
         <PageHeader eyebrow={dict.donate.eyebrow} title={dict.donate.title} subtitle={dict.donate.subtitleIntro} />
         <section className="pb-24 lg:pb-32">
-          <div className="mx-auto max-w-3xl px-5 lg:px-8">
-            <div className="glass rounded-2xl p-8 text-center">
-              <p className="font-display text-xl font-bold text-white">
+          <div className="mx-auto max-w-7xl px-5 lg:px-8">
+            <div className="card max-w-3xl rounded-2xl p-8 text-center sm:p-10">
+              <div aria-hidden className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-50 text-forest-700">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+                  <path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11Z" />
+                </svg>
+              </div>
+              <p className="font-display text-xl font-bold text-forest-800">
                 {lang === "mn" ? "Хандивын мэдээллийг удахгүй байршуулна" : "Giving details are coming soon"}
               </p>
-              <p className="mt-3 text-sm leading-relaxed text-white/65">
+              <p className="mt-3 text-sm leading-relaxed text-sage-600">
                 {lang === "mn"
                   ? "Одоогоор хандив өргөх бол чуулганы удирдлагад биечлэн хандана уу."
                   : "For now, please speak with the church leadership in person to give."}
               </p>
+              <div aria-hidden className="mt-6 flex items-center justify-center gap-1.5">
+                <span className="h-1 w-10 rounded-full bg-clay-400" />
+                <span className="h-1 w-5 rounded-full bg-forest-500" />
+                <span className="h-1 w-2.5 rounded-full bg-sprout-500" />
+              </div>
             </div>
           </div>
         </section>
@@ -103,12 +113,12 @@ export default function DonatePage() {
       />
 
       <section className="pb-24 lg:pb-32">
-        <div className="mx-auto max-w-6xl px-5 lg:px-8">
-          <blockquote className="glass relative mb-12 rounded-2xl border-l-2 border-gold-500/50 p-6 lg:p-8">
-            <p className="font-display text-lg italic leading-relaxed text-white/85 lg:text-xl">
+        <div className="mx-auto max-w-7xl px-5 lg:px-8">
+          <blockquote className="card relative mb-12 rounded-2xl border-l-[3px] border-l-clay-400 p-6 lg:p-8">
+            <p className="font-display text-lg italic leading-relaxed text-sage-800 lg:text-xl">
               «{dict.donate.verseText}»
             </p>
-            <footer className="mt-3 text-xs font-mono uppercase tracking-widest text-gold-400">
+            <footer className="mt-3 font-brand text-xs font-semibold uppercase tracking-[0.2em] text-clay-600">
               — {dict.donate.verseRef}
             </footer>
           </blockquote>
@@ -124,23 +134,23 @@ export default function DonatePage() {
                       onClick={() => setDesignation(d.id as DesignationId)}
                       className={`group relative flex h-full flex-col rounded-2xl border p-5 text-left transition ${
                         designation === d.id
-                          ? "border-gold-500/60 bg-gold-500/5"
-                          : "border-white/10 bg-ink-900/60 hover:border-white/20"
+                          ? "border-forest-600 bg-forest-50 shadow-sm shadow-forest-700/10"
+                          : "border-sage-200 bg-white hover:border-forest-600/50 hover:bg-sage-50"
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span
                           className={`text-sm font-semibold ${
-                            designation === d.id ? "text-gold-400" : "text-white"
+                            designation === d.id ? "text-forest-700" : "text-sage-900"
                           }`}
                         >
                           {d.title}
                         </span>
                         {designation === d.id && (
-                          <CheckIcon className="h-4 w-4 text-gold-400" />
+                          <CheckIcon className="h-4 w-4 text-forest-600" />
                         )}
                       </div>
-                      <p className="mt-2 text-xs leading-relaxed text-white/60">
+                      <p className="mt-2 text-xs leading-relaxed text-sage-600">
                         {d.body}
                       </p>
                     </button>
@@ -149,7 +159,7 @@ export default function DonatePage() {
               </Step>
 
               <Step number="02" title={dict.donate.amountLabel}>
-                <div className="mb-4 inline-flex rounded-full border border-white/10 bg-ink-900 p-1">
+                <div className="mb-4 inline-flex rounded-full border border-sage-200 bg-sage-50 p-1">
                   {(["MNT", "USD"] as Currency[]).map((c) => (
                     <button
                       key={c}
@@ -161,8 +171,8 @@ export default function DonatePage() {
                       }}
                       className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${
                         currency === c
-                          ? "bg-white text-ink-950"
-                          : "text-white/60 hover:text-white"
+                          ? "bg-forest-700 text-white shadow-sm shadow-forest-700/20"
+                          : "text-sage-600 hover:text-forest-700"
                       }`}
                     >
                       {c === "MNT" ? dict.donate.currency : dict.donate.currencyUSD}
@@ -179,10 +189,10 @@ export default function DonatePage() {
                         setAmount(p);
                         setCustomAmount("");
                       }}
-                      className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
+                      className={`rounded-xl border px-4 py-3 font-brand text-base font-semibold tracking-wide transition ${
                         amount === p && !customAmount
-                          ? "border-gold-500/60 bg-gold-500/10 text-gold-400"
-                          : "border-white/10 bg-ink-900/60 text-white hover:border-white/20"
+                          ? "border-forest-600 bg-forest-50 text-forest-700 shadow-sm shadow-forest-700/10"
+                          : "border-sage-200 bg-white text-sage-800 hover:border-forest-600/50 hover:bg-sage-50"
                       }`}
                     >
                       {currency === "MNT"
@@ -193,7 +203,7 @@ export default function DonatePage() {
                 </div>
 
                 <div className="mt-3 flex items-center gap-3">
-                  <span className="text-xs font-mono text-white/40">
+                  <span className="font-brand text-lg font-semibold text-sage-600">
                     {currency === "MNT" ? "₮" : "$"}
                   </span>
                   <input
@@ -205,7 +215,7 @@ export default function DonatePage() {
                       setCustomAmount(e.target.value);
                       setAmount("");
                     }}
-                    className="w-full rounded-xl border border-white/10 bg-ink-950/60 px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition focus:border-gold-500/60 focus:bg-ink-900"
+                    className="w-full rounded-xl border border-sage-300 bg-white px-4 py-3 text-sm text-sage-900 placeholder-sage-500 outline-none transition focus:border-forest-600 focus:ring-2 focus:ring-forest-600/15"
                   />
                 </div>
               </Step>
@@ -264,18 +274,18 @@ export default function DonatePage() {
 
             <aside className="lg:col-span-2">
               <div className="sticky top-28 space-y-6">
-                <div className="glass rounded-2xl p-6 lg:p-8">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
+                <div className="card ring-brand rounded-2xl p-6 lg:p-8">
+                  <p className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">
                     {designationLabel}
                   </p>
-                  <p className="mt-3 font-display text-5xl font-extrabold gradient-text">
+                  <p className="mt-3 font-brand text-5xl font-bold tracking-tight text-gradient-brand">
                     {activeAmount > 0
                       ? currency === "MNT"
                         ? `₮${formattedAmount}`
                         : `$${formattedAmount}`
                       : "—"}
                   </p>
-                  <div className="section-divider my-6" />
+                  <div className="divider-light my-6" />
 
                   {method === "paypal" && (
                     <ActionButton href={paypalUrl} icon={<PayPalIcon />}>
@@ -304,14 +314,14 @@ export default function DonatePage() {
                   {method === "crypto" && <CryptoDetails dict={dict} />}
                 </div>
 
-                <div className="glass rounded-2xl p-6">
-                  <h3 className="font-display text-base font-bold text-white">
+                <div className="rounded-2xl border border-clay-200 bg-clay-50 p-6">
+                  <h3 className="font-display text-base font-bold text-forest-800">
                     {dict.donate.thanksTitle}
                   </h3>
-                  <p className="mt-2 text-xs leading-relaxed text-white/65">
+                  <p className="mt-2 text-xs leading-relaxed text-sage-700">
                     {dict.donate.thanksBody}
                   </p>
-                  <p className="mt-4 text-xs leading-relaxed text-white/40">
+                  <p className="mt-4 border-t border-clay-200 pt-4 text-xs leading-relaxed text-sage-600">
                     {dict.donate.receiptNote}
                   </p>
                 </div>
@@ -336,10 +346,10 @@ function Step({
   return (
     <div>
       <div className="mb-5 flex items-center gap-3">
-        <span className="rounded-full bg-gold-500/10 px-2.5 py-1 text-xs font-mono text-gold-400">
+        <span className="rounded-full bg-clay-100 px-2.5 py-1 font-brand text-xs font-bold tracking-wider text-clay-700">
           {number}
         </span>
-        <h2 className="font-display text-xl font-bold text-white">{title}</h2>
+        <h2 className="font-display text-xl font-bold text-forest-800">{title}</h2>
       </div>
       {children}
     </div>
@@ -367,13 +377,13 @@ function MethodTile({
       onClick={onClick}
       className={`flex items-start gap-4 rounded-2xl border p-5 text-left transition ${
         active
-          ? "border-gold-500/60 bg-gold-500/5"
-          : "border-white/10 bg-ink-900/60 hover:border-white/20"
+          ? "border-forest-600 bg-forest-50 shadow-sm shadow-forest-700/10"
+          : "border-sage-200 bg-white hover:border-forest-600/50 hover:bg-sage-50"
       } ${full ? "sm:col-span-2" : ""}`}
     >
       <div
-        className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${
-          active ? "bg-gold-500/20 text-gold-400" : "bg-white/5 text-white/70"
+        className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl transition ${
+          active ? "bg-forest-700 text-white" : "bg-forest-50 text-forest-700"
         }`}
       >
         {icon}
@@ -382,14 +392,14 @@ function MethodTile({
         <div className="flex items-center justify-between">
           <span
             className={`text-sm font-semibold ${
-              active ? "text-gold-400" : "text-white"
+              active ? "text-forest-700" : "text-sage-900"
             }`}
           >
             {title}
           </span>
-          {active && <CheckIcon className="h-4 w-4 text-gold-400" />}
+          {active && <CheckIcon className="h-4 w-4 text-forest-600" />}
         </div>
-        <p className="mt-1 text-xs leading-relaxed text-white/60">{body}</p>
+        <p className="mt-1 text-xs leading-relaxed text-sage-600">{body}</p>
       </div>
     </button>
   );
@@ -409,7 +419,7 @@ function ActionButton({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-4 text-sm font-semibold text-ink-950 transition hover:bg-gold-400"
+      className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-forest-700 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-forest-700/20 transition hover:bg-forest-800"
     >
       <span className="flex h-5 w-5 items-center justify-center">{icon}</span>
       {children}
@@ -430,7 +440,7 @@ function BankMNDetails({
       <DetailRow label={dict.donate.methods.bankMN.bankLabel} value={DONATE_CONFIG.bankMN.bankName} />
       <CopyRow label="Дансны дугаар / Acc №" value={DONATE_CONFIG.bankMN.accountNumber ?? ""} copyLabel={dict.donate.methods.bankMN.copyLabel} copiedLabel={dict.donate.methods.bankMN.copiedLabel} mono />
       <DetailRow label="Дансны эзэн / Holder" value={DONATE_CONFIG.bankMN.accountHolder} />
-      <p className="rounded-xl bg-ink-950/60 p-3 text-[11px] leading-relaxed text-white/60">
+      <p className="rounded-xl border border-clay-200 bg-clay-50 p-3 text-xs leading-relaxed text-clay-700">
         {dict.donate.methods.bankMN.purpose.replace("{designation}", designation)}
       </p>
     </div>
@@ -480,11 +490,11 @@ function DetailRow({
 }) {
   return (
     <div>
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40">
+      <p className="font-brand text-[11px] font-semibold uppercase tracking-[0.2em] text-sage-600">
         {label}
       </p>
       <p
-        className={`mt-1 text-white/90 ${small ? "text-xs" : "text-sm"} leading-relaxed`}
+        className={`mt-1 text-sage-800 ${small ? "text-xs" : "text-sm"} leading-relaxed`}
       >
         {value}
       </p>
@@ -508,12 +518,12 @@ function CopyRow({
   const [copied, setCopied] = useState(false);
   return (
     <div>
-      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40">
+      <p className="font-brand text-[11px] font-semibold uppercase tracking-[0.2em] text-sage-600">
         {label}
       </p>
-      <div className="mt-1 flex items-center gap-2 rounded-xl border border-white/10 bg-ink-950/60 px-3 py-2.5">
+      <div className="mt-1 flex items-center gap-2 rounded-xl border border-sage-200 bg-sage-50 px-3 py-2.5">
         <code
-          className={`flex-1 text-sm text-white ${mono ? "font-mono" : ""} break-all`}
+          className={`flex-1 text-sm text-sage-900 ${mono ? "font-mono" : ""} break-all`}
         >
           {value}
         </code>
@@ -528,7 +538,7 @@ function CopyRow({
               // ignore
             }
           }}
-          className="rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white transition hover:bg-white hover:text-ink-950"
+          className="shrink-0 rounded-full border border-forest-700/25 bg-white px-3 py-1 font-brand text-[11px] font-semibold uppercase tracking-widest text-forest-700 transition hover:border-forest-700 hover:bg-forest-700 hover:text-white"
         >
           {copied ? copiedLabel : copyLabel}
         </button>

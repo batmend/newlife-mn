@@ -18,16 +18,16 @@ export default function MinistriesPage({ params }: { params: { lang: Lang } }) {
             {dict.ministries.list.map((m, idx) => (
               <article
                 key={m.title}
-                className="glass group relative overflow-hidden rounded-2xl p-8 transition hover:translate-y-[-2px]"
+                className="card group relative overflow-hidden rounded-2xl p-8 transition hover:translate-y-[-2px] hover:border-forest-600/30"
               >
-                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gold-500/5 blur-2xl transition group-hover:bg-gold-500/10" />
-                <div className="text-xs font-mono text-white/30">
+                <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-clay-100/80 blur-3xl transition group-hover:bg-sprout-200/70" />
+                <div className="relative font-brand text-sm font-bold tracking-[0.2em] text-clay-600">
                   {String(idx + 1).padStart(2, "0")}
                 </div>
-                <h3 className="mt-3 font-display text-2xl font-bold text-white">
+                <h3 className="relative mt-3 font-display text-2xl font-bold text-sage-900">
                   {m.title}
                 </h3>
-                <p className="mt-4 text-sm leading-relaxed text-white/70">{m.body}</p>
+                <p className="relative mt-4 text-sm leading-relaxed text-sage-600">{m.body}</p>
               </article>
             ))}
           </div>
