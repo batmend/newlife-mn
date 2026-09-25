@@ -3,7 +3,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getViewer } from "@/lib/portal/viewer";
 import { Avatar, RoleBadge } from "@/components/portal/ui";
-import { PortalNav } from "@/components/portal/PortalNav";
+import { PortalNav, type NavLink } from "@/components/portal/PortalNav";
+import { hasRole } from "@/lib/portal/roles";
 
 export default async function MemberLayout({ children }: { children: React.ReactNode }) {
   const viewer = await getViewer();
@@ -23,10 +24,19 @@ export default async function MemberLayout({ children }: { children: React.React
     );
   }
 
-  const links = [
-    { href: "/portal", label: "Нүүр" },
-    { href: "/portal/profile", label: "Профайл" },
-    ...(profile.role === "admin" ? [{ href: "/portal/admin", label: "Админ" }] : []),
+  const links: NavLink[] = [
+    { href: "/portal", label: "Нүүр", match: ["/portal"] },
+    ...(hasRole(profile.role, "member")
+      ? [{ href: "/portal/word", label: "Өдрийн үг", match: ["/portal/word", "/portal/words"] }]
+      : []),
+    ...(hasRole(profile.role, "mentor")
+      ? [{ href: "/portal/quiet-time", label: "Чимээгүй цаг", match: ["/portal/quiet-time"] }]
+      : []),
+    ...(hasRole(profile.role, "leader")
+      ? [{ href: "/portal/words/manage", label: "Үг бэлтгэх", match: ["/portal/words/manage"] }]
+      : []),
+    { href: "/portal/profile", label: "Профайл", match: ["/portal/profile", "/portal/reset-password"] },
+    ...(profile.role === "admin" ? [{ href: "/portal/admin", label: "Админ", match: ["/portal/admin"] }] : []),
   ];
 
   return (

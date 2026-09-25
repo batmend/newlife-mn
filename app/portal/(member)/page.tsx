@@ -4,12 +4,10 @@ import { createClient } from "@/lib/supabase/server";
 import { getViewer } from "@/lib/portal/viewer";
 import { hasRole } from "@/lib/portal/roles";
 import { Avatar, RoleBadge } from "@/components/portal/ui";
+import { addDays, todayUB } from "@/lib/portal/dates";
+import { readingStreak } from "@/lib/portal/streak";
 
 const UPCOMING = [
-  {
-    title: "Өдрийн үг",
-    body: "Өглөө бүр шинэ үг ирж, уншсаныхаа дараа бодлоо тэмдэглэнэ.",
-  },
   {
     title: "Нэгдсэн календарь",
     body: "Чуулганы бүх цуглаан, арга хэмжээ нэг дор харагдана.",
@@ -54,18 +52,41 @@ export default async function PortalHomePage() {
   }
 
   const supabase = createClient();
+  const today = todayUB();
+  const isMentor = hasRole(profile.role, "mentor");
 
-  const [groupResult, pendingResult, menteesResult] = await Promise.all([
+  const [groupResult, pendingResult, menteesResult, wordsResult, readsResult, overviewResult] = await Promise.all([
     profile.group_id
       ? supabase.from("groups").select("id, name, mentor_id").eq("id", profile.group_id).maybeSingle()
       : Promise.resolve({ data: null }),
     profile.role === "admin"
       ? supabase.from("profiles").select("id", { count: "exact", head: true }).eq("role", "pending")
       : Promise.resolve({ count: 0 }),
-    hasRole(profile.role, "mentor")
+    isMentor
       ? supabase.from("groups").select("id, name").eq("mentor_id", profile.id).order("name")
       : Promise.resolve({ data: [] }),
+    supabase
+      .from("daily_words")
+      .select("id, publish_date, title, scripture_ref")
+      .gte("publish_date", addDays(today, -59))
+      .lte("publish_date", today)
+      .order("publish_date", { ascending: false }),
+    supabase.from("devotion_reads").select("word_id").eq("member_id", profile.id),
+    isMentor ? supabase.rpc("quiet_time_overview", { p_days: 1 }) : Promise.resolve({ data: null }),
   ]);
+
+  const recentWords = wordsResult.data ?? [];
+  const readIds = new Set((readsResult.data ?? []).map((r) => r.word_id));
+  const readDates = new Set(recentWords.filter((w) => readIds.has(w.id)).map((w) => w.publish_date));
+  const todayWord = recentWords.find((w) => w.publish_date === today) ?? null;
+  const readTodayWord = todayWord ? readIds.has(todayWord.id) : false;
+  const streak = readingStreak(
+    recentWords.map((w) => w.publish_date),
+    readDates,
+    today,
+  );
+  const tracked = overviewResult.data ?? [];
+  const trackedReadToday = tracked.filter((m) => m.read_dates.includes(today)).length;
 
   const group = groupResult.data;
   const mentor =
@@ -108,6 +129,54 @@ export default async function PortalHomePage() {
           <span aria-hidden>→</span>
         </Link>
       )}
+
+      <section className="glass rounded-3xl p-6 sm:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Өнөөдрийн үг</h2>
+          {streak > 0 && (
+            <span className="rounded-full border border-gold-500/40 bg-gold-500/10 px-3 py-1 text-xs font-semibold text-gold-400">
+              {streak} өдөр дараалан уншсан
+            </span>
+          )}
+        </div>
+        {todayWord ? (
+          <div className="mt-4 flex flex-wrap items-end justify-between gap-5">
+            <div className="min-w-0">
+              <p className="font-display text-2xl font-bold leading-tight">{todayWord.title}</p>
+              <p className="mt-1 text-sm text-gold-400">{todayWord.scripture_ref}</p>
+            </div>
+            <Link
+              href={`/portal/word/${today}`}
+              className={`inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition ${
+                readTodayWord
+                  ? "border border-leaf-500/40 bg-leaf-500/10 text-leaf-400 hover:bg-leaf-500/20"
+                  : "bg-white text-ink-950 hover:bg-gold-400"
+              }`}
+            >
+              {readTodayWord ? "✓ Уншсан · бодол харах" : "Унших"}
+            </Link>
+          </div>
+        ) : (
+          <p className="mt-3 text-sm leading-relaxed text-white/60">
+            Өнөөдрийн үг хараахан нийтлэгдээгүй байна.{" "}
+            <Link href="/portal/words" className="text-gold-400 underline-offset-4 hover:underline">
+              Өмнөх үгсийг унших
+            </Link>
+          </p>
+        )}
+        {isMentor && todayWord && tracked.length > 0 && (
+          <Link
+            href="/portal/quiet-time"
+            className="mt-6 flex items-center justify-between gap-4 border-t border-white/5 pt-4 text-sm text-white/70 hover:text-white"
+          >
+            <span>
+              Таны хянадаг гишүүдээс өнөөдөр <strong className="text-white">{trackedReadToday}</strong>/{tracked.length}{" "}
+              уншсан
+            </span>
+            <span aria-hidden>→</span>
+          </Link>
+        )}
+      </section>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="glass rounded-3xl p-6 sm:p-7">
@@ -178,7 +247,7 @@ export default async function PortalHomePage() {
 
       <section>
         <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Удахгүй нэмэгдэнэ</h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
           {UPCOMING.map((item) => (
             <div key={item.title} className="rounded-2xl border border-dashed border-white/10 p-5">
               <p className="font-display text-lg font-bold text-white/85">{item.title}</p>

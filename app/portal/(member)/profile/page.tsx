@@ -10,6 +10,8 @@ import { ProfileForm } from "./ProfileForm";
 import { DeleteAccountForm } from "./DeleteAccountForm";
 import { linkProvider } from "./actions";
 import { LinkProviderButton } from "./LinkProviderButton";
+import { DailyEmailForm } from "./DailyEmailForm";
+import { hasRole } from "@/lib/portal/roles";
 
 export const metadata: Metadata = { title: "Профайл" };
 
@@ -147,6 +149,13 @@ export default async function ProfilePage({
           ))}
         </ul>
       </section>
+
+      {hasEmail && hasRole(profile.role, "member") && (
+        <section className="glass rounded-3xl p-6 sm:p-8">
+          <h2 className="font-display text-lg font-bold">Мэдэгдэл</h2>
+          <DailyEmailForm enabled={profile.daily_email} email={user.email ?? ""} />
+        </section>
+      )}
 
       <section className="rounded-3xl border border-red-400/20 bg-red-500/[0.04] p-6 sm:p-8">
         <h2 className="font-display text-lg font-bold">Бүртгэл устгах</h2>

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <LegalTitle updated="Шинэчилсэн: 2026 оны 9-р сарын 24">Нууцлалын бодлого</LegalTitle>
+      <LegalTitle updated="Шинэчилсэн: 2026 оны 9-р сарын 25">Нууцлалын бодлого</LegalTitle>
 
       <p>
         Энэхүү бодлого нь Шинэ Амь Христийн Чуулганы гишүүдийн портал (newlife.mn/portal, цаашид «портал») таны мэдээллийг
@@ -33,6 +33,10 @@ export default function PrivacyPage() {
             г.м) болон таны харьяалагдах бүлэг.
           </li>
           <li>
+            <strong className="text-white">Өдрийн үгийн тэмдэглэл:</strong> та аль үгийг хэзээ уншсан, мөн таны бичсэн
+            бодлын тэмдэглэл болон түүнийг хэнд харуулахаар сонгосон.
+          </li>
+          <li>
             <strong className="text-white">Техникийн мэдээлэл:</strong> нэвтрэх үед аюулгүй байдлын зорилгоор IP хаяг,
             хөтчийн мэдээлэл бүртгэгдэнэ.
           </li>
@@ -47,22 +51,28 @@ export default function PrivacyPage() {
         <LegalList>
           <li>Таныг порталд нэвтрүүлж, бүртгэлийг тань хамгаалах</li>
           <li>Чуулганы гишүүнчлэлийг баталгаажуулж, эрх олгох</li>
-          <li>Чиглүүлэгч, удирдагчид өөрийн хариуцсан гишүүдийг хөтлөх</li>
-          <li>Бүртгэл баталгаажуулах, нууц үг сэргээх зэрэг порталын мэдэгдлийг имэйлээр илгээх</li>
+          <li>Чиглүүлэгч, удирдагчид өөрийн хариуцсан гишүүдийн чимээгүй цагийг (өдрийн үг уншсан эсэхийг) хөтлөх</li>
+          <li>
+            Бүртгэл баталгаажуулах, нууц үг сэргээх мэдэгдэл болон өглөө бүрийн өдрийн үгийг имэйлээр илгээх (өглөөний
+            имэйлийг профайлаас унтрааж болно)
+          </li>
         </LegalList>
       </LegalSection>
 
       <LegalSection title="3. Хэн харах вэ">
         <LegalList>
           <li>
-            <strong className="text-white">Админ болон удирдагчид:</strong> бүх гишүүний нэр, имэйл, эрх, бүлэг
+            <strong className="text-white">Админ болон удирдагчид:</strong> бүх гишүүний нэр, имэйл, эрх, бүлэг, өдрийн
+            үг уншсан түүх болон бүх бодлын тэмдэглэл
           </li>
           <li>
-            <strong className="text-white">Чиглүүлэгч:</strong> зөвхөн өөрт оноогдсон бүлгийн гишүүдийн мэдээлэл
+            <strong className="text-white">Чиглүүлэгч:</strong> зөвхөн өөрт оноогдсон бүлгийн гишүүдийн мэдээлэл, уншсан
+            түүх болон бодлын тэмдэглэл
           </li>
           <li>
-            <strong className="text-white">Бүлгийн гишүүд:</strong> өөрийн бүлгийн чиглүүлэгчийн нэр, профайл зургийг
-            харна. Үүнээс гадна гишүүд бие биеийн мэдээллийг харахгүй.
+            <strong className="text-white">Бусад гишүүд:</strong> өөрийн бүлгийн чиглүүлэгчийн нэр, профайл зургийг
+            харна. Мөн та бодлын тэмдэглэлээ «Бүх гишүүдэд» харуулахаар сонговол тэр тэмдэглэл таны нэр, зурагтай хамт
+            бүх баталгаажсан гишүүдэд харагдана. Үүнээс гадна гишүүд бие биеийн мэдээллийг харахгүй.
           </li>
         </LegalList>
         <p>Бид таны мэдээллийг худалдахгүй, зар сурталчилгааны зорилгоор гуравдагч этгээдэд өгөхгүй.</p>
@@ -120,7 +130,7 @@ export default function PrivacyPage() {
 
       <EnglishVersion>
         <h2 className="mt-4 font-display text-2xl font-bold text-white">Privacy Policy</h2>
-        <p className="mt-2 text-sm text-white/55">Last updated: 24 September 2026</p>
+        <p className="mt-2 text-sm text-white/55">Last updated: 25 September 2026</p>
         <div className="mt-6 space-y-4">
           <p>
             This policy explains how the member portal of New Life Christian Church (newlife.mn/portal) collects, uses and
@@ -130,20 +140,23 @@ export default function PrivacyPage() {
             <strong className="text-white">What we collect.</strong> Your name, email address and password (stored only as a
             one-way hash). If you sign in with Facebook or Google we receive your name, email address, profile picture and
             your user ID with that service — never your friends list, posts or messages — and we never post on your
-            behalf. We also store the role and group an administrator assigns to you, the IP address and browser
+            behalf. We also store the role and group an administrator assigns to you, which daily devotionals you read and
+            when, the reflections you write and who you chose to share them with, the IP address and browser
             information recorded when you sign in (for security), and a session cookie that keeps you signed in. We use
             no advertising or tracking cookies.
           </p>
           <p>
             <strong className="text-white">How we use it.</strong> To sign you in, verify church membership, let mentors
-            and leaders care for the members assigned to them, and send portal emails (account confirmation and password
-            reset).
+            and leaders follow the quiet time (devotional reading) of the members assigned to them, and send portal emails
+            (account confirmation, password reset, and the morning devotional, which you can switch off on your Profile
+            page).
           </p>
           <p>
             <strong className="text-white">Who can see it.</strong> Administrators and leaders see members&apos; names,
-            emails, roles and groups; mentors see only the members of their own group; members see their group
-            mentor&apos;s name and profile picture and otherwise cannot see each other&apos;s information. We do not sell
-            your data or share it with advertisers.
+            emails, roles, groups, reading history and all reflections; mentors see the same only for the members of their
+            own group. Members see their group mentor&apos;s name and profile picture, and any reflection another member
+            chose to share with all members, shown with that member&apos;s name and picture; otherwise members cannot see
+            each other&apos;s information. We do not sell your data or share it with advertisers.
           </p>
           <p>
             <strong className="text-white">Processors.</strong> Supabase (database and authentication, Singapore), Vercel

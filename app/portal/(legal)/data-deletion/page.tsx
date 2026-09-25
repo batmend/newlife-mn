@@ -30,7 +30,7 @@ export default function DataDeletionPage() {
           </li>
         </ol>
         <p>
-          Таны бүртгэл, нэр, имэйл, профайл зураг, эрх, бүлгийн мэдээлэл порталаас тэр даруй бүрмөсөн устана. Үүнийг
+          Таны бүртгэл, нэр, имэйл, профайл зураг, эрх, бүлгийн мэдээлэл, өдрийн үг уншсан түүх болон бодлын тэмдэглэлүүд порталаас тэр даруй бүрмөсөн устана. Үүнийг
           буцаах боломжгүй. Үйлчилгээ үзүүлэгчдийн техникийн бүртгэлд (log) таны имэйл, IP хаяг хязгаарлагдмал хугацаанд
           үлдэж, дараа нь автоматаар устдаг.
         </p>
@@ -65,7 +65,7 @@ export default function DataDeletionPage() {
             </li>
           </ol>
           <p>
-            Your account, name, email, profile picture, role and group are deleted from the portal immediately and
+            Your account, name, email, profile picture, role, group, reading history and reflections are deleted from the portal immediately and
             permanently. Technical logs kept by our service providers may retain your email and IP address for a limited
             time before they are deleted automatically.
           </p>

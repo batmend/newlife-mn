@@ -79,6 +79,22 @@ export async function linkProvider(formData: FormData) {
   redirect(data.url);
 }
 
+export async function updateDailyEmail(_prev: FormState, formData: FormData): Promise<FormState> {
+  const enabled = formData.get("daily_email") === "on";
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/portal/login");
+
+  const { error } = await supabase.from("profiles").update({ daily_email: enabled }).eq("id", user.id);
+  if (error) return { error: dbErrorMessage(error) };
+
+  revalidatePath("/portal/profile");
+  return { message: enabled ? "Өглөө бүр имэйлээр авна." : "Өглөөний имэйл унтарлаа." };
+}
+
 export async function updatePassword(_prev: FormState, formData: FormData): Promise<FormState> {
   const password = String(formData.get("password") ?? "");
   const confirm = String(formData.get("confirm") ?? "");

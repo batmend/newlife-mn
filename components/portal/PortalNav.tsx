@@ -3,13 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function PortalNav({ links }: { links: { href: string; label: string }[] }) {
+export type NavLink = { href: string; label: string; match: string[] };
+
+function matchLength(pathname: string, prefixes: string[]) {
+  return Math.max(0, ...prefixes.filter((p) => pathname === p || pathname.startsWith(`${p}/`)).map((p) => p.length));
+}
+
+export function PortalNav({ links }: { links: NavLink[] }) {
   const pathname = usePathname();
+  // The most specific prefix wins, so /portal/words/manage highlights "Үг бэлтгэх" rather than "Өдрийн үг".
+  const scores = links.map((link) => matchLength(pathname, link.match));
+  const best = Math.max(0, ...scores);
 
   return (
     <nav className="flex items-center gap-1 overflow-x-auto">
-      {links.map((link) => {
-        const active = link.href === "/portal" ? pathname === "/portal" : pathname.startsWith(link.href);
+      {links.map((link, i) => {
+        const active = best > 0 && scores[i] === best;
         return (
           <Link
             key={link.href}

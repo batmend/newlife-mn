@@ -32,9 +32,10 @@ export default function PortalAboutPage() {
           зориулалттай.
         </p>
         <LegalList>
+          <li>Өглөө бүрийн өдрийн үг: уншаад бодлоо тэмдэглэх, хүсвэл бусадтай хуваалцах</li>
           <li>Өөрийн бүлэг болон чиглүүлэгчийн мэдээлэл</li>
-          <li>Чиглүүлэгчид өөрт оноогдсон гишүүдээ хөтлөх</li>
-          <li>Удахгүй: өглөө бүрийн үг ба бодлын тэмдэглэл, чуулганы нэгдсэн календарь, үйлчлэлийн чеклист</li>
+          <li>Чиглүүлэгчид өөрт оноогдсон гишүүдийнхээ чимээгүй цагийг хөтлөх</li>
+          <li>Удахгүй: чуулганы нэгдсэн календарь, үйлчлэлийн чеклист</li>
         </LegalList>
       </LegalSection>
 
@@ -68,9 +69,10 @@ export default function PortalAboutPage() {
             Ulaanbaatar, Mongolia.
           </p>
           <p>
-            <strong className="text-white">What it does.</strong> Church members sign in to see their small group and
-            mentor, and mentors look after the members assigned to them. Coming soon: a daily devotional with personal
-            reflections, a shared church calendar, and ministry checklists.
+            <strong className="text-white">What it does.</strong> Church members read a daily devotional every morning,
+            keep personal reflections (and may share them with other members), and see their small group and mentor.
+            Mentors follow the quiet time of the members assigned to them. Coming soon: a shared church calendar and
+            ministry checklists.
           </p>
           <p>
             <strong className="text-white">Who can use it.</strong> Members of the church only. After signing up, a church
