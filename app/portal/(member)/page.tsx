@@ -71,7 +71,12 @@ export default async function PortalHomePage() {
       .gte("publish_date", addDays(today, -59))
       .lte("publish_date", today)
       .order("publish_date", { ascending: false }),
-    supabase.from("devotion_reads").select("word_id").eq("member_id", profile.id),
+    // A word can only be read on or after its publish day, so this covers every read of the last 60 days' words.
+    supabase
+      .from("devotion_reads")
+      .select("word_id")
+      .eq("member_id", profile.id)
+      .gte("read_at", `${addDays(today, -59)}T00:00:00+08:00`),
     isMentor ? supabase.rpc("quiet_time_overview", { p_days: 1 }) : Promise.resolve({ data: null }),
   ]);
 

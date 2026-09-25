@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { dbErrorMessage } from "@/lib/portal/errors";
-import { isIsoDate } from "@/lib/portal/dates";
+import { isIsoDate, todayUB } from "@/lib/portal/dates";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { deliverDailyWord } from "@/lib/portal/daily-email";
 import { hasRole } from "@/lib/portal/roles";
 import { getViewer } from "@/lib/portal/viewer";
 import { dailyWordEmail, sendEmails } from "@/lib/portal/email";
@@ -13,9 +15,10 @@ export type FormState = { error?: string; message?: string } | null;
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+// Browsers submit textarea newlines as CRLF; normalise so lengths match the client's maxLength.
 function field(formData: FormData, key: string) {
   const value = formData.get(key);
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === "string" ? value.replace(/\r\n?/g, "\n").trim() : "";
 }
 
 function refreshWords(date?: string) {
@@ -66,6 +69,35 @@ export async function deleteWord(formData: FormData) {
 
   refreshWords();
   redirect("/portal/words/manage?deleted=1");
+}
+
+export async function sendWordToMembers(_prev: FormState, formData: FormData): Promise<FormState> {
+  const id = field(formData, "id");
+  if (!UUID.test(id)) return { error: "Буруу хүсэлт." };
+
+  const viewer = await getViewer();
+  if (!viewer?.profile || !hasRole(viewer.profile.role, "leader")) return { error: "Энэ үйлдлийг хийх эрх танд алга." };
+
+  // Read through the member's own client first so RLS confirms they may see this word.
+  const { data: word } = await createClient()
+    .from("daily_words")
+    .select("id, publish_date, title, scripture_ref, scripture_text, body")
+    .eq("id", id)
+    .maybeSingle();
+  if (!word) return { error: "Үг олдсонгүй." };
+  if (word.publish_date !== todayUB()) return { error: "Зөвхөн өнөөдрийн үгийг гишүүдэд илгээнэ." };
+
+  let admin;
+  try {
+    admin = createAdminClient();
+  } catch {
+    return { error: "Имэйлийн тохиргоо (SUPABASE_SECRET_KEY) хийгдээгүй байна." };
+  }
+
+  const result = await deliverDailyWord(admin, word);
+  if (result.status === "already") return { message: "Энэ үг гишүүдэд аль хэдийн илгээгдсэн байна." };
+  if (result.status === "failed") return { error: "Илгээж чадсангүй. Түр хүлээгээд дахин оролдоно уу." };
+  return { message: `${result.sent} гишүүнд илгээлээ.` };
 }
 
 export async function sendTestEmail(_prev: FormState, formData: FormData): Promise<FormState> {

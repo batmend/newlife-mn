@@ -50,7 +50,7 @@ export default async function EditWordPage({
       </div>
       <h1 className="font-display text-3xl font-extrabold">Үг засах</h1>
       {error && <Notice tone="error">{error}</Notice>}
-      <WordForm word={word} defaultDate={todayUB()} />
+      <WordForm word={word} defaultDate={todayUB()} today={todayUB()} />
     </div>
   );
 }

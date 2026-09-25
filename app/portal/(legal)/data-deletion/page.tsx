@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function DataDeletionPage() {
   return (
     <>
-      <LegalTitle updated="Шинэчилсэн: 2026 оны 9-р сарын 24">Мэдээлэл устгах заавар</LegalTitle>
+      <LegalTitle updated="Шинэчилсэн: 2026 оны 9-р сарын 25">Мэдээлэл устгах заавар</LegalTitle>
 
       <p>Та порталд хадгалагдсан өөрийн бүх мэдээллийг хүссэн үедээ, хэний ч зөвшөөрөлгүйгээр устгаж болно.</p>
 

@@ -63,7 +63,7 @@ export default function PrivacyPage() {
         <LegalList>
           <li>
             <strong className="text-white">Админ болон удирдагчид:</strong> бүх гишүүний нэр, имэйл, эрх, бүлэг, өдрийн
-            үг уншсан түүх болон бүх бодлын тэмдэглэл
+            үг уншсан түүх болон бүх бодлын тэмдэглэл. Зохисгүй тэмдэглэлийг устгах эрхтэй.
           </li>
           <li>
             <strong className="text-white">Чиглүүлэгч:</strong> зөвхөн өөрт оноогдсон бүлгийн гишүүдийн мэдээлэл, уншсан
@@ -153,8 +153,8 @@ export default function PrivacyPage() {
           </p>
           <p>
             <strong className="text-white">Who can see it.</strong> Administrators and leaders see members&apos; names,
-            emails, roles, groups, reading history and all reflections; mentors see the same only for the members of their
-            own group. Members see their group mentor&apos;s name and profile picture, and any reflection another member
+            emails, roles, groups, reading history and all reflections, and may remove inappropriate reflections; mentors
+            see the same only for the members of their own group. Members see their group mentor&apos;s name and profile picture, and any reflection another member
             chose to share with all members, shown with that member&apos;s name and picture; otherwise members cannot see
             each other&apos;s information. We do not sell your data or share it with advertisers.
           </p>

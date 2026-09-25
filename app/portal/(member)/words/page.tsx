@@ -4,12 +4,14 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getViewer } from "@/lib/portal/viewer";
 import { hasRole } from "@/lib/portal/roles";
-import { formatDateMn, todayUB } from "@/lib/portal/dates";
+import { formatDateMn, isIsoDate, todayUB } from "@/lib/portal/dates";
 import { Notice } from "@/components/portal/ui";
 
 export const metadata: Metadata = { title: "Бүх үгс" };
 
-export default async function WordsArchivePage() {
+const PAGE = 60;
+
+export default async function WordsArchivePage({ searchParams }: { searchParams: { before?: string } }) {
   const viewer = await getViewer();
   if (!viewer?.profile) redirect("/portal/login");
   const { profile } = viewer;
@@ -23,13 +25,18 @@ export default async function WordsArchivePage() {
   }
 
   const today = todayUB();
+  const before = isIsoDate(searchParams.before) ? searchParams.before : null;
   const supabase = createClient();
-  const { data: words } = await supabase
+  let query = supabase
     .from("daily_words")
     .select("id, publish_date, title, scripture_ref")
     .lte("publish_date", today)
     .order("publish_date", { ascending: false })
-    .limit(60);
+    .limit(PAGE + 1);
+  if (before) query = query.lt("publish_date", before);
+  const { data: page } = await query;
+  const hasMore = (page ?? []).length > PAGE;
+  const words = (page ?? []).slice(0, PAGE);
 
   const ids = (words ?? []).map((w) => w.id);
   const { data: reads } = ids.length
@@ -67,7 +74,7 @@ export default async function WordsArchivePage() {
                 <span
                   aria-label={read.has(w.id) ? "Уншсан" : "Уншаагүй"}
                   className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs ${
-                    read.has(w.id) ? "bg-leaf-500/20 text-leaf-400" : "border border-white/15 text-white/30"
+                    read.has(w.id) ? "bg-leaf-500/20 text-leaf-400" : "border border-white/35 text-white/30"
                   }`}
                 >
                   {read.has(w.id) ? "✓" : ""}
@@ -87,6 +94,23 @@ export default async function WordsArchivePage() {
             </li>
           ))}
         </ul>
+      )}
+
+      {(before || hasMore) && (
+        <nav className="flex items-center justify-between text-sm">
+          {before ? (
+            <Link href="/portal/words" className="text-white/60 hover:text-white">
+              ← Сүүлийн үгс
+            </Link>
+          ) : (
+            <span />
+          )}
+          {hasMore && words.length > 0 && (
+            <Link href={`/portal/words?before=${words[words.length - 1].publish_date}`} className="text-white/60 hover:text-white">
+              Өмнөх үгс →
+            </Link>
+          )}
+        </nav>
       )}
     </div>
   );

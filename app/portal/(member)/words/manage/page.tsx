@@ -67,7 +67,7 @@ export default async function ManageWordsPage({ searchParams }: { searchParams: 
             const word = byDate.get(date);
             return (
               <li key={date} className="flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-3">
-                <span className={`w-44 text-sm ${date === today ? "font-semibold text-gold-400" : "text-white/70"}`}>
+                <span className={`w-full text-sm sm:w-44 ${date === today ? "font-semibold text-gold-400" : "text-white/70"}`}>
                   {formatDateMn(date)}
                 </span>
                 {word ? (
@@ -99,6 +99,12 @@ export default async function ManageWordsPage({ searchParams }: { searchParams: 
         <section>
           <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Өмнө нийтлэгдсэн</h2>
           <WordList words={recent ?? []} />
+          <p className="mt-3 text-sm">
+            <Link href="/portal/words" className="text-white/60 underline-offset-4 hover:text-white hover:underline">
+              Өмнөх бүх үгс
+            </Link>
+            <span className="text-white/55"> · үгийн хуудаснаас «Засах» дарж засна</span>
+          </p>
         </section>
       )}
     </div>
@@ -114,7 +120,7 @@ function WordList({ words }: { words: { id: string; publish_date: string; title:
             href={`/portal/words/manage/${w.id}`}
             className="flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-3 transition hover:bg-white/[0.04]"
           >
-            <span className="w-44 text-sm text-white/70">{formatDateMn(w.publish_date)}</span>
+            <span className="w-full text-sm text-white/70 sm:w-44">{formatDateMn(w.publish_date)}</span>
             <span className="min-w-0 flex-1 truncate text-sm">
               {w.title} <span className="text-white/55">· {w.scripture_ref}</span>
             </span>

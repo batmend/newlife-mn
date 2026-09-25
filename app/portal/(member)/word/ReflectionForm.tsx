@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useFormState } from "react-dom";
 import type { ReflectionVisibility } from "@/lib/supabase/types";
 import { Notice, SubmitButton } from "@/components/portal/ui";
@@ -19,10 +19,29 @@ export function ReflectionForm({
   const [state, action] = useFormState(saveReflection, null);
   const [visibility, setVisibility] = useState<ReflectionVisibility>(reflection?.visibility ?? "leaders");
   const [body, setBody] = useState(reflection?.body ?? "");
+  const [deleting, startDelete] = useTransition();
+  const [deleteNotice, setDeleteNotice] = useState<{ tone: "error" | "success"; text: string } | null>(null);
+
+  function onDelete() {
+    if (!reflection || !window.confirm("Бодлын тэмдэглэлээ устгах уу?")) return;
+    const formData = new FormData();
+    formData.set("reflection_id", reflection.id);
+    formData.set("date", date);
+    startDelete(async () => {
+      const result = await deleteReflection(formData).catch(() => ({ ok: false }));
+      if (result.ok) {
+        setBody("");
+        setVisibility("leaders");
+        setDeleteNotice({ tone: "success", text: "Устгалаа." });
+      } else {
+        setDeleteNotice({ tone: "error", text: "Устгаж чадсангүй. Дахин оролдоно уу." });
+      }
+    });
+  }
 
   return (
     <div>
-      <form action={action} className="space-y-4">
+      <form action={action} onSubmit={() => setDeleteNotice(null)} className="space-y-4">
         <input type="hidden" name="word_id" value={wordId} />
         <input type="hidden" name="date" value={date} />
         {reflection && <input type="hidden" name="reflection_id" value={reflection.id} />}
@@ -68,29 +87,26 @@ export function ReflectionForm({
           </div>
         </fieldset>
 
-        {state?.error && <Notice tone="error">{state.error}</Notice>}
-        {state?.message && <Notice tone="success">{state.message}</Notice>}
+        {state?.error && !deleteNotice && <Notice tone="error">{state.error}</Notice>}
+        {state?.message && !deleteNotice && <Notice tone="success">{state.message}</Notice>}
+        {deleteNotice && <Notice tone={deleteNotice.tone}>{deleteNotice.text}</Notice>}
 
-        <SubmitButton className="sm:w-auto" pendingLabel="Хадгалж байна…">
-          {reflection ? "Шинэчлэх" : "Хадгалах"}
-        </SubmitButton>
+        <div className="flex flex-wrap items-center gap-4">
+          <SubmitButton className="sm:w-auto" pendingLabel="Хадгалж байна…">
+            {reflection ? "Шинэчлэх" : "Хадгалах"}
+          </SubmitButton>
+          {reflection && (
+            <button
+              type="button"
+              onClick={onDelete}
+              disabled={deleting}
+              className="text-sm text-white/60 underline-offset-4 hover:text-red-300 hover:underline disabled:opacity-50"
+            >
+              {deleting ? "Устгаж байна…" : "Тэмдэглэлээ устгах"}
+            </button>
+          )}
+        </div>
       </form>
-
-      {reflection && (
-        <form
-          action={deleteReflection}
-          onSubmit={(e) => {
-            if (!window.confirm("Бодлын тэмдэглэлээ устгах уу?")) e.preventDefault();
-          }}
-          className="mt-3"
-        >
-          <input type="hidden" name="reflection_id" value={reflection.id} />
-          <input type="hidden" name="date" value={date} />
-          <button type="submit" className="text-xs text-white/55 underline-offset-4 hover:text-red-300 hover:underline">
-            Тэмдэглэлээ устгах
-          </button>
-        </form>
-      )}
     </div>
   );
 }

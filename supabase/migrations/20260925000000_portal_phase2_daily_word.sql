@@ -39,6 +39,26 @@ create trigger daily_words_touch_updated_at
   before update on public.daily_words
   for each row execute function public.touch_updated_at();
 
+-- Moving a word members have already read to another day would hide their
+-- reflections from them; and a re-dated word should be emailed on its new day.
+create function public.guard_word_date_change()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if new.publish_date is distinct from old.publish_date then
+    if exists (select 1 from public.devotion_reads where word_id = old.id)
+       or exists (select 1 from public.reflections where word_id = old.id) then
+      raise exception 'Гишүүд уншсан эсвэл бодлоо үлдээсэн үгийн огноог өөрчлөх боломжгүй. Агуулгыг нь засаж болно.';
+    end if;
+    delete from public.daily_word_emails where word_id = old.id;
+  end if;
+  return new;
+end;
+$$;
+
 alter table public.daily_words enable row level security;
 
 create policy "Members read published words"
@@ -130,13 +150,29 @@ create trigger reflections_touch_updated_at
 
 alter table public.reflections enable row level security;
 
+-- Members can't read other profiles, so policies ask this whether an author is still approved.
+create function public.is_approved(p_profile_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (select 1 from public.profiles where id = p_profile_id and role >= 'member');
+$$;
+
 -- 'members': every approved member; 'leaders': the author's mentor, leaders, admins.
+-- Shared reflections disappear from others' view once their author is no longer approved.
 create policy "Reflections visible per the author's choice"
   on public.reflections for select to authenticated
   using (
     member_id = (select auth.uid())
     or (select public.my_role()) >= 'leader'
-    or (visibility = 'members' and (select public.my_role()) >= 'member')
+    or (
+      visibility = 'members'
+      and (select public.my_role()) >= 'member'
+      and public.is_approved(member_id)
+    )
     or public.is_my_mentee(member_id)
   );
 
@@ -151,14 +187,19 @@ create policy "Members write their own reflection on published words"
     )
   );
 
-create policy "Members edit their own reflection"
+create policy "Approved members edit their own reflection"
   on public.reflections for update to authenticated
-  using (member_id = (select auth.uid()))
-  with check (member_id = (select auth.uid()));
+  using (member_id = (select auth.uid()) and (select public.my_role()) >= 'member')
+  with check (member_id = (select auth.uid()) and (select public.my_role()) >= 'member');
 
+-- Authors can always remove their own words, even after losing access.
 create policy "Members delete their own reflection"
   on public.reflections for delete to authenticated
   using (member_id = (select auth.uid()));
+
+create policy "Leaders remove any reflection"
+  on public.reflections for delete to authenticated
+  using ((select public.my_role()) >= 'leader');
 
 revoke all on public.reflections from anon, authenticated;
 grant select, delete on public.reflections to authenticated;
@@ -213,7 +254,7 @@ as $$
     and (
       r.member_id = (select auth.uid())
       or (select public.my_role()) >= 'leader'
-      or r.visibility = 'members'
+      or (r.visibility = 'members' and p.role >= 'member')
       or public.is_my_mentee(r.member_id)
     )
   order by r.created_at;
@@ -295,11 +336,18 @@ alter table public.daily_word_emails enable row level security;
 revoke all on public.daily_word_emails from anon, authenticated;
 grant all on public.daily_word_emails to service_role;
 
+-- Created here because it touches daily_word_emails, defined just above.
+create trigger daily_words_guard_date_change
+  before update of publish_date on public.daily_words
+  for each row execute function public.guard_word_date_change();
+
 -- Function privileges -------------------------------------------------------
 
 revoke execute on function
   public.today_ub(),
   public.touch_updated_at(),
+  public.guard_word_date_change(),
+  public.is_approved(uuid),
   public.reflection_marks_read(),
   public.word_reflections(uuid),
   public.quiet_time_overview(integer)
@@ -307,6 +355,7 @@ from public, anon, authenticated;
 
 grant execute on function
   public.today_ub(),
+  public.is_approved(uuid),
   public.word_reflections(uuid),
   public.quiet_time_overview(integer)
 to authenticated, service_role;

@@ -11,6 +11,8 @@ import { Avatar } from "@/components/portal/ui";
 export const metadata: Metadata = { title: "Чимээгүй цаг" };
 
 const DAYS = 14;
+// Streaks look back further than the grid so they match the member's own dashboard.
+const STREAK_DAYS = 60;
 const NO_GROUP = "none";
 
 export default async function QuietTimePage({ searchParams }: { searchParams: { group?: string } }) {
@@ -24,11 +26,11 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
   const supabase = createClient();
 
   const [{ data: overview, error }, { data: words }] = await Promise.all([
-    supabase.rpc("quiet_time_overview", { p_days: DAYS }),
+    supabase.rpc("quiet_time_overview", { p_days: STREAK_DAYS }),
     supabase
       .from("daily_words")
       .select("publish_date, title")
-      .gte("publish_date", firstDay)
+      .gte("publish_date", addDays(today, -(STREAK_DAYS - 1)))
       .lte("publish_date", today)
       .order("publish_date"),
   ]);
@@ -37,6 +39,7 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
   const titles = new Map((words ?? []).map((w) => [w.publish_date, w.title]));
   const wordDatesDesc = [...titles.keys()].sort().reverse();
   const todayHasWord = titles.has(today);
+  const wordsInGrid = days.filter((d) => titles.has(d)).length;
 
   const members = overview ?? [];
   const groups = Array.from(
@@ -75,7 +78,7 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
         </div>
         <div className="glass col-span-2 rounded-2xl px-4 py-4 sm:col-span-1">
           <dt className="text-[11px] uppercase tracking-widest text-white/55">14 хоногт нийтлэгдсэн үг</dt>
-          <dd className="mt-1 font-display text-2xl font-bold">{titles.size}</dd>
+          <dd className="mt-1 font-display text-2xl font-bold">{wordsInGrid}</dd>
         </div>
       </dl>
 
@@ -121,8 +124,8 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
                     <span className={`block ${d === today ? "text-gold-400" : ""}`}>{formatShortDate(d)}</span>
                   </th>
                 ))}
-                <th scope="col" className="px-3 py-3 text-right font-semibold">
-                  Цуврал
+                <th scope="col" className="px-3 py-3 text-right font-semibold normal-case tracking-normal">
+                  Дараалан
                 </th>
               </tr>
             </thead>
@@ -146,7 +149,7 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
                       const title = titles.get(d);
                       if (!title) {
                         return (
-                          <td key={d} className="px-1 py-3 text-center text-white/20" title="Үг нийтлэгдээгүй">
+                          <td key={d} className="px-1 py-3 text-center text-white/45" title="Үг нийтлэгдээгүй">
                             ·
                           </td>
                         );
@@ -165,7 +168,7 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
                                 ? "bg-gold-400/30 text-gold-400"
                                 : didRead
                                   ? "bg-leaf-500/25 text-leaf-400"
-                                  : "border border-white/10 text-transparent"
+                                  : "border border-white/35 text-transparent"
                             }`}
                           >
                             {didReflect ? "✎" : didRead ? "✓" : "·"}
@@ -192,7 +195,7 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
           <span className="mr-1 inline-block h-3 w-3 rounded bg-gold-400/40 align-middle" /> Бодлоо бичсэн
         </span>
         <span>
-          <span className="mr-1 inline-block h-3 w-3 rounded border border-white/20 align-middle" /> Уншаагүй
+          <span className="mr-1 inline-block h-3 w-3 rounded border border-white/35 align-middle" /> Уншаагүй
         </span>
         <span>· Тухайн өдөр үг нийтлэгдээгүй</span>
       </p>

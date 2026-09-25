@@ -21,7 +21,7 @@ export default async function NewWordPage({ searchParams }: { searchParams: { da
         ← Үг бэлтгэх
       </Link>
       <h1 className="font-display text-3xl font-extrabold">Шинэ үг</h1>
-      <WordForm defaultDate={defaultDate} />
+      <WordForm defaultDate={defaultDate} today={todayUB()} />
     </div>
   );
 }

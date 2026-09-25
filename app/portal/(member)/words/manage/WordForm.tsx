@@ -3,13 +3,14 @@
 import { useFormState } from "react-dom";
 import type { DailyWord } from "@/lib/supabase/types";
 import { Field, Notice, SubmitButton, inputClass } from "@/components/portal/ui";
-import { deleteWord, saveWord, sendTestEmail } from "./actions";
+import { deleteWord, saveWord, sendTestEmail, sendWordToMembers } from "./actions";
 
 type Word = Pick<DailyWord, "id" | "publish_date" | "title" | "scripture_ref" | "scripture_text" | "body">;
 
-export function WordForm({ word, defaultDate }: { word?: Word; defaultDate: string }) {
+export function WordForm({ word, defaultDate, today }: { word?: Word; defaultDate: string; today: string }) {
   const [state, action] = useFormState(saveWord, null);
   const [testState, testAction] = useFormState(sendTestEmail, null);
+  const [sendState, sendAction] = useFormState(sendWordToMembers, null);
 
   return (
     <div className="space-y-6">
@@ -20,7 +21,7 @@ export function WordForm({ word, defaultDate }: { word?: Word; defaultDate: stri
           name="publish_date"
           type="date"
           defaultValue={word?.publish_date ?? defaultDate}
-          hint="Гишүүдэд энэ өдрийн өглөө (Улаанбаатарын цагаар) харагдаж, имэйлээр очно."
+          hint="Гишүүдэд тухайн өдрийн 0 цагаас (Улаанбаатарын цагаар) харагдаж, өглөө 6-7 цагийн хооронд имэйлээр очно. Өглөө 6 цагаас хойш нэмсэн өнөөдрийн үгийг хадгалсны дараа «Гишүүдэд одоо илгээх» товчоор илгээнэ."
           required
         />
         <Field label="Гарчиг" name="title" defaultValue={word?.title} maxLength={160} required />
@@ -59,6 +60,22 @@ export function WordForm({ word, defaultDate }: { word?: Word; defaultDate: stri
           {word ? "Хадгалах" : "Товлох"}
         </SubmitButton>
       </form>
+
+      {word && word.publish_date === today && (
+        <form action={sendAction} className="glass space-y-3 rounded-2xl border border-gold-500/30 p-5">
+          <input type="hidden" name="id" value={word.id} />
+          <p className="text-sm font-semibold">Гишүүдэд одоо илгээх</p>
+          <p className="text-xs text-white/55">
+            Өнөөдрийн үгийг өглөө 6 цагаас хойш нэмсэн бол имэйлээр автоматаар очоогүй. Өглөө аль хэдийн илгээгдсэн бол
+            дахин илгээхгүй.
+          </p>
+          {sendState?.error && <Notice tone="error">{sendState.error}</Notice>}
+          {sendState?.message && <Notice tone="success">{sendState.message}</Notice>}
+          <SubmitButton className="sm:w-auto" pendingLabel="Илгээж байна…">
+            Гишүүдэд илгээх
+          </SubmitButton>
+        </form>
+      )}
 
       {word && (
         <div className="grid gap-4 sm:grid-cols-2">

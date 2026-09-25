@@ -10,10 +10,12 @@ import { REFLECTION_MAX, isVisibility } from "@/lib/portal/reflections";
 export type FormState = { error?: string; message?: string } | null;
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const NOT_SAVED = "Хадгалж чадсангүй. Хуудсыг дахин ачаалаад оролдоно уу.";
 
+// Browsers submit textarea newlines as CRLF; normalise so lengths match the client's maxLength.
 function field(formData: FormData, key: string) {
   const value = formData.get(key);
-  return typeof value === "string" ? value : "";
+  return typeof value === "string" ? value.replace(/\r\n?/g, "\n") : "";
 }
 
 function refresh(date: string) {
@@ -49,20 +51,30 @@ export async function saveReflection(_prev: FormState, formData: FormData): Prom
   if (body.length > REFLECTION_MAX) return { error: `${REFLECTION_MAX} тэмдэгтээс хэтрэхгүй байх ёстой.` };
 
   const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/portal/login");
 
-  if (reflectionId && UUID.test(reflectionId)) {
-    const { error } = await supabase.from("reflections").update({ body, visibility }).eq("id", reflectionId);
+  // Update by (member, word) rather than by id: it also covers a reflection saved from another tab.
+  const update = () =>
+    supabase
+      .from("reflections")
+      .update({ body, visibility })
+      .eq("word_id", wordId)
+      .eq("member_id", user.id)
+      .select("id");
+
+  if (reflectionId) {
+    const { data, error } = await update();
     if (error) return { error: dbErrorMessage(error) };
+    if (!data?.length) return { error: NOT_SAVED };
   } else {
     const { error } = await supabase.from("reflections").insert({ word_id: wordId, body, visibility });
     if (error?.code === "23505") {
-      // Saved from another tab in the meantime: update that one instead.
-      const { error: updateError } = await supabase
-        .from("reflections")
-        .update({ body, visibility })
-        .eq("word_id", wordId)
-        .eq("member_id", (await supabase.auth.getUser()).data.user?.id ?? "");
+      const { data, error: updateError } = await update();
       if (updateError) return { error: dbErrorMessage(updateError) };
+      if (!data?.length) return { error: NOT_SAVED };
     } else if (error) {
       return { error: dbErrorMessage(error) };
     }
@@ -72,12 +84,13 @@ export async function saveReflection(_prev: FormState, formData: FormData): Prom
   return { message: "Хадгаллаа." };
 }
 
-export async function deleteReflection(formData: FormData) {
+export async function deleteReflection(formData: FormData): Promise<{ ok: boolean }> {
   const reflectionId = field(formData, "reflection_id");
   const date = field(formData, "date");
-  if (!UUID.test(reflectionId) || !isIsoDate(date)) return;
+  if (!UUID.test(reflectionId) || !isIsoDate(date)) return { ok: false };
 
   const supabase = createClient();
-  await supabase.from("reflections").delete().eq("id", reflectionId);
+  const { data, error } = await supabase.from("reflections").delete().eq("id", reflectionId).select("id");
   refresh(date);
+  return { ok: !error && Boolean(data?.length) };
 }

@@ -9,6 +9,7 @@ import { VISIBILITY_LABELS } from "@/lib/portal/reflections";
 import { Avatar, Notice, SubmitButton } from "@/components/portal/ui";
 import { markRead } from "../actions";
 import { ReflectionForm } from "../ReflectionForm";
+import { RemoveReflectionButton } from "../RemoveReflectionButton";
 
 export const metadata: Metadata = { title: "Өдрийн үг" };
 
@@ -129,10 +130,17 @@ export default async function WordPage({
   return (
     <div className="mx-auto max-w-2xl space-y-10">
       <article>
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">{formatDateMn(word.publish_date)}</p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">{formatDateMn(word.publish_date)}</p>
+          {isStaff && (
+            <Link href={`/portal/words/manage/${word.id}`} className="text-xs text-white/60 hover:text-white">
+              Засах
+            </Link>
+          )}
+        </div>
         {isFuture && (
           <p className="mt-3 inline-flex rounded-full border border-gold-500/40 bg-gold-500/10 px-3 py-1 text-xs text-gold-400">
-            Товлогдсон: гишүүдэд {formatDateMn(word.publish_date, false)}-нд харагдана
+            Товлогдсон · гишүүдэд харагдах өдөр: {formatDateMn(word.publish_date, false)}
           </p>
         )}
         <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight sm:text-4xl">{word.title}</h1>
@@ -148,7 +156,7 @@ export default async function WordPage({
       </article>
 
       <section className="glass rounded-3xl p-6 sm:p-7">
-        {searchParams.error === "read" && (
+        {searchParams.error === "read" && !myRead && (
           <div className="mb-4">
             <Notice tone="error">Тэмдэглэж чадсангүй. Дахин оролдоно уу.</Notice>
           </div>
@@ -181,7 +189,7 @@ export default async function WordPage({
           <p className="mt-1 text-sm text-white/55">Бодлоо бичиж хадгалбал уншсанаар тэмдэглэгдэнэ.</p>
           <div className="mt-4">
             <ReflectionForm
-              key={myReflection?.id ?? "new"}
+              key={word.id}
               wordId={word.id}
               date={word.publish_date}
               reflection={myReflection}
@@ -202,12 +210,15 @@ export default async function WordPage({
               <li key={r.id} className="glass rounded-2xl p-5">
                 <div className="flex items-center gap-3">
                   <Avatar name={r.author_name} url={r.author_avatar} size={32} />
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">{r.author_name}</p>
                     {r.visibility === "leaders" && (
                       <p className="text-[11px] text-gold-400">{VISIBILITY_LABELS.leaders}</p>
                     )}
                   </div>
+                  {isStaff && (
+                    <RemoveReflectionButton reflectionId={r.id} date={word.publish_date} author={r.author_name} />
+                  )}
                 </div>
                 <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-white/80">{r.body}</p>
               </li>
