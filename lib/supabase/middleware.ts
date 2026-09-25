@@ -71,8 +71,12 @@ export async function handlePortalRequest(request: NextRequest) {
 
 /**
  * Role of the signed-in visitor on a public (non-portal) page, or null for guests.
- * Call apply() on whatever response is returned: getClaims() may have rotated the
+ * Call apply() on whatever response is returned: the auth call may have rotated the
  * refresh token, and dropping the new cookies would log the member out on reuse.
+ *
+ * Uses getUser() rather than getClaims(): this role unlocks a closed site, so a
+ * signed-out or revoked admin session must stop working immediately, not when its
+ * JWT expires. Only visitors with a session cookie pay for the round trip.
  */
 export async function readVisitorRole(request: NextRequest) {
   const pending: { name: string; value: string; options: CookieOptions }[] = [];
@@ -98,8 +102,8 @@ export async function readVisitorRole(request: NextRequest) {
     },
   });
 
-  const { data } = await supabase.auth.getClaims();
-  const userId = data?.claims?.sub;
+  const { data } = await supabase.auth.getUser();
+  const userId = data.user?.id;
   if (!userId) return { role: null, apply };
 
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();

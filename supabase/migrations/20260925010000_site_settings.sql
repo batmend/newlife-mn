@@ -16,8 +16,10 @@ create policy "Anyone can read site settings"
   on public.site_settings for select to anon, authenticated
   using (true);
 
+-- Column grants: who changed the setting (updated_by) stays private.
 revoke all on public.site_settings from anon, authenticated;
-grant select on public.site_settings to anon, authenticated;
+grant select (id, coming_soon) on public.site_settings to anon;
+grant select (id, coming_soon, updated_at) on public.site_settings to authenticated;
 grant all on public.site_settings to service_role;
 
 create function public.admin_set_coming_soon(p_coming_soon boolean)

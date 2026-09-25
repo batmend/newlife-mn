@@ -79,7 +79,7 @@ export const mn = {
       {
         title: "Хүүхдийн үйлчлэл",
         body:
-          "0–12 насны хүүхдүүдэд Бурханы хайрыг үе чин нь зохистойгоор танилцуулдаг тоглоом, дуу, үлгэрийн цаг.",
+          "0–12 насны хүүхдүүдэд Бурханы хайрыг насанд нь тохирсон тоглоом, дуу, түүхээр дамжуулан танилцуулна.",
       },
       {
         title: "Өсвөр үе & Залуучууд",
@@ -141,7 +141,7 @@ export const mn = {
     items: [
       {
         date: "2026.06.21",
-        title: "Зуны залбирлын хуурай",
+        title: "Зуны залбирлын хурал",
         location: "Төв байр",
         body: "3 өдрийн залбирал, мацаг, сургаал. Бүгдээрээ нэгдэн оролцоё.",
       },
@@ -243,27 +243,19 @@ export const mn = {
       bankMN: {
         title: "Монголын банк",
         body: "Доорх дансанд шилжүүлэг хийх.",
-        bankName: "Хаан Банк",
-        accountNumber: "5XXX XXXX XXX",
-        accountHolder: "Шинэ Амь Христийн Чуулган ТББ",
+        bankLabel: "Банк",
         purpose: 'Гүйлгээний утга: "Хандив – {designation}"',
         copyLabel: "Хуулах",
         copiedLabel: "Хуулсан",
       },
       bankIntl: {
         title: "Олон улсын SWIFT шилжүүлэг",
-        body: "Олон улсаас банк-банк хооронд утсаа шилжүүлэх.",
+        body: "Гадаадын банкнаас олон улсын шилжүүлгээр хандив өргөх.",
         beneficiary: "Хүлээн авагч",
-        beneficiaryName: "New Life Christian Church NGO",
-        bankName: "Khan Bank",
-        swift: "AGMOMNUB",
-        iban: "5XXX XXXX XXX",
-        bankAddress: "Khan Bank Tower, Ulaanbaatar, Mongolia",
       },
       crypto: {
         title: "Crypto (USDT TRC20)",
         body: "Хил хязгааргүй, түргэн, шимтгэлгүй илгээх.",
-        address: "TXX...XXX",
       },
     },
     receiptNote:

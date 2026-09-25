@@ -4,11 +4,13 @@ import { useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import { getDictionary, type Lang } from "@/lib/i18n/dictionaries";
 import { PageHeader } from "@/components/PageHeader";
-import { DONATE_CONFIG } from "@/lib/donate-config";
+import { DONATE_CONFIG, DONATE_METHODS } from "@/lib/donate-config";
 
 type DesignationId = "ministry" | "building" | "missions";
 type Currency = "MNT" | "USD";
-type MethodId = "paypal" | "card" | "bankMN" | "bankIntl" | "crypto";
+type MethodId = keyof typeof DONATE_METHODS;
+
+const AVAILABLE_METHODS = (Object.keys(DONATE_METHODS) as MethodId[]).filter((m) => DONATE_METHODS[m]);
 
 export default function DonatePage() {
   const params = useParams<{ lang: Lang }>();
@@ -19,7 +21,9 @@ export default function DonatePage() {
   const [currency, setCurrency] = useState<Currency>(lang === "mn" ? "MNT" : "USD");
   const [amount, setAmount] = useState<number | "">("");
   const [customAmount, setCustomAmount] = useState<string>("");
-  const [method, setMethod] = useState<MethodId>("paypal");
+  const [method, setMethod] = useState<MethodId | null>(
+    lang === "mn" && DONATE_METHODS.bankMN ? "bankMN" : AVAILABLE_METHODS[0] ?? null,
+  );
 
   const presets =
     currency === "MNT"
@@ -27,10 +31,14 @@ export default function DonatePage() {
       : DONATE_CONFIG.presetAmountsUSD;
 
   const activeAmount = useMemo(() => {
-    if (customAmount) return Number(customAmount.replace(/[^0-9]/g, "")) || 0;
+    if (customAmount) {
+      const n = parseFloat(customAmount.replace(/,/g, "").replace(/[^0-9.]/g, ""));
+      if (!Number.isFinite(n) || n <= 0) return 0;
+      return currency === "USD" ? Math.round(n * 100) / 100 : Math.round(n);
+    }
     if (amount) return amount;
     return 0;
-  }, [amount, customAmount]);
+  }, [amount, customAmount, currency]);
 
   const formattedAmount = useMemo(
     () =>
@@ -44,12 +52,35 @@ export default function DonatePage() {
     dict.donate.designations.find((d) => d.id === designation)?.title ?? "";
 
   const paypalUrl = useMemo(() => {
-    const base = DONATE_CONFIG.paypalMe.replace(/\/$/, "");
-    if (activeAmount > 0) {
-      return `${base}/${activeAmount}${currency}`;
+    const base = (DONATE_CONFIG.paypalMe ?? "").replace(/\/$/, "");
+    // PayPal doesn't support MNT, so only USD amounts are prefilled.
+    if (activeAmount > 0 && currency === "USD") {
+      return `${base}/${activeAmount}USD`;
     }
     return base;
   }, [activeAmount, currency]);
+
+  if (AVAILABLE_METHODS.length === 0) {
+    return (
+      <>
+        <PageHeader eyebrow={dict.donate.eyebrow} title={dict.donate.title} subtitle={dict.donate.subtitle} />
+        <section className="pb-24 lg:pb-32">
+          <div className="mx-auto max-w-3xl px-5 lg:px-8">
+            <div className="glass rounded-2xl p-8 text-center">
+              <p className="font-display text-xl font-bold text-white">
+                {lang === "mn" ? "Хандивын мэдээллийг удахгүй байршуулна" : "Giving details are coming soon"}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-white/65">
+                {lang === "mn"
+                  ? "Одоогоор хандив өргөх бол чуулганы удирдлагад биечлэн хандана уу."
+                  : "For now, please speak with the church leadership in person to give."}
+              </p>
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
@@ -169,42 +200,52 @@ export default function DonatePage() {
 
               <Step number="03" title={dict.donate.methodLabel}>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <MethodTile
-                    active={method === "paypal"}
-                    onClick={() => setMethod("paypal")}
-                    icon={<PayPalIcon />}
-                    title={dict.donate.methods.paypal.title}
-                    body={dict.donate.methods.paypal.body}
-                  />
-                  <MethodTile
-                    active={method === "card"}
-                    onClick={() => setMethod("card")}
-                    icon={<CardIcon />}
-                    title={dict.donate.methods.card.title}
-                    body={dict.donate.methods.card.body}
-                  />
-                  <MethodTile
-                    active={method === "bankMN"}
-                    onClick={() => setMethod("bankMN")}
-                    icon={<BankIcon />}
-                    title={dict.donate.methods.bankMN.title}
-                    body={dict.donate.methods.bankMN.body}
-                  />
-                  <MethodTile
-                    active={method === "bankIntl"}
-                    onClick={() => setMethod("bankIntl")}
-                    icon={<GlobeIcon />}
-                    title={dict.donate.methods.bankIntl.title}
-                    body={dict.donate.methods.bankIntl.body}
-                  />
-                  <MethodTile
-                    active={method === "crypto"}
-                    onClick={() => setMethod("crypto")}
-                    icon={<CryptoIcon />}
-                    title={dict.donate.methods.crypto.title}
-                    body={dict.donate.methods.crypto.body}
-                    full
-                  />
+                  {DONATE_METHODS.paypal && (
+                    <MethodTile
+                      active={method === "paypal"}
+                      onClick={() => setMethod("paypal")}
+                      icon={<PayPalIcon />}
+                      title={dict.donate.methods.paypal.title}
+                      body={dict.donate.methods.paypal.body}
+                    />
+                  )}
+                  {DONATE_METHODS.card && (
+                    <MethodTile
+                      active={method === "card"}
+                      onClick={() => setMethod("card")}
+                      icon={<CardIcon />}
+                      title={dict.donate.methods.card.title}
+                      body={dict.donate.methods.card.body}
+                    />
+                  )}
+                  {DONATE_METHODS.bankMN && (
+                    <MethodTile
+                      active={method === "bankMN"}
+                      onClick={() => setMethod("bankMN")}
+                      icon={<BankIcon />}
+                      title={dict.donate.methods.bankMN.title}
+                      body={dict.donate.methods.bankMN.body}
+                    />
+                  )}
+                  {DONATE_METHODS.bankIntl && (
+                    <MethodTile
+                      active={method === "bankIntl"}
+                      onClick={() => setMethod("bankIntl")}
+                      icon={<GlobeIcon />}
+                      title={dict.donate.methods.bankIntl.title}
+                      body={dict.donate.methods.bankIntl.body}
+                    />
+                  )}
+                  {DONATE_METHODS.crypto && (
+                    <MethodTile
+                      active={method === "crypto"}
+                      onClick={() => setMethod("crypto")}
+                      icon={<CryptoIcon />}
+                      title={dict.donate.methods.crypto.title}
+                      body={dict.donate.methods.crypto.body}
+                      full
+                    />
+                  )}
                 </div>
               </Step>
             </div>
@@ -230,7 +271,7 @@ export default function DonatePage() {
                     </ActionButton>
                   )}
 
-                  {method === "card" && (
+                  {method === "card" && DONATE_CONFIG.stripePaymentLink && (
                     <ActionButton
                       href={DONATE_CONFIG.stripePaymentLink}
                       icon={<CardIcon />}
@@ -374,8 +415,8 @@ function BankMNDetails({
 }) {
   return (
     <div className="space-y-4">
-      <DetailRow label={dict.donate.methods.bankMN.bankName.split(" ")[0]} value={DONATE_CONFIG.bankMN.bankName} />
-      <CopyRow label="Дансны дугаар / Acc №" value={DONATE_CONFIG.bankMN.accountNumber} copyLabel={dict.donate.methods.bankMN.copyLabel} copiedLabel={dict.donate.methods.bankMN.copiedLabel} mono />
+      <DetailRow label={dict.donate.methods.bankMN.bankLabel} value={DONATE_CONFIG.bankMN.bankName} />
+      <CopyRow label="Дансны дугаар / Acc №" value={DONATE_CONFIG.bankMN.accountNumber ?? ""} copyLabel={dict.donate.methods.bankMN.copyLabel} copiedLabel={dict.donate.methods.bankMN.copiedLabel} mono />
       <DetailRow label="Дансны эзэн / Holder" value={DONATE_CONFIG.bankMN.accountHolder} />
       <p className="rounded-xl bg-ink-950/60 p-3 text-[11px] leading-relaxed text-white/60">
         {dict.donate.methods.bankMN.purpose.replace("{designation}", designation)}
@@ -397,7 +438,7 @@ function BankIntlDetails({
       />
       <DetailRow label="Bank" value={DONATE_CONFIG.bankIntl.bankName} />
       <CopyRow label="SWIFT / BIC" value={DONATE_CONFIG.bankIntl.swift} copyLabel={dict.donate.methods.bankMN.copyLabel} copiedLabel={dict.donate.methods.bankMN.copiedLabel} mono />
-      <CopyRow label="Account / IBAN" value={DONATE_CONFIG.bankIntl.iban} copyLabel={dict.donate.methods.bankMN.copyLabel} copiedLabel={dict.donate.methods.bankMN.copiedLabel} mono />
+      <CopyRow label="Account / IBAN" value={DONATE_CONFIG.bankIntl.iban ?? ""} copyLabel={dict.donate.methods.bankMN.copyLabel} copiedLabel={dict.donate.methods.bankMN.copiedLabel} mono />
       <DetailRow label="Bank address" value={DONATE_CONFIG.bankIntl.bankAddress} small />
     </div>
   );
@@ -411,7 +452,7 @@ function CryptoDetails({
   return (
     <div className="space-y-4">
       <DetailRow label="Network" value="TRC20 (Tron)" />
-      <CopyRow label="USDT Address" value={DONATE_CONFIG.crypto.usdtTrc20} copyLabel={dict.donate.methods.bankMN.copyLabel} copiedLabel={dict.donate.methods.bankMN.copiedLabel} mono />
+      <CopyRow label="USDT Address" value={DONATE_CONFIG.crypto.usdtTrc20 ?? ""} copyLabel={dict.donate.methods.bankMN.copyLabel} copiedLabel={dict.donate.methods.bankMN.copiedLabel} mono />
     </div>
   );
 }

@@ -246,9 +246,7 @@ export const en: typeof mn = {
       bankMN: {
         title: "Mongolian Bank",
         body: "Domestic transfer to our account below.",
-        bankName: "Khan Bank",
-        accountNumber: "5XXX XXXX XXX",
-        accountHolder: "New Life Christian Church NGO",
+        bankLabel: "Bank",
         purpose: 'Reference: "Donation – {designation}"',
         copyLabel: "Copy",
         copiedLabel: "Copied",
@@ -257,16 +255,10 @@ export const en: typeof mn = {
         title: "International SWIFT Wire",
         body: "Bank-to-bank international transfer.",
         beneficiary: "Beneficiary",
-        beneficiaryName: "New Life Christian Church NGO",
-        bankName: "Khan Bank",
-        swift: "AGMOMNUB",
-        iban: "5XXX XXXX XXX",
-        bankAddress: "Khan Bank Tower, Ulaanbaatar, Mongolia",
       },
       crypto: {
         title: "Crypto (USDT TRC20)",
         body: "Borderless, instant and fee-free transfers.",
-        address: "TXX...XXX",
       },
     },
     receiptNote:

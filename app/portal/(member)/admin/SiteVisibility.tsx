@@ -23,8 +23,8 @@ export function SiteVisibility({ comingSoon, updatedLabel }: { comingSoon: boole
     if (!window.confirm(question)) return;
     setError(null);
     start(async () => {
-      const result = await setComingSoon(next).catch(() => ({ ok: false as const, error: "Сүлжээний алдаа гарлаа." }));
-      if (!result.ok) setError(result.error);
+      const result = await setComingSoon(next).catch(() => undefined);
+      if (!result?.ok) setError(result?.error ?? "Сүлжээний алдаа гарлаа. Дахин оролдоно уу.");
     });
   }
 
@@ -46,7 +46,7 @@ export function SiteVisibility({ comingSoon, updatedLabel }: { comingSoon: boole
             )}
           </p>
           <p className="mt-2 text-xs leading-relaxed text-white/55">
-            Та админ тул аль ч горимд сайтыг бүтнээр нь харна. Өөрчлөлт хамгийн ихдээ 30 секундэд бүх зочдод хүрнэ.
+            Та админ тул аль ч горимд сайтыг бүтнээр нь харна. Өөрчлөлт нэг минутын дотор бүх зочдод хүрнэ.
             {updatedLabel && ` Сүүлд өөрчилсөн: ${updatedLabel}.`}
           </p>
         </div>
