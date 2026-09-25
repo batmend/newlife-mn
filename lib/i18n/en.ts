@@ -206,6 +206,8 @@ export const en: typeof mn = {
     title: "Give with love",
     subtitle:
       "Your offering carries the ministry forward and builds the home that will serve generations to come. You can give from anywhere in the world, right here.",
+    subtitleIntro:
+      "Your offering carries the ministry forward and builds the home that will serve generations to come.",
     verseRef: "2 Corinthians 9:7",
     verseText:
       "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",
@@ -246,9 +248,7 @@ export const en: typeof mn = {
       bankMN: {
         title: "Mongolian Bank",
         body: "Domestic transfer to our account below.",
-        bankName: "Khan Bank",
-        accountNumber: "5XXX XXXX XXX",
-        accountHolder: "New Life Christian Church NGO",
+        bankLabel: "Bank",
         purpose: 'Reference: "Donation – {designation}"',
         copyLabel: "Copy",
         copiedLabel: "Copied",
@@ -257,16 +257,10 @@ export const en: typeof mn = {
         title: "International SWIFT Wire",
         body: "Bank-to-bank international transfer.",
         beneficiary: "Beneficiary",
-        beneficiaryName: "New Life Christian Church NGO",
-        bankName: "Khan Bank",
-        swift: "AGMOMNUB",
-        iban: "5XXX XXXX XXX",
-        bankAddress: "Khan Bank Tower, Ulaanbaatar, Mongolia",
       },
       crypto: {
         title: "Crypto (USDT TRC20)",
         body: "Borderless, instant and fee-free transfers.",
-        address: "TXX...XXX",
       },
     },
     receiptNote:

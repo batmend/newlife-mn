@@ -1,6 +1,7 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "./config";
+import type { Database } from "./types";
 
 function isPublicPortalPath(pathname: string) {
   return (
@@ -66,6 +67,57 @@ export async function handlePortalRequest(request: NextRequest) {
   }
 
   return response;
+}
+
+const ROLE_LOOKUP_TIMEOUT_MS = 3000;
+
+/**
+ * Role of the signed-in visitor on a public (non-portal) page, or null for guests.
+ * Call apply() on whatever response is returned: the auth call may have rotated the
+ * refresh token, and dropping the new cookies would log the member out on reuse.
+ *
+ * Uses getUser() rather than getClaims(): this role unlocks a closed site, so a
+ * signed-out or revoked admin session must stop working immediately, not when its
+ * JWT expires. Only visitors with a session cookie pay for the round trip.
+ */
+export async function readVisitorRole(request: NextRequest) {
+  const pending: { name: string; value: string; options: CookieOptions }[] = [];
+  const pendingHeaders: Record<string, string> = {};
+  const apply = <T extends NextResponse>(response: T) => {
+    pending.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+    Object.entries(pendingHeaders).forEach(([key, value]) => response.headers.set(key, value));
+    return response;
+  };
+
+  const hasSession = request.cookies.getAll().some((c) => c.name.startsWith("sb-") && c.name.includes("-auth-token"));
+  if (!hasSession) return { role: null, apply };
+
+  const supabase = createServerClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet, headers) {
+        pending.push(...cookiesToSet);
+        Object.assign(pendingHeaders, headers);
+      },
+    },
+  });
+
+  const lookup = async () => {
+    const { data } = await supabase.auth.getUser();
+    const userId = data.user?.id;
+    if (!userId) return null;
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
+    return profile?.role ?? null;
+  };
+
+  // auth-js retries a failing token refresh for up to ~30 s, past Vercel's 25 s middleware
+  // limit. Past the deadline, treat the visitor as a guest (they see coming-soon) instead
+  // of timing out; cookies from a refresh that already finished are still in `pending`.
+  const deadline = new Promise<null>((resolve) => setTimeout(() => resolve(null), ROLE_LOOKUP_TIMEOUT_MS));
+  const role = await Promise.race([lookup().catch(() => null), deadline]);
+  return { role, apply };
 }
 
 function redirectKeepingSession(url: URL, source: NextResponse) {

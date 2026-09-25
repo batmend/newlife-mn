@@ -4,6 +4,11 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import "../globals.css";
 
+// Only mn and en exist. Without this, paths the middleware skips (/api/about, /mn.png,
+// /portal/events) render a [lang] page on demand, and the notFound() below still leaves
+// the page's content in the 404 response, bypassing the coming-soon gate.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return SUPPORTED_LANGS.map((lang) => ({ lang }));
 }

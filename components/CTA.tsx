@@ -15,7 +15,7 @@ export function CTA({ lang, dict }: { lang: Lang; dict: Dictionary }) {
             </p>
             <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl max-w-2xl">
               {lang === "mn"
-                ? "Энэ Ням гаргийн цуглаанд танаа хүлээж байна"
+                ? "Энэ Ням гарагийн цуглаанд таныг хүлээж байна"
                 : "We're keeping a seat for you this Sunday"}
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70">

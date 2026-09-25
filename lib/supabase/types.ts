@@ -146,6 +146,12 @@ export type Database = {
         };
         Relationships: [];
       };
+      site_settings: {
+        Row: { id: boolean; coming_soon: boolean; updated_at: string; updated_by: string | null };
+        Insert: { id?: boolean; coming_soon?: boolean; updated_at?: string; updated_by?: string | null };
+        Update: { id?: boolean; coming_soon?: boolean; updated_at?: string; updated_by?: string | null };
+        Relationships: [];
+      };
       daily_word_emails: {
         Row: { word_id: string; sent_at: string; recipients: number };
         Insert: { word_id: string; sent_at?: string; recipients?: number };
@@ -171,6 +177,7 @@ export type Database = {
       };
       admin_delete_group: { Args: { p_group_id: string }; Returns: undefined };
       delete_my_account: { Args: never; Returns: undefined };
+      admin_set_coming_soon: { Args: { p_coming_soon: boolean }; Returns: undefined };
       today_ub: { Args: never; Returns: string };
       word_reflections: {
         Args: { p_word_id: string };
