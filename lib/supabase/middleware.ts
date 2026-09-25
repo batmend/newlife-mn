@@ -6,6 +6,7 @@ function isPublicPortalPath(pathname: string) {
   return (
     pathname === "/portal/login" ||
     pathname === "/portal/forgot-password" ||
+    pathname === "/portal/about" ||
     pathname === "/portal/privacy" ||
     pathname === "/portal/data-deletion" ||
     pathname.startsWith("/portal/auth/")

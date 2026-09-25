@@ -61,6 +61,12 @@ export default async function LoginPage({
         />
       </div>
       <p className="mt-6 text-center text-xs text-white/55">
+        <Link href="/portal/about" className="underline-offset-4 hover:text-white hover:underline">
+          Порталын тухай
+        </Link>
+        <span aria-hidden className="mx-2">
+          ·
+        </span>
         <Link href="/portal/privacy" className="underline-offset-4 hover:text-white hover:underline">
           Нууцлалын бодлого
         </Link>

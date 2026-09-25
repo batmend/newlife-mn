@@ -16,6 +16,9 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
       </Link>
       <article className="mt-10 text-[15px] leading-relaxed text-white/80">{children}</article>
       <footer className="mt-16 flex flex-wrap gap-x-4 gap-y-2 border-t border-white/10 pt-6 text-sm text-white/60">
+        <Link href="/portal/about" className="hover:text-white">
+          Порталын тухай
+        </Link>
         <Link href="/portal/privacy" className="hover:text-white">
           Нууцлалын бодлого
         </Link>
