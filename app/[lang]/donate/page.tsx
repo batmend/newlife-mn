@@ -12,6 +12,21 @@ type MethodId = keyof typeof DONATE_METHODS;
 
 const AVAILABLE_METHODS = (Object.keys(DONATE_METHODS) as MethodId[]).filter((m) => DONATE_METHODS[m]);
 
+// MNT has no minor units, so any separator is grouping ("100.000", "1,000,000").
+// USD accepts one decimal separator with up to two digits: "12.50", "12,50", "1,234.50".
+function parseCustomAmount(input: string, currency: Currency): number {
+  if (currency === "MNT") {
+    const n = Number(input.replace(/\D/g, ""));
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  }
+  let s = input.replace(/[\s'$]/g, "");
+  if (/^\d+,\d{1,2}$/.test(s)) s = s.replace(",", ".");
+  else s = s.replace(/,/g, "");
+  if (!/^\d+(\.\d{1,2})?$/.test(s)) return 0;
+  const n = Number(s);
+  return n > 0 ? Math.round(n * 100) / 100 : 0;
+}
+
 export default function DonatePage() {
   const params = useParams<{ lang: Lang }>();
   const lang = (params?.lang ?? "mn") as Lang;
@@ -31,20 +46,17 @@ export default function DonatePage() {
       : DONATE_CONFIG.presetAmountsUSD;
 
   const activeAmount = useMemo(() => {
-    if (customAmount) {
-      const n = parseFloat(customAmount.replace(/,/g, "").replace(/[^0-9.]/g, ""));
-      if (!Number.isFinite(n) || n <= 0) return 0;
-      return currency === "USD" ? Math.round(n * 100) / 100 : Math.round(n);
-    }
+    if (customAmount) return parseCustomAmount(customAmount, currency);
     if (amount) return amount;
     return 0;
   }, [amount, customAmount, currency]);
 
   const formattedAmount = useMemo(
     () =>
-      new Intl.NumberFormat(lang === "mn" ? "mn-MN" : "en-US").format(
-        activeAmount,
-      ),
+      new Intl.NumberFormat(
+        lang === "mn" ? "mn-MN" : "en-US",
+        Number.isInteger(activeAmount) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 },
+      ).format(activeAmount),
     [activeAmount, lang],
   );
 
@@ -63,7 +75,7 @@ export default function DonatePage() {
   if (AVAILABLE_METHODS.length === 0) {
     return (
       <>
-        <PageHeader eyebrow={dict.donate.eyebrow} title={dict.donate.title} subtitle={dict.donate.subtitle} />
+        <PageHeader eyebrow={dict.donate.eyebrow} title={dict.donate.title} subtitle={dict.donate.subtitleIntro} />
         <section className="pb-24 lg:pb-32">
           <div className="mx-auto max-w-3xl px-5 lg:px-8">
             <div className="glass rounded-2xl p-8 text-center">
@@ -186,7 +198,7 @@ export default function DonatePage() {
                   </span>
                   <input
                     type="text"
-                    inputMode="numeric"
+                    inputMode={currency === "USD" ? "decimal" : "numeric"}
                     placeholder={dict.donate.customAmount}
                     value={customAmount}
                     onChange={(e) => {

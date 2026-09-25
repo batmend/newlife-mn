@@ -37,7 +37,7 @@ export function SiteVisibility({ comingSoon, updatedLabel }: { comingSoon: boole
             <span className={`h-2 w-2 rounded-full ${comingSoon ? "bg-gold-400" : "bg-leaf-500"}`} />
             {comingSoon ? (
               <span>
-                <strong className="text-gold-400">«Удахгүй нээгдэнэ»</strong> горимд байна. Зочид зөвхөн түүнийг харна.
+                <strong className="text-gold-400">«Удахгүй нээгдэнэ»</strong> горимд байна. Зочид зөвхөн энэ мэдэгдлийн хуудсыг харна.
               </span>
             ) : (
               <span>

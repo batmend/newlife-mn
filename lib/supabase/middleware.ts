@@ -69,6 +69,8 @@ export async function handlePortalRequest(request: NextRequest) {
   return response;
 }
 
+const ROLE_LOOKUP_TIMEOUT_MS = 3000;
+
 /**
  * Role of the signed-in visitor on a public (non-portal) page, or null for guests.
  * Call apply() on whatever response is returned: the auth call may have rotated the
@@ -102,12 +104,20 @@ export async function readVisitorRole(request: NextRequest) {
     },
   });
 
-  const { data } = await supabase.auth.getUser();
-  const userId = data.user?.id;
-  if (!userId) return { role: null, apply };
+  const lookup = async () => {
+    const { data } = await supabase.auth.getUser();
+    const userId = data.user?.id;
+    if (!userId) return null;
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
+    return profile?.role ?? null;
+  };
 
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
-  return { role: profile?.role ?? null, apply };
+  // auth-js retries a failing token refresh for up to ~30 s, past Vercel's 25 s middleware
+  // limit. Past the deadline, treat the visitor as a guest (they see coming-soon) instead
+  // of timing out; cookies from a refresh that already finished are still in `pending`.
+  const deadline = new Promise<null>((resolve) => setTimeout(() => resolve(null), ROLE_LOOKUP_TIMEOUT_MS));
+  const role = await Promise.race([lookup().catch(() => null), deadline]);
+  return { role, apply };
 }
 
 function redirectKeepingSession(url: URL, source: NextResponse) {

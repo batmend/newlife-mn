@@ -206,6 +206,8 @@ export const en: typeof mn = {
     title: "Give with love",
     subtitle:
       "Your offering carries the ministry forward and builds the home that will serve generations to come. You can give from anywhere in the world, right here.",
+    subtitleIntro:
+      "Your offering carries the ministry forward and builds the home that will serve generations to come.",
     verseRef: "2 Corinthians 9:7",
     verseText:
       "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",
