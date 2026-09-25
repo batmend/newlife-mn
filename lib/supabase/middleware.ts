@@ -113,7 +113,7 @@ export async function readVisitorRole(request: NextRequest) {
   };
 
   // auth-js retries a failing token refresh for up to ~30 s, past Vercel's 25 s middleware
-  // limit. Past the deadline, treat the visitor as a guest (they see coming-soon) instead
+  // limit. Past the deadline, treat the visitor as a guest (sent to the portal login) instead
   // of timing out; cookies from a refresh that already finished are still in `pending`.
   const deadline = new Promise<null>((resolve) => setTimeout(() => resolve(null), ROLE_LOOKUP_TIMEOUT_MS));
   const role = await Promise.race([lookup().catch(() => null), deadline]);

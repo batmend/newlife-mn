@@ -18,7 +18,7 @@ export function SiteVisibility({ comingSoon, updatedLabel }: { comingSoon: boole
   function toggle() {
     const next = !comingSoon;
     const question = next
-      ? "Нийтийн вэб сайтыг хааж, бүх зочдод «Удахгүй нээгдэнэ» хуудас харуулах уу?"
+      ? "Нийтийн вэб сайтыг хааж, бүх зочдыг гишүүдийн порталын нэвтрэх хуудас руу шилжүүлэх үү?"
       : "Вэб сайтыг бүх хүнд нээх үү? Бүх хуудасны агуулга бэлэн эсэхийг урьдчилан шалгасан байх ёстой.";
     if (!window.confirm(question)) return;
     setError(null);
@@ -41,7 +41,7 @@ export function SiteVisibility({ comingSoon, updatedLabel }: { comingSoon: boole
             />
             {comingSoon ? (
               <span>
-                <strong className="text-clay-700">«Удахгүй нээгдэнэ»</strong> горимд байна. Зочид зөвхөн энэ мэдэгдлийн хуудсыг харна.
+                <strong className="text-clay-700">Хаалттай.</strong> Зочид вэб сайтын оронд гишүүдийн порталын нэвтрэх хуудас руу шилжинэ.
               </span>
             ) : (
               <span>
@@ -50,7 +50,7 @@ export function SiteVisibility({ comingSoon, updatedLabel }: { comingSoon: boole
             )}
           </p>
           <p className="mt-2 text-xs leading-relaxed text-sage-600">
-            Та админ тул аль ч горимд сайтыг бүтнээр нь харна. Өөрчлөлт нэг минутын дотор бүх зочдод хүрнэ.
+            Та админ тул хаалттай үед ч сайтыг бүтнээр нь харна. Өөрчлөлт нэг минутын дотор бүх зочдод хүрнэ.
             {updatedLabel && ` Сүүлд өөрчилсөн: ${updatedLabel}.`}
           </p>
         </div>
@@ -73,7 +73,7 @@ export function SiteVisibility({ comingSoon, updatedLabel }: { comingSoon: boole
                 : "border border-clay-300 text-clay-700 hover:border-clay-400 hover:bg-clay-50"
             }`}
           >
-            {pending ? "Хадгалж байна…" : comingSoon ? "Сайтыг нийтлэх" : "«Удахгүй нээгдэнэ» болгох"}
+            {pending ? "Хадгалж байна…" : comingSoon ? "Сайтыг нийтлэх" : "Сайтыг хаах"}
           </button>
         </div>
       </div>

@@ -23,7 +23,7 @@ export async function isComingSoon(): Promise<boolean> {
     cached = { comingSoon, expires: Date.now() + TTL_MS };
     return comingSoon;
   } catch {
-    // Fail closed: if the setting can't be read, show the coming-soon page. Falling back
+    // Fail closed: if the setting can't be read, keep the site closed. Falling back
     // to a stale "published" value would reopen a site an admin may have just closed.
     cached = { comingSoon: true, expires: Date.now() + ERROR_TTL_MS };
     return true;
