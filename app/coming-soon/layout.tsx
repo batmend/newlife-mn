@@ -1,5 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { fontVariables } from "../fonts";
 import "../globals.css";
+
+export const viewport: Viewport = { themeColor: "#ffffff" };
 
 export const metadata: Metadata = {
   title: { absolute: "Удахгүй нээгдэнэ · Шинэ Амь Христийн Чуулган" },
@@ -14,8 +17,8 @@ export default function ComingSoonLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="mn" className="bg-ink-950">
-      <body className="bg-ink-950 text-white antialiased">{children}</body>
+    <html lang="mn" className={`${fontVariables} bg-white`}>
+      <body className="site-light bg-white text-sage-800 antialiased">{children}</body>
     </html>
   );
 }

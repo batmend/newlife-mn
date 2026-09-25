@@ -16,21 +16,21 @@ export default function AboutPage({ params }: { params: { lang: Lang } }) {
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid gap-16 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <h2 className="font-display text-3xl font-bold text-white">
+              <h2 className="font-display text-3xl font-bold text-forest-800">
                 {dict.about.storyTitle}
               </h2>
-              <ol className="mt-8 space-y-6 border-l border-white/10 pl-6">
+              <ol className="mt-8 space-y-6 border-l border-sage-200 pl-6">
                 {dict.about.story.map((item, idx) => {
                   const [year, ...rest] = item.split(" — ");
                   return (
                     <li key={idx} className="relative">
-                      <span className="absolute -left-[31px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-ink-900 ring-2 ring-gold-500/40">
-                        <span className="h-1.5 w-1.5 rounded-full bg-gold-400" />
+                      <span className="absolute -left-[31px] top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white ring-2 ring-sprout-400">
+                        <span className="h-1.5 w-1.5 rounded-full bg-forest-600" />
                       </span>
-                      <p className="text-xs font-mono uppercase tracking-widest text-gold-400">
+                      <p className="font-brand text-sm font-bold uppercase tracking-[0.2em] text-clay-600">
                         {year}
                       </p>
-                      <p className="mt-1 text-base leading-relaxed text-white/80">
+                      <p className="mt-1 text-base leading-relaxed text-sage-700">
                         {rest.join(" — ")}
                       </p>
                     </li>
@@ -40,21 +40,21 @@ export default function AboutPage({ params }: { params: { lang: Lang } }) {
             </div>
 
             <aside className="lg:col-span-5">
-              <div className="glass rounded-2xl p-8 lg:sticky lg:top-28">
-                <h2 className="font-display text-2xl font-bold text-white">
+              <div className="card rounded-2xl p-8 lg:sticky lg:top-28">
+                <h2 className="font-display text-2xl font-bold text-forest-800">
                   {dict.about.beliefTitle}
                 </h2>
                 <ul className="mt-6 space-y-4">
                   {dict.about.beliefs.map((b) => (
                     <li key={b} className="flex items-start gap-3">
-                      <svg className="mt-1 h-5 w-5 flex-shrink-0 text-gold-400" viewBox="0 0 20 20" fill="currentColor">
+                      <svg className="mt-0.5 h-5 w-5 flex-shrink-0 rounded-full bg-forest-50 p-0.5 text-forest-600" viewBox="0 0 20 20" fill="currentColor">
                         <path
                           fillRule="evenodd"
                           d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0Z"
                           clipRule="evenodd"
                         />
                       </svg>
-                      <span className="text-sm leading-relaxed text-white/80">{b}</span>
+                      <span className="text-sm leading-relaxed text-sage-700">{b}</span>
                     </li>
                   ))}
                 </ul>

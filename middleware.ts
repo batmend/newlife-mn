@@ -19,6 +19,12 @@ export async function middleware(req: NextRequest) {
 
   if (pathname === "/coming-soon") return NextResponse.next();
 
+  // Local design work only: `next dev` with LOCAL_SITE_PREVIEW=1 shows the full site.
+  // NODE_ENV is "production" in every build, so this is dead code on Vercel.
+  if (process.env.NODE_ENV === "development" && process.env.LOCAL_SITE_PREVIEW === "1") {
+    return NextResponse.next();
+  }
+
   const visitor = await readVisitorRole(req);
   if (visitor.role === "admin") return visitor.apply(NextResponse.next());
 

@@ -21,20 +21,20 @@ export default function ComingSoonPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-ink-950 text-white">
+    <div className="relative min-h-screen overflow-hidden bg-white text-sage-900">
       <BackgroundFX />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col px-5 lg:px-8">
-        <header className="flex items-center justify-between py-6 lg:py-8">
+        <header className="flex items-center justify-between gap-4 py-6 lg:py-8">
           <Image
-            src="/logo-white.png"
-            alt="Шинэ Амь"
-            width={240}
-            height={96}
+            src="/logo.png"
+            alt={t.churchName}
+            width={1200}
+            height={563}
             priority
-            className="h-12 w-auto object-contain lg:h-14"
+            className="h-12 w-auto object-contain sm:h-14 lg:h-16"
           />
-          <div className="inline-flex rounded-full border border-white/10 bg-ink-900/60 backdrop-blur p-1">
+          <div className="inline-flex shrink-0 rounded-full border border-sage-200 bg-white/80 p-1 backdrop-blur">
             <LangButton active={lang === "mn"} onClick={() => choose("mn")}>
               MN
             </LangButton>
@@ -45,15 +45,20 @@ export default function ComingSoonPage() {
         </header>
 
         <main className="flex flex-1 flex-col justify-center py-12 lg:py-16">
-          <h1 className="font-display text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl animate-fade-up">
+          <h1 className="font-display text-5xl font-extrabold leading-[1.05] tracking-tight text-forest-800 sm:text-6xl lg:text-7xl animate-fade-up">
             {t.title1}
             <br />
-            <span className="gradient-text">{t.title2}</span>
+            <span className="text-gradient-brand">{t.title2}</span>
           </h1>
+          <div aria-hidden className="mt-8 flex items-center gap-2 animate-fade-up [animation-delay:150ms]">
+            <span className="h-1 w-14 rounded-full bg-clay-400" />
+            <span className="h-1 w-6 rounded-full bg-forest-500" />
+            <span className="h-1 w-3 rounded-full bg-sprout-500" />
+          </div>
         </main>
 
-        <footer className="border-t border-white/5 py-8">
-          <div className="flex flex-col items-start justify-between gap-4 text-xs text-white/40 md:flex-row md:items-center">
+        <footer className="border-t border-sage-200 py-8">
+          <div className="flex flex-col items-start justify-between gap-4 text-xs text-sage-600 md:flex-row md:items-center">
             <p>© {new Date().getFullYear()} {t.churchName}. {t.rights}.</p>
             <div className="flex items-center gap-4">
               <SocialLink href="https://facebook.com" label="Facebook">
@@ -109,7 +114,7 @@ function LangButton({
       type="button"
       onClick={onClick}
       className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
-        active ? "bg-white text-ink-950" : "text-white/60 hover:text-white"
+        active ? "bg-forest-700 text-white" : "text-sage-600 hover:text-forest-700"
       }`}
     >
       {children}
@@ -132,7 +137,7 @@ function SocialLink({
       aria-label={label}
       target="_blank"
       rel="noreferrer"
-      className="text-white/50 transition hover:text-white"
+      className="text-sage-500 transition hover:text-forest-700"
     >
       {children}
     </a>
@@ -142,16 +147,26 @@ function SocialLink({
 function BackgroundFX() {
   return (
     <>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(233,201,135,0.18),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_80%_80%,rgba(63,179,127,0.12),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_15%_70%,rgba(233,201,135,0.08),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_85%_10%,rgba(139,197,66,0.20),transparent_65%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_10%_85%,rgba(196,154,108,0.16),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_50%,rgba(5,104,57,0.05),transparent_70%)]" />
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+            "linear-gradient(rgba(5,104,57,1) 1px, transparent 1px), linear-gradient(90deg, rgba(5,104,57,1) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
+          maskImage: "radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 80%)",
+          WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 80%)",
         }}
+      />
+      <Image
+        src="/logo-mark.png"
+        alt=""
+        aria-hidden
+        width={600}
+        height={734}
+        className="pointer-events-none absolute -right-16 top-1/2 h-[70vh] max-h-[640px] w-auto -translate-y-1/2 select-none opacity-[0.08] sm:-right-8 lg:right-0"
       />
     </>
   );

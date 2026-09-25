@@ -6,10 +6,10 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
     <div className="mx-auto max-w-3xl px-5 py-12 lg:py-16">
       <Link href="/portal" className="block w-fit">
         <Image
-          src="/logo-white.png"
+          src="/logo-on-dark.png"
           alt="Шинэ Амь Христийн Чуулган"
-          width={200}
-          height={80}
+          width={1200}
+          height={563}
           priority
           className="h-12 w-auto object-contain"
         />

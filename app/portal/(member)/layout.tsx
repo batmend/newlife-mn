@@ -45,10 +45,10 @@ export default async function MemberLayout({ children }: { children: React.React
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-5 py-3 lg:px-8">
           <Link href="/portal" className="flex-shrink-0">
             <Image
-              src="/logo-white.png"
+              src="/logo-on-dark.png"
               alt="Шинэ Амь"
-              width={200}
-              height={80}
+              width={1200}
+              height={563}
               priority
               className="h-10 w-auto object-contain"
             />

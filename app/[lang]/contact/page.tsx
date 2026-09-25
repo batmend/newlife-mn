@@ -62,7 +62,7 @@ export default function ContactPage() {
                   e.preventDefault();
                   setSubmitted(true);
                 }}
-                className="glass rounded-2xl p-8 space-y-5"
+                className="card ring-brand rounded-2xl p-8 space-y-5"
               >
                 <Field
                   label={dict.contact.formName}
@@ -83,12 +83,15 @@ export default function ContactPage() {
                 />
                 <button
                   type="submit"
-                  className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-ink-950 transition hover:bg-gold-400 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-forest-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-forest-700/20 transition hover:bg-forest-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-600/40 focus-visible:ring-offset-2 sm:w-auto"
                 >
                   {dict.contact.formSubmit}
                 </button>
                 {submitted && (
-                  <p className="text-sm text-leaf-400" role="status">
+                  <p
+                    className="rounded-xl border border-forest-200 bg-forest-50 px-4 py-3 text-sm font-medium text-forest-700"
+                    role="status"
+                  >
                     {dict.contact.formSuccess}
                   </p>
                 )}
@@ -116,17 +119,17 @@ function InfoCard({
   return (
     <Tag
       href={href}
-      className="glass block rounded-2xl p-6 transition hover:bg-ink-800/80"
+      className="card group block rounded-2xl p-6 transition hover:border-forest-600/40"
     >
       <div className="flex items-start gap-4">
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gold-500/10 text-gold-400">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-forest-50 text-forest-700 transition group-hover:bg-forest-100">
           {icon}
         </div>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
+          <p className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-clay-600">
             {label}
           </p>
-          <p className="mt-1.5 text-sm leading-relaxed text-white/85">{value}</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-sage-800">{value}</p>
         </div>
       </div>
     </Tag>
@@ -147,10 +150,10 @@ function Field({
   required?: boolean;
 }) {
   const className =
-    "mt-2 w-full rounded-xl border border-white/10 bg-ink-950/60 px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition focus:border-gold-500/60 focus:bg-ink-900";
+    "mt-2 w-full rounded-xl border border-sage-300 bg-white px-4 py-3 text-sm text-sage-900 placeholder-sage-500 outline-none transition hover:border-sage-400 focus:border-forest-600 focus:ring-2 focus:ring-forest-600/15";
   return (
     <label className="block">
-      <span className="text-xs font-semibold uppercase tracking-widest text-white/60">
+      <span className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-700">
         {label}
       </span>
       {textarea ? (
