@@ -1,6 +1,7 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "./config";
+import type { Database } from "./types";
 
 function isPublicPortalPath(pathname: string) {
   return (
@@ -66,6 +67,43 @@ export async function handlePortalRequest(request: NextRequest) {
   }
 
   return response;
+}
+
+/**
+ * Role of the signed-in visitor on a public (non-portal) page, or null for guests.
+ * Call apply() on whatever response is returned: getClaims() may have rotated the
+ * refresh token, and dropping the new cookies would log the member out on reuse.
+ */
+export async function readVisitorRole(request: NextRequest) {
+  const pending: { name: string; value: string; options: CookieOptions }[] = [];
+  const pendingHeaders: Record<string, string> = {};
+  const apply = <T extends NextResponse>(response: T) => {
+    pending.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+    Object.entries(pendingHeaders).forEach(([key, value]) => response.headers.set(key, value));
+    return response;
+  };
+
+  const hasSession = request.cookies.getAll().some((c) => c.name.startsWith("sb-") && c.name.includes("-auth-token"));
+  if (!hasSession) return { role: null, apply };
+
+  const supabase = createServerClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet, headers) {
+        pending.push(...cookiesToSet);
+        Object.assign(pendingHeaders, headers);
+      },
+    },
+  });
+
+  const { data } = await supabase.auth.getClaims();
+  const userId = data?.claims?.sub;
+  if (!userId) return { role: null, apply };
+
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
+  return { role: profile?.role ?? null, apply };
 }
 
 function redirectKeepingSession(url: URL, source: NextResponse) {

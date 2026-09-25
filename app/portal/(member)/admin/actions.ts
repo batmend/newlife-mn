@@ -53,6 +53,16 @@ export async function saveGroup(input: {
   return error ? { ok: false, error: dbErrorMessage(error) } : done();
 }
 
+export async function setComingSoon(comingSoon: boolean): Promise<ActionResult> {
+  if (typeof comingSoon !== "boolean") return { ok: false, error: "Буруу хүсэлт." };
+
+  const { error } = await createClient().rpc("admin_set_coming_soon", { p_coming_soon: comingSoon });
+  if (error) return { ok: false, error: dbErrorMessage(error) };
+
+  revalidatePath("/portal/admin");
+  return { ok: true };
+}
+
 export async function deleteGroup(groupId: string): Promise<ActionResult> {
   if (!UUID.test(groupId)) return { ok: false, error: "Буруу хүсэлт." };
 

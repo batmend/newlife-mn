@@ -1,51 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
-import { handlePortalRequest } from "@/lib/supabase/middleware";
+import { handlePortalRequest, readVisitorRole } from "@/lib/supabase/middleware";
+import { isComingSoon } from "@/lib/site-settings";
 
-// Coming-soon gate.
-// Set COMING_SOON=false in Vercel env to disable the gate when ready to launch.
-// Preview the full site any time via ?preview=NEWLIFE10 (sets a 30-day cookie).
-const COMING_SOON_DEFAULT = true;
-const PREVIEW_TOKEN = "NEWLIFE10";
-const PREVIEW_COOKIE = "nl_preview";
-
+// Coming-soon gate for the public website. Admins switch it in /portal/admin
+// (site_settings.coming_soon) and always see the full site themselves.
 export async function middleware(req: NextRequest) {
-  const { pathname: path } = req.nextUrl;
-  if (path === "/portal" || path.startsWith("/portal/")) {
+  const { pathname } = req.nextUrl;
+  if (pathname === "/portal" || pathname.startsWith("/portal/")) {
     return handlePortalRequest(req);
   }
 
-  const flag = process.env.COMING_SOON;
-  const gateOn = flag === undefined ? COMING_SOON_DEFAULT : flag !== "false";
+  const comingSoon = await isComingSoon();
 
-  if (!gateOn) return NextResponse.next();
-
-  const { pathname, searchParams } = req.nextUrl;
-
-  // Setting preview cookie via ?preview=TOKEN
-  if (searchParams.get("preview") === PREVIEW_TOKEN) {
-    const url = req.nextUrl.clone();
-    url.searchParams.delete("preview");
-    const res = NextResponse.redirect(url);
-    res.cookies.set(PREVIEW_COOKIE, "1", {
-      maxAge: 60 * 60 * 24 * 30,
-      path: "/",
-      sameSite: "lax",
-    });
-    return res;
-  }
-
-  // Already has preview cookie → see the full site
-  if (req.cookies.get(PREVIEW_COOKIE)?.value === "1") {
+  if (!comingSoon) {
+    if (pathname === "/coming-soon") return NextResponse.redirect(new URL("/", req.url));
     return NextResponse.next();
   }
 
-  // Already on coming-soon → don't loop
   if (pathname === "/coming-soon") return NextResponse.next();
+
+  const visitor = await readVisitorRole(req);
+  if (visitor.role === "admin") return visitor.apply(NextResponse.next());
 
   const url = req.nextUrl.clone();
   url.pathname = "/coming-soon";
   url.search = "";
-  return NextResponse.rewrite(url);
+  return visitor.apply(NextResponse.rewrite(url));
 }
 
 export const config = {
