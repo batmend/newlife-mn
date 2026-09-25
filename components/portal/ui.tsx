@@ -6,7 +6,7 @@ import type { MemberRole } from "@/lib/supabase/types";
 import { ROLE_LABELS } from "@/lib/portal/roles";
 
 export const inputClass =
-  "mt-2 w-full rounded-xl border border-white/10 bg-ink-950/60 px-4 py-3 text-base text-white placeholder-white/50 outline-none transition focus:border-gold-500/60 focus:bg-ink-900 disabled:opacity-60 lg:text-sm";
+  "mt-2 w-full rounded-xl border border-sage-300 bg-white px-4 py-3 text-base text-sage-900 placeholder-sage-500 outline-none transition hover:border-sage-400 focus:border-forest-600 focus:ring-2 focus:ring-forest-600/15 disabled:bg-sage-50 disabled:opacity-70 lg:text-sm";
 
 export function Field({
   label,
@@ -15,16 +15,16 @@ export function Field({
 }: React.InputHTMLAttributes<HTMLInputElement> & { label: string; hint?: string }) {
   return (
     <label className="block">
-      <span className="text-xs font-semibold uppercase tracking-widest text-white/60">{label}</span>
+      <span className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-700">{label}</span>
       <input {...input} className={inputClass} />
-      {hint && <span className="mt-1.5 block text-xs text-white/55">{hint}</span>}
+      {hint && <span className="mt-1.5 block text-xs text-sage-600">{hint}</span>}
     </label>
   );
 }
 
 const BUTTON_VARIANTS = {
-  primary: "bg-white text-ink-950 hover:bg-gold-400",
-  danger: "bg-red-500 text-white hover:bg-red-600",
+  primary: "bg-forest-700 text-white shadow-lg shadow-forest-700/15 hover:bg-forest-800",
+  danger: "bg-red-700 text-white shadow-lg shadow-red-900/10 hover:bg-red-800",
 };
 
 export function SubmitButton({
@@ -53,8 +53,8 @@ export function SubmitButton({
 export function Notice({ tone, children }: { tone: "error" | "success"; children: React.ReactNode }) {
   const styles =
     tone === "error"
-      ? "border-red-400/30 bg-red-500/10 text-red-200"
-      : "border-leaf-500/30 bg-leaf-500/10 text-leaf-400";
+      ? "border-red-200 bg-red-50 text-red-700"
+      : "border-forest-200 bg-forest-50 text-forest-700";
   return (
     <p role={tone === "error" ? "alert" : "status"} className={`rounded-xl border px-4 py-3 text-sm ${styles}`}>
       {children}
@@ -63,11 +63,11 @@ export function Notice({ tone, children }: { tone: "error" | "success"; children
 }
 
 const ROLE_STYLES: Record<MemberRole, string> = {
-  pending: "border-white/15 bg-white/5 text-white/60",
-  member: "border-white/20 bg-white/10 text-white/85",
-  mentor: "border-leaf-500/40 bg-leaf-500/10 text-leaf-400",
-  leader: "border-gold-500/40 bg-gold-500/10 text-gold-400",
-  admin: "border-gold-400/60 bg-gold-400/20 text-gold-400",
+  pending: "border-sage-300 bg-sage-50 text-sage-600",
+  member: "border-forest-200 bg-forest-50 text-forest-700",
+  mentor: "border-sprout-300 bg-sprout-100 text-forest-800",
+  leader: "border-clay-300 bg-clay-100 text-clay-700",
+  admin: "border-forest-700 bg-forest-700 text-white",
 };
 
 export function RoleBadge({ role }: { role: MemberRole }) {
@@ -105,7 +105,7 @@ export function Avatar({ name, url, size = 36 }: { name: string; url: string | n
   return (
     <span
       aria-hidden
-      className="flex flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gold-500/30 to-leaf-500/20 font-semibold text-white"
+      className="flex flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sprout-200 to-clay-200 font-semibold text-forest-800"
       style={{ width: size, height: size, fontSize: size * 0.4 }}
     >
       {initial}

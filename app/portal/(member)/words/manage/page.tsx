@@ -47,12 +47,12 @@ export default async function ManageWordsPage({ searchParams }: { searchParams: 
     <div className="mx-auto max-w-3xl space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Өдрийн үг</p>
-          <h1 className="mt-2 font-display text-3xl font-extrabold">Үг бэлтгэх</h1>
+          <p className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">Өдрийн үг</p>
+          <h1 className="mt-2 font-display text-3xl font-extrabold text-forest-800">Үг бэлтгэх</h1>
         </div>
         <Link
           href="/portal/words/manage/new"
-          className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-ink-950 transition hover:bg-gold-400"
+          className="rounded-full bg-forest-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-forest-700/15 transition hover:bg-forest-800"
         >
           + Шинэ үг
         </Link>
@@ -61,23 +61,29 @@ export default async function ManageWordsPage({ searchParams }: { searchParams: 
       {notice && <Notice tone="success">{notice}</Notice>}
 
       <section>
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Ирэх 14 хоног</h2>
-        <ul className="mt-3 divide-y divide-white/5 overflow-hidden rounded-2xl border border-white/10">
+        <h2 className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">Ирэх 14 хоног</h2>
+        <ul className="card mt-3 divide-y divide-sage-200 overflow-hidden rounded-2xl">
           {schedule.map((date) => {
             const word = byDate.get(date);
             return (
-              <li key={date} className="flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-3">
-                <span className={`w-full text-sm sm:w-44 ${date === today ? "font-semibold text-gold-400" : "text-white/70"}`}>
+              <li
+                key={date}
+                className={`flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-3 ${date === today ? "bg-clay-50" : ""}`}
+              >
+                <span className={`w-full text-sm sm:w-60 ${date === today ? "font-semibold text-clay-700" : "text-sage-700"}`}>
                   {formatDateMn(date)}
                 </span>
                 {word ? (
-                  <Link href={`/portal/words/manage/${word.id}`} className="min-w-0 flex-1 truncate text-sm hover:underline">
-                    {word.title} <span className="text-white/55">· {word.scripture_ref}</span>
+                  <Link
+                    href={`/portal/words/manage/${word.id}`}
+                    className="min-w-0 flex-1 truncate text-sm font-medium text-sage-900 underline-offset-4 transition hover:text-forest-700 hover:underline"
+                  >
+                    {word.title} <span className="font-normal text-sage-600">· {word.scripture_ref}</span>
                   </Link>
                 ) : (
                   <Link
                     href={`/portal/words/manage/new?date=${date}`}
-                    className="text-sm text-white/55 underline-offset-4 hover:text-white hover:underline"
+                    className="text-sm font-medium text-sage-600 underline-offset-4 transition hover:text-forest-700 hover:underline"
                   >
                     + Үг нэмэх
                   </Link>
@@ -90,20 +96,23 @@ export default async function ManageWordsPage({ searchParams }: { searchParams: 
 
       {later.length > 0 && (
         <section>
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Цаашдын товлосон үгс</h2>
+          <h2 className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">Цаашдын товлосон үгс</h2>
           <WordList words={later} />
         </section>
       )}
 
       {(recent ?? []).length > 0 && (
         <section>
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Өмнө нийтлэгдсэн</h2>
+          <h2 className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">Өмнө нийтлэгдсэн</h2>
           <WordList words={recent ?? []} />
           <p className="mt-3 text-sm">
-            <Link href="/portal/words" className="text-white/60 underline-offset-4 hover:text-white hover:underline">
+            <Link
+              href="/portal/words"
+              className="font-semibold text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:text-forest-800 hover:decoration-forest-700"
+            >
               Өмнөх бүх үгс
             </Link>
-            <span className="text-white/55"> · үгийн хуудаснаас «Засах» дарж засна</span>
+            <span className="text-sage-600"> · үгийн хуудаснаас «Засах» дарж засна</span>
           </p>
         </section>
       )}
@@ -113,16 +122,16 @@ export default async function ManageWordsPage({ searchParams }: { searchParams: 
 
 function WordList({ words }: { words: { id: string; publish_date: string; title: string; scripture_ref: string }[] }) {
   return (
-    <ul className="mt-3 divide-y divide-white/5 overflow-hidden rounded-2xl border border-white/10">
+    <ul className="card mt-3 divide-y divide-sage-200 overflow-hidden rounded-2xl">
       {words.map((w) => (
         <li key={w.id}>
           <Link
             href={`/portal/words/manage/${w.id}`}
-            className="flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-3 transition hover:bg-white/[0.04]"
+            className="group flex flex-wrap items-center gap-x-4 gap-y-1 px-5 py-3 transition hover:bg-forest-50/50"
           >
-            <span className="w-full text-sm text-white/70 sm:w-44">{formatDateMn(w.publish_date)}</span>
-            <span className="min-w-0 flex-1 truncate text-sm">
-              {w.title} <span className="text-white/55">· {w.scripture_ref}</span>
+            <span className="w-full text-sm text-sage-700 sm:w-60">{formatDateMn(w.publish_date)}</span>
+            <span className="min-w-0 flex-1 truncate text-sm font-medium text-sage-900 transition group-hover:text-forest-700">
+              {w.title} <span className="font-normal text-sage-600">· {w.scripture_ref}</span>
             </span>
           </Link>
         </li>

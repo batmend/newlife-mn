@@ -13,14 +13,14 @@ export default function PortalAboutPage() {
   return (
     <>
       <header className="mb-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Шинэ Амь Христийн Чуулган</p>
-        <h1 className="mt-3 font-display text-4xl font-extrabold text-white sm:text-5xl">Шинэ Амь портал</h1>
-        <p className="mt-4 text-lg text-white/70">
+        <p className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">Шинэ Амь Христийн Чуулган</p>
+        <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight text-forest-800 sm:text-5xl">Шинэ Амь портал</h1>
+        <p className="mt-4 text-lg leading-relaxed text-sage-600">
           Улаанбаатар хот дахь Шинэ Амь Христийн Чуулганы гишүүдэд зориулсан хаалттай портал.
         </p>
         <Link
           href="/portal/login"
-          className="mt-7 inline-flex items-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink-950 transition hover:bg-gold-400"
+          className="mt-7 inline-flex items-center rounded-full bg-forest-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-forest-700/15 transition hover:bg-forest-800"
         >
           Порталд нэвтрэх
         </Link>
@@ -50,11 +50,11 @@ export default function PortalAboutPage() {
         <p>
           Facebook, Google эсвэл имэйлээрээ нэвтэрнэ. Facebook эсвэл Google-ээс зөвхөн таны нэр, имэйл хаяг, профайл
           зургийг авна. Дэлгэрэнгүйг{" "}
-          <Link href="/portal/privacy" className="text-gold-400 underline underline-offset-4">
+          <Link href="/portal/privacy" className="text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:decoration-forest-700">
             нууцлалын бодлого
           </Link>
           -оос үзнэ үү. Бүртгэлээ хүссэн үедээ{" "}
-          <Link href="/portal/data-deletion" className="text-gold-400 underline underline-offset-4">
+          <Link href="/portal/data-deletion" className="text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:decoration-forest-700">
             устгаж болно
           </Link>
           .
@@ -62,36 +62,39 @@ export default function PortalAboutPage() {
       </LegalSection>
 
       <EnglishVersion>
-        <h2 className="mt-4 font-display text-2xl font-bold text-white">New Life Portal</h2>
+        <h2 className="mt-4 font-display text-2xl font-bold text-forest-800">New Life Portal</h2>
         <div className="mt-6 space-y-4">
           <p>
             New Life Portal is the private member portal of New Life Christian Church (Шинэ Амь Христийн Чуулган) in
             Ulaanbaatar, Mongolia.
           </p>
           <p>
-            <strong className="text-white">What it does.</strong> Church members read a daily devotional every morning,
+            <strong className="text-sage-900">What it does.</strong> Church members read a daily devotional every morning,
             keep personal reflections (and may share them with other members), and see their small group and mentor.
             Mentors follow the quiet time of the members assigned to them. Coming soon: a shared church calendar and
             ministry checklists.
           </p>
           <p>
-            <strong className="text-white">Who can use it.</strong> Members of the church only. After signing up, a church
+            <strong className="text-sage-900">Who can use it.</strong> Members of the church only. After signing up, a church
             administrator approves each account before the portal opens up.
           </p>
           <p>
-            <strong className="text-white">Signing in.</strong> Members sign in with Facebook, Google or email. From
+            <strong className="text-sage-900">Signing in.</strong> Members sign in with Facebook, Google or email. From
             Facebook or Google we receive only your name, email address and profile picture. Read the{" "}
-            <Link href="/portal/privacy" className="text-gold-400 underline underline-offset-4">
+            <Link href="/portal/privacy" className="text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:decoration-forest-700">
               Privacy Policy
             </Link>{" "}
             and the{" "}
-            <Link href="/portal/data-deletion" className="text-gold-400 underline underline-offset-4">
+            <Link href="/portal/data-deletion" className="text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:decoration-forest-700">
               data deletion instructions
             </Link>
             .
           </p>
           <p>
-            <Link href="/portal/login" className="font-semibold text-white underline underline-offset-4">
+            <Link
+              href="/portal/login"
+              className="font-semibold text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:text-forest-800 hover:decoration-forest-700"
+            >
               Sign in to the portal →
             </Link>
           </p>

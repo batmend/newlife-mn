@@ -46,9 +46,9 @@ export default async function LoginPage({
 
   return (
     <>
-      <div className="glass rounded-3xl p-7 sm:p-9">
-        <h1 className="text-center font-display text-2xl font-bold text-white">Гишүүдийн портал</h1>
-        <p className="mt-2 text-center text-sm text-white/55">
+      <div className="card rounded-3xl p-7 sm:p-9">
+        <h1 className="text-center font-display text-2xl font-bold text-forest-800">Гишүүдийн портал</h1>
+        <p className="mt-2 text-center text-sm text-sage-600">
           Өдрийн үг, бүлгийн мэдээлэл, чуулганы үйл ажиллагаа нэг дор.
         </p>
         <AuthPanel
@@ -60,20 +60,16 @@ export default async function LoginPage({
           queryNotice={queryNotice}
         />
       </div>
-      <p className="mt-6 text-center text-xs text-white/55">
-        <Link href="/portal/about" className="underline-offset-4 hover:text-white hover:underline">
+      <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-xs text-sage-600">
+        <Link href="/portal/about" className="whitespace-nowrap underline-offset-4 hover:text-forest-700 hover:underline">
           Порталын тухай
         </Link>
-        <span aria-hidden className="mx-2">
-          ·
-        </span>
-        <Link href="/portal/privacy" className="underline-offset-4 hover:text-white hover:underline">
+        <span aria-hidden>·</span>
+        <Link href="/portal/privacy" className="whitespace-nowrap underline-offset-4 hover:text-forest-700 hover:underline">
           Нууцлалын бодлого
         </Link>
-        <span aria-hidden className="mx-2">
-          ·
-        </span>
-        <Link href="/portal/data-deletion" className="underline-offset-4 hover:text-white hover:underline">
+        <span aria-hidden>·</span>
+        <Link href="/portal/data-deletion" className="whitespace-nowrap underline-offset-4 hover:text-forest-700 hover:underline">
           Мэдээлэл устгах
         </Link>
       </p>

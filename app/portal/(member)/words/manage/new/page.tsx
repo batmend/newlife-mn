@@ -17,10 +17,10 @@ export default async function NewWordPage({ searchParams }: { searchParams: { da
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
-      <Link href="/portal/words/manage" className="text-sm text-white/60 hover:text-white">
+      <Link href="/portal/words/manage" className="text-sm font-medium text-sage-600 transition hover:text-forest-700">
         ← Үг бэлтгэх
       </Link>
-      <h1 className="font-display text-3xl font-extrabold">Шинэ үг</h1>
+      <h1 className="font-display text-3xl font-extrabold text-forest-800">Шинэ үг</h1>
       <WordForm defaultDate={defaultDate} today={todayUB()} />
     </div>
   );

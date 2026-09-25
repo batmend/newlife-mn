@@ -31,21 +31,23 @@ export function dailyWordEmail(word: Pick<DailyWord, "publish_date" | "title" | 
   const date = formatDateMn(word.publish_date);
   const body = excerpt(word.body);
 
-  const html = `<div style="margin:0;padding:32px 16px;background:#f4f1ea;font-family:Arial,Helvetica,sans-serif;color:#1c1c1f">
-  <div style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:16px;padding:32px">
-    <p style="margin:0 0 4px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b8924f">Өдрийн үг · ${escapeHtml(date)}</p>
-    <h1 style="margin:0 0 20px;font-size:24px;line-height:1.3">${escapeHtml(word.title)}</h1>
-    <div style="margin:0 0 20px;padding:14px 18px;border-left:3px solid #d4b06a;background:#faf7f0;border-radius:8px">
+  // Brand colours from the logo (see tailwind.config.ts): forest #056839, clay #C49A6C, sage neutrals.
+  const html = `<div style="margin:0;padding:32px 16px;background:#f6f8f6;font-family:Arial,Helvetica,sans-serif;color:#27312b">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #dce3de;border-radius:16px;padding:32px">
+    <img src="${SITE_URL}/logo.png" alt="Шинэ Амь Христийн Чуулган" width="120" height="56" style="display:block;margin:0 0 24px;border:0;height:auto" />
+    <p style="margin:0 0 4px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8f6641">Өдрийн үг · ${escapeHtml(date)}</p>
+    <h1 style="margin:0 0 20px;font-size:24px;line-height:1.3;color:#05532e">${escapeHtml(word.title)}</h1>
+    <div style="margin:0 0 20px;padding:14px 18px;border-left:3px solid #c49a6c;background:#fbf7f2;border-radius:8px">
       ${word.scripture_text ? `<p style="margin:0 0 8px;font-size:16px;line-height:1.6;font-style:italic">${paragraphs(word.scripture_text)}</p>` : ""}
-      <p style="margin:0;font-size:13px;font-weight:bold;color:#b8924f">${escapeHtml(word.scripture_ref)}</p>
+      <p style="margin:0;font-size:13px;font-weight:bold;color:#8f6641">${escapeHtml(word.scripture_ref)}</p>
     </div>
     <p style="margin:0 0 24px;font-size:15px;line-height:1.7">${paragraphs(body.text)}</p>
     <p style="margin:0 0 24px">
-      <a href="${url}" style="display:inline-block;background:#1c1c1f;color:#ffffff;text-decoration:none;font-weight:bold;padding:14px 28px;border-radius:999px">${body.cut ? "Үргэлжлүүлэн унших" : "Порталд бодлоо тэмдэглэх"}</a>
+      <a href="${url}" style="display:inline-block;background:#056839;color:#ffffff;text-decoration:none;font-weight:bold;padding:14px 28px;border-radius:999px">${body.cut ? "Үргэлжлүүлэн унших" : "Порталд бодлоо тэмдэглэх"}</a>
     </p>
-    <p style="margin:0;font-size:12px;line-height:1.6;color:#6b6b72">
+    <p style="margin:0;font-size:12px;line-height:1.6;color:#526057">
       Шинэ Амь Христийн Чуулганы гишүүдийн портал. Өглөөний имэйлийг
-      <a href="${SITE_URL}/portal/profile" style="color:#6b6b72">профайл</a> хэсгээс унтрааж болно.
+      <a href="${SITE_URL}/portal/profile" style="color:#056839">профайл</a> хэсгээс унтрааж болно.
     </p>
   </div>
 </div>`;

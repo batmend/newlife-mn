@@ -8,7 +8,7 @@ import { deleteGroup, saveGroup, type ActionResult } from "./actions";
 type Member = Pick<Profile, "id" | "full_name" | "email" | "role" | "group_id">;
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-ink-950/70 px-3 py-2 text-base text-white placeholder-white/50 outline-none transition focus:border-gold-500/60 disabled:opacity-60 lg:text-sm";
+  "w-full rounded-xl border border-sage-300 bg-white px-3 py-2 text-base text-sage-900 placeholder-sage-500 outline-none transition hover:border-sage-400 focus:border-forest-600 focus:ring-2 focus:ring-forest-600/15 disabled:bg-sage-50 disabled:opacity-60 lg:text-sm";
 
 const SAVE_FAILED = "Хадгалж чадсангүй. Дахин оролдоно уу.";
 const NETWORK_FAILED = "Сүлжээний алдаа гарлаа. Дахин оролдоно уу.";
@@ -43,8 +43,8 @@ export function GroupManager({
 
   return (
     <section>
-      <h2 className="font-display text-xl font-bold">Бүлгүүд</h2>
-      <p className="mt-1 text-sm text-white/55">
+      <h2 className="font-display text-xl font-bold text-sage-900">Бүлгүүд</h2>
+      <p className="mt-1 text-sm text-sage-600">
         Чиглүүлэгч зөвхөн өөрт оноогдсон бүлгийн гишүүдийн идэвхийг харна. Чиглүүлэгч сонгохын тулд тухайн хүнд эхлээд
         &ldquo;Чиглүүлэгч&rdquo; буюу түүнээс дээш эрх олгоно.
       </p>
@@ -94,7 +94,7 @@ function GroupRow({
   }
 
   return (
-    <div className="glass rounded-2xl p-4">
+    <div className="card rounded-2xl p-4">
       <div className="grid gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto] md:items-center">
         <label className="block">
           <span className="sr-only">Бүлгийн нэр</span>
@@ -102,12 +102,12 @@ function GroupRow({
         </label>
         <MentorSelect mentors={mentors} value={mentorId} onChange={setMentorId} disabled={busy} />
         <div className="flex items-center gap-2">
-          <span className="whitespace-nowrap text-xs text-white/55">{memberCount} гишүүн</span>
+          <span className="mr-auto whitespace-nowrap pr-1 font-brand text-sm tracking-wide text-sage-600">{memberCount} гишүүн</span>
           <button
             type="button"
             onClick={onSave}
             disabled={!dirty || busy || !name.trim()}
-            className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-950 transition hover:bg-gold-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40"
+            className="rounded-full bg-forest-700 px-4 py-2 text-xs font-semibold text-white shadow-sm shadow-forest-700/20 transition hover:bg-forest-800 disabled:cursor-not-allowed disabled:bg-sage-100 disabled:text-sage-600 disabled:shadow-none"
           >
             Хадгалах
           </button>
@@ -115,14 +115,14 @@ function GroupRow({
             type="button"
             onClick={onDelete}
             disabled={busy}
-            className="rounded-full border border-red-400/30 px-3 py-2 text-xs font-semibold text-red-300 transition hover:bg-red-500/10 disabled:opacity-50"
+            className="rounded-full border border-red-200 bg-white px-3 py-2 text-xs font-semibold text-red-700 transition hover:border-red-300 hover:bg-red-50 disabled:opacity-50"
           >
             Устгах
           </button>
         </div>
       </div>
       {error && (
-        <p role="alert" className="mt-2 text-sm text-red-300">
+        <p role="alert" className="mt-2 text-sm text-red-700">
           {error}
         </p>
       )}
@@ -146,10 +146,10 @@ function NewGroupRow({ mentors }: { mentors: Member[] }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl border border-dashed border-white/15 p-4">
+    <form onSubmit={onSubmit} className="rounded-2xl border border-dashed border-sage-300 bg-sage-50 p-4">
       <div className="grid gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto] md:items-end">
         <label className="block">
-          <span className="mb-1 block text-xs font-semibold uppercase tracking-widest text-white/60">Шинэ бүлгийн нэр</span>
+          <span className="mb-1.5 block font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">Шинэ бүлгийн нэр</span>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -163,13 +163,13 @@ function NewGroupRow({ mentors }: { mentors: Member[] }) {
         <button
           type="submit"
           disabled={busy || !name.trim()}
-          className="rounded-full bg-gold-400 px-4 py-2.5 text-xs font-semibold text-ink-950 transition hover:bg-gold-500 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full bg-forest-700 px-4 py-2.5 text-xs font-semibold text-white shadow-sm shadow-forest-700/20 transition hover:bg-forest-800 disabled:cursor-not-allowed disabled:bg-sage-100 disabled:text-sage-600 disabled:shadow-none"
         >
           + Бүлэг нэмэх
         </button>
       </div>
       {error && (
-        <p role="alert" className="mt-2 text-sm text-red-300">
+        <p role="alert" className="mt-2 text-sm text-red-700">
           {error}
         </p>
       )}

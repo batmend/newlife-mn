@@ -1,22 +1,22 @@
 <!-- Supabase → Authentication → Emails → "Change email address"
      Subject: Шинэ имэйл хаягаа баталгаажуулна уу -->
-<div style="margin:0;padding:32px 16px;background:#f4f1ea;font-family:Arial,Helvetica,sans-serif;color:#1c1c1f">
-  <div style="max-width:480px;margin:0 auto;background:#ffffff;border-radius:16px;padding:32px">
-    <p style="margin:0 0 4px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b8924f">Шинэ Амь Христийн Чуулган</p>
-    <h1 style="margin:0 0 16px;font-size:22px">Имэйл хаяг солих</h1>
+<div style="margin:0;padding:32px 16px;background:#f6f8f6;font-family:Arial,Helvetica,sans-serif;color:#27312b">
+  <div style="max-width:480px;margin:0 auto;background:#ffffff;border:1px solid #dce3de;border-radius:16px;padding:32px">
+    <img src="https://newlife.mn/logo.png" alt="Шинэ Амь Христийн Чуулган" width="120" height="56" style="display:block;margin:0 0 24px;border:0;height:auto" />
+    <h1 style="margin:0 0 16px;font-size:22px;color:#05532e">Имэйл хаяг солих</h1>
     <p style="margin:0 0 24px;font-size:15px;line-height:1.6">
       Порталын имэйл хаягаа солих хүсэлт ирлээ. Доорх товч дээр дарж баталгаажуулна уу.
     </p>
-    <p style="margin:0 0 24px;font-size:14px;line-height:1.7;color:#3a3a40">
+    <p style="margin:0 0 24px;font-size:14px;line-height:1.7;color:#3c4841">
       Хуучин хаяг: {{ .Email }}<br />Шинэ хаяг: {{ .NewEmail }}
     </p>
     <p style="margin:0 0 24px">
       <a href="{{ .SiteURL }}/portal/auth/confirm?token_hash={{ .TokenHash }}&type=email_change"
-         style="display:inline-block;background:#1c1c1f;color:#ffffff;text-decoration:none;font-weight:bold;padding:14px 28px;border-radius:999px">
+         style="display:inline-block;background:#056839;color:#ffffff;text-decoration:none;font-weight:bold;padding:14px 28px;border-radius:999px">
         Баталгаажуулах
       </a>
     </p>
-    <p style="margin:0;font-size:13px;line-height:1.6;color:#6b6b72">
+    <p style="margin:0;font-size:13px;line-height:1.6;color:#526057">
       Хэрэв та энэ хүсэлтийг илгээгээгүй бол энэ захидлыг үл тоомсорлоно уу.
     </p>
   </div>

@@ -23,7 +23,7 @@ export function RemoveReflectionButton({ reflectionId, date, author }: { reflect
       type="button"
       onClick={onClick}
       disabled={pending}
-      className="text-xs text-white/55 underline-offset-4 hover:text-red-300 hover:underline disabled:opacity-50"
+      className="flex-shrink-0 text-xs font-medium text-sage-600 underline-offset-4 transition hover:text-red-700 hover:underline disabled:opacity-50"
     >
       {pending ? "Устгаж байна…" : failed ? "Устгаж чадсангүй, дахин оролдох" : "Устгах"}
     </button>

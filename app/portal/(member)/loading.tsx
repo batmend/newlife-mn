@@ -4,9 +4,9 @@ export default function Loading() {
       <span className="sr-only" role="status">
         Ачаалж байна…
       </span>
-      <div className="h-9 w-48 animate-pulse rounded-xl bg-white/10" />
-      <div className="glass h-40 animate-pulse rounded-3xl" />
-      <div className="glass h-28 animate-pulse rounded-3xl" />
+      <div className="h-9 w-48 animate-pulse rounded-xl bg-sage-100" />
+      <div className="card h-40 animate-pulse rounded-3xl bg-sage-50" />
+      <div className="card h-28 animate-pulse rounded-3xl bg-sage-50" />
     </div>
   );
 }

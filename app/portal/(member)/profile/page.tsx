@@ -76,57 +76,57 @@ export default async function ProfilePage({
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <h1 className="font-display text-3xl font-extrabold">Профайл</h1>
+      <h1 className="font-display text-3xl font-extrabold text-forest-800">Профайл</h1>
 
       {error && <Notice tone="error">{error}</Notice>}
       {notice && <Notice tone="success">{notice}</Notice>}
 
-      <section className="glass rounded-3xl p-6 sm:p-8">
+      <section className="card rounded-3xl p-6 sm:p-8">
         <div className="flex items-center gap-4">
           <Avatar name={profile.full_name || profile.email || "?"} url={profile.avatar_url} size={56} />
           <div className="min-w-0">
-            <p className="truncate text-lg font-semibold">{profile.full_name || "Нэргүй"}</p>
-            <p className="truncate text-sm text-white/55">{profile.email ?? "Имэйл холбогдоогүй"}</p>
+            <p className="truncate text-lg font-semibold text-sage-900">{profile.full_name || "Нэргүй"}</p>
+            <p className="truncate text-sm text-sage-600">{profile.email ?? "Имэйл холбогдоогүй"}</p>
           </div>
         </div>
 
-        <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-white/5 pt-6 text-sm">
+        <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-sage-200 pt-6 text-sm">
           <div>
-            <dt className="text-xs uppercase tracking-widest text-white/55">Эрх</dt>
+            <dt className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">Эрх</dt>
             <dd className="mt-2">
               <RoleBadge role={profile.role} />
             </dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-widest text-white/55">Бүлэг</dt>
-            <dd className="mt-2 text-white/80">{group?.name ?? "Хуваарилагдаагүй"}</dd>
+            <dt className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">Бүлэг</dt>
+            <dd className="mt-2 text-sage-800">{group?.name ?? "Хуваарилагдаагүй"}</dd>
           </div>
         </dl>
       </section>
 
-      <section className="glass rounded-3xl p-6 sm:p-8">
-        <h2 className="font-display text-lg font-bold">Нэр засах</h2>
-        <p className="mt-1 text-sm text-white/55">Бусад гишүүд болон удирдагчид таныг энэ нэрээр харна.</p>
+      <section className="card rounded-3xl p-6 sm:p-8">
+        <h2 className="font-display text-lg font-bold text-sage-900">Нэр засах</h2>
+        <p className="mt-1 text-sm text-sage-600">Бусад гишүүд болон удирдагчид таныг энэ нэрээр харна.</p>
         <ProfileForm fullName={profile.full_name} />
       </section>
 
-      <section className="glass rounded-3xl p-6 sm:p-8">
-        <h2 className="font-display text-lg font-bold">Нэвтрэх аргууд</h2>
-        <p className="mt-1 text-sm text-white/55">Холбосон аргуудын аль нэгээр нэвтэрсэн ч энэ бүртгэлдээ орно.</p>
-        <ul className="mt-5 divide-y divide-white/5">
+      <section className="card rounded-3xl p-6 sm:p-8">
+        <h2 className="font-display text-lg font-bold text-sage-900">Нэвтрэх аргууд</h2>
+        <p className="mt-1 text-sm text-sage-600">Холбосон аргуудын аль нэгээр нэвтэрсэн ч энэ бүртгэлдээ орно.</p>
+        <ul className="mt-5 divide-y divide-sage-200">
           {hasEmail && (
-            <li className="flex flex-wrap items-center justify-between gap-3 py-3">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold">Имэйл ба нууц үг</p>
+            <li className="flex items-center justify-between gap-3 py-3">
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-sage-900">Имэйл ба нууц үг</p>
                 {hasPassword ? (
-                  <p className="truncate text-xs text-white/55">{user.email}</p>
+                  <p className="truncate text-xs text-sage-600">{user.email}</p>
                 ) : (
-                  <p className="text-xs leading-relaxed text-white/55">Нууц үг тохируулбал имэйлээрээ ч нэвтэрч болно</p>
+                  <p className="text-xs leading-relaxed text-sage-600">Нууц үг тохируулбал имэйлээрээ ч нэвтэрч болно</p>
                 )}
               </div>
               <Link
                 href="/portal/reset-password"
-                className="rounded-full border border-white/15 px-4 py-2 text-xs font-semibold transition hover:border-white/35"
+                className="flex-shrink-0 whitespace-nowrap rounded-full border border-forest-700/25 px-4 py-2 text-xs font-semibold text-forest-800 transition hover:border-forest-700/50 hover:bg-forest-50"
               >
                 {hasPassword ? "Нууц үг солих" : "Нууц үг тохируулах"}
               </Link>
@@ -134,9 +134,9 @@ export default async function ProfilePage({
           )}
           {providerRows.map((provider) => (
             <li key={provider} className="flex flex-wrap items-center justify-between gap-3 py-3">
-              <p className="text-sm font-semibold">{PROVIDER_NAMES[provider]}</p>
+              <p className="text-sm font-semibold text-sage-900">{PROVIDER_NAMES[provider]}</p>
               {linked.has(provider) ? (
-                <span className="rounded-full border border-leaf-500/40 bg-leaf-500/10 px-3 py-1 text-xs font-semibold text-leaf-400">
+                <span className="rounded-full border border-forest-200 bg-forest-50 px-3 py-1 text-xs font-semibold text-forest-700">
                   Холбогдсон
                 </span>
               ) : (
@@ -151,25 +151,28 @@ export default async function ProfilePage({
       </section>
 
       {hasEmail && hasRole(profile.role, "member") && (
-        <section className="glass rounded-3xl p-6 sm:p-8">
-          <h2 className="font-display text-lg font-bold">Мэдэгдэл</h2>
+        <section className="card rounded-3xl p-6 sm:p-8">
+          <h2 className="font-display text-lg font-bold text-sage-900">Мэдэгдэл</h2>
           <DailyEmailForm enabled={profile.daily_email} email={user.email ?? ""} />
         </section>
       )}
 
-      <section className="rounded-3xl border border-red-400/20 bg-red-500/[0.04] p-6 sm:p-8">
-        <h2 className="font-display text-lg font-bold">Бүртгэл устгах</h2>
-        <p className="mt-1 text-sm leading-relaxed text-white/60">
+      <section className="rounded-3xl border border-red-200 bg-red-50/50 p-6 sm:p-8">
+        <h2 className="font-display text-lg font-bold text-red-700">Бүртгэл устгах</h2>
+        <p className="mt-1 text-sm leading-relaxed text-sage-700">
           Таны нэр, имэйл, зураг, эрх, бүлэг, өдрийн үг уншсан түүх болон бодлын тэмдэглэлүүд порталаас бүрмөсөн устана. Буцаах боломжгүй.{" "}
-          <Link href="/portal/data-deletion" className="text-white/80 underline underline-offset-4 hover:text-white">
+          <Link
+            href="/portal/data-deletion"
+            className="font-semibold text-sage-900 underline decoration-sage-400 underline-offset-4 hover:text-red-700 hover:decoration-red-300"
+          >
             Дэлгэрэнгүй
           </Link>
         </p>
         <DeleteAccountForm />
       </section>
 
-      <p className="text-center text-xs text-white/55">
-        <Link href="/portal/privacy" className="underline-offset-4 hover:text-white hover:underline">
+      <p className="text-center text-xs text-sage-600">
+        <Link href="/portal/privacy" className="underline-offset-4 hover:text-forest-700 hover:underline">
           Нууцлалын бодлого
         </Link>
       </p>

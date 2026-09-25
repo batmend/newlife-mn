@@ -44,7 +44,7 @@ export function AuthPanel({
                 <input type="hidden" name="next" value={next} />
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-3 rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/10"
+                  className="flex w-full items-center justify-center gap-3 rounded-full border border-sage-300 bg-white px-5 py-3 text-sm font-semibold text-sage-900 shadow-sm shadow-forest-900/5 transition hover:border-sage-400 hover:bg-sage-50"
                 >
                   <ProviderIcon provider={provider} />
                   {PROVIDER_LABELS[provider]}
@@ -53,15 +53,15 @@ export function AuthPanel({
             ))}
           </div>
           {showFacebookAppHint && (
-            <p className="mt-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-xs leading-relaxed text-white/60 sm:hidden">
+            <p className="mt-3 rounded-xl border border-sage-200 bg-sage-50 px-4 py-3 text-xs leading-relaxed text-sage-600 sm:hidden">
               Утсаараа нэвтэрч байна уу? Чуулганы Facebook групп эсвэл Messenger-ээр ирсэн холбоосоор нээвэл
               Facebook-ээр нэг товшилтоор нэвтэрнэ.
             </p>
           )}
-          <div className="my-6 flex items-center gap-3 text-xs text-white/55">
-            <span className="h-px flex-1 bg-white/10" />
+          <div className="my-6 flex items-center gap-3 text-xs text-sage-600">
+            <span className="h-px flex-1 bg-sage-200" />
             эсвэл имэйлээр
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-sage-200" />
           </div>
         </>
       )}
@@ -69,7 +69,7 @@ export function AuthPanel({
       <div
         role="group"
         aria-label="Нэвтрэх эсвэл бүртгүүлэх"
-        className="grid grid-cols-2 rounded-full border border-white/10 bg-ink-950/60 p-1"
+        className="grid grid-cols-2 rounded-full border border-sage-200 bg-sage-50 p-1"
       >
         <TabButton active={tab === "signin"} onClick={() => setTab("signin")}>
           Нэвтрэх
@@ -98,7 +98,10 @@ export function AuthPanel({
           {signInState?.error && <Notice tone="error">{signInState.error}</Notice>}
           <SubmitButton pendingLabel="Нэвтэрч байна…">Нэвтрэх</SubmitButton>
           <p className="text-center text-sm">
-            <Link href="/portal/forgot-password" className="text-white/55 underline-offset-4 hover:text-white hover:underline">
+            <Link
+              href="/portal/forgot-password"
+              className="font-medium text-forest-700 underline-offset-4 hover:text-forest-800 hover:underline"
+            >
               Нууц үгээ мартсан уу?
             </Link>
           </p>
@@ -122,7 +125,7 @@ export function AuthPanel({
           ) : (
             <SubmitButton pendingLabel="Бүртгэж байна…">Бүртгүүлэх</SubmitButton>
           )}
-          <p className="text-center text-xs leading-relaxed text-white/55">
+          <p className="text-center text-xs leading-relaxed text-sage-600">
             Бүртгүүлсний дараа чуулганы админ таны эрхийг баталгаажуулна.
           </p>
         </form>
@@ -146,7 +149,9 @@ function TabButton({
       aria-pressed={active}
       onClick={onClick}
       className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-        active ? "bg-white text-ink-950" : "text-white/60 hover:text-white"
+        active
+          ? "bg-forest-700 text-white shadow-sm shadow-forest-700/20"
+          : "text-sage-600 hover:text-forest-700"
       }`}
     >
       {children}

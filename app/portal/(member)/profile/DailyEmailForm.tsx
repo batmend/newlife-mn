@@ -10,10 +10,17 @@ export function DailyEmailForm({ enabled, email }: { enabled: boolean; email: st
   return (
     <form action={action} className="mt-4 space-y-4">
       <label className="flex cursor-pointer items-start gap-3">
-        <input type="checkbox" name="daily_email" defaultChecked={enabled} className="mt-1 h-4 w-4 accent-gold-400" />
+        <input
+          type="checkbox"
+          name="daily_email"
+          defaultChecked={enabled}
+          className="mt-0.5 h-4 w-4 flex-shrink-0 cursor-pointer accent-forest-700"
+        />
         <span>
-          <span className="block text-sm font-semibold">Өдрийн үгийг өглөө бүр имэйлээр авах</span>
-          <span className="block text-xs text-white/55">{email} хаяг руу ойролцоогоор 6-7 цагийн хооронд илгээнэ.</span>
+          <span className="block text-sm font-semibold text-sage-900">Өдрийн үгийг өглөө бүр имэйлээр авах</span>
+          <span className="mt-0.5 block text-xs leading-relaxed text-sage-600">
+            {email} хаяг руу ойролцоогоор 6-7 цагийн хооронд илгээнэ.
+          </span>
         </span>
       </label>
       {state?.error && <Notice tone="error">{state.error}</Notice>}
