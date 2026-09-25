@@ -26,29 +26,26 @@ export default function PortalAboutPage() {
         </Link>
       </header>
 
-      <LegalSection title="Портал юунд зориулагдсан бэ">
-        <p>
-          Чуулганы гишүүд нэг дор нэвтэрч, өөрийн бүлэг болон чиглүүлэгчээ харж, чуулганы амьдралд холбогдож байх
-          зориулалттай.
-        </p>
+      <LegalSection title="Портал юунд зориулагдсан бэ?">
+        <p>Чуулганы гишүүд нэг дор нэвтэрч, чуулганы амьдралд холбогдож байх зориулалттай.</p>
         <LegalList>
           <li>Өглөө бүрийн өдрийн үг: уншаад бодлоо тэмдэглэх, хүсвэл бусадтай хуваалцах</li>
           <li>Өөрийн бүлэг болон чиглүүлэгчийн мэдээлэл</li>
-          <li>Чиглүүлэгчид өөрт оноогдсон гишүүдийнхээ чимээгүй цагийг хөтлөх</li>
-          <li>Удахгүй: чуулганы нэгдсэн календарь, үйлчлэлийн чеклист</li>
+          <li>Чиглүүлэгчид өөрийн бүлгийн гишүүдтэй харилцах</li>
+          <li>Чуулганы нэгдсэн календарь, үйлчлэлийн чеклист гэх мэт.</li>
         </LegalList>
       </LegalSection>
 
-      <LegalSection title="Хэн ашиглах вэ">
+      <LegalSection title="Хэн ашиглах вэ?">
         <p>
-          Зөвхөн чуулганы гишүүд. Бүртгүүлсний дараа чуулганы админ таныг гишүүнээр баталгаажуулж, эрх олгосны дараа
-          портал бүрэн нээгдэнэ.
+          Зөвхөн чуулганы гишүүд. Бүртгүүлсний дараа чуулганы бүлгийн удирдагч, бүсийн удирдагч эсвэл үйлчлэл хариуцсан
+          удирдагчдаа хандаж гишүүний эрхээ баталгаажуулснаар эрх олгогдож, портал бүрэн нээгдэнэ.
         </p>
       </LegalSection>
 
-      <LegalSection title="Хэрхэн нэвтрэх вэ">
+      <LegalSection title="Хэрхэн нэвтрэх вэ?">
         <p>
-          Facebook, Google эсвэл имэйлээрээ нэвтэрнэ. Facebook эсвэл Google-ээс зөвхөн таны нэр, имэйл хаяг, профайл
+          Facebook, Google эсвэл Имэйлээр нэвтэрнэ. Facebook эсвэл Google-ээс зөвхөн таны нэр, имэйл хаяг, профайл
           зургийг авна. Дэлгэрэнгүйг{" "}
           <Link href="/portal/privacy" className="text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:decoration-forest-700">
             нууцлалын бодлого
@@ -69,14 +66,15 @@ export default function PortalAboutPage() {
             Ulaanbaatar, Mongolia.
           </p>
           <p>
-            <strong className="text-sage-900">What it does.</strong> Church members read a daily devotional every morning,
-            keep personal reflections (and may share them with other members), and see their small group and mentor.
-            Mentors follow the quiet time of the members assigned to them. Coming soon: a shared church calendar and
-            ministry checklists.
+            <strong className="text-sage-900">What it does.</strong> One place where church members stay connected to
+            church life: they read a daily devotional every morning, keep personal reflections (and may share them with
+            other members), and see their small group and mentor. Mentors keep in touch with the members of their group.
+            It also brings together the church calendar, ministry checklists and more.
           </p>
           <p>
-            <strong className="text-sage-900">Who can use it.</strong> Members of the church only. After signing up, a church
-            administrator approves each account before the portal opens up.
+            <strong className="text-sage-900">Who can use it.</strong> Members of the church only. After signing up, members
+            contact their small group leader, area leader or ministry leader to confirm their membership; once it is
+            confirmed, the portal opens up fully.
           </p>
           <p>
             <strong className="text-sage-900">Signing in.</strong> Members sign in with Facebook, Google or email. From
