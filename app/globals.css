@@ -5,9 +5,11 @@
 /* Fonts are loaded with next/font in app/fonts.ts (a CSS @import here would land
    after the Tailwind output, where browsers ignore it). */
 
+/* White brand theme from the logo (site, coming-soon and portal). Colours match
+   the Tailwind palettes in tailwind.config.ts: sage-800 text, sprout selection. */
 :root {
-  --bg: #0a0a0c;
-  --fg: #f5f5f7;
+  --bg: #ffffff;
+  --fg: #27312b;
 }
 
 html,
@@ -22,63 +24,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.gradient-text {
-  background: linear-gradient(
-    120deg,
-    #e9c987 0%,
-    #f7e3b2 35%,
-    #e9c987 70%,
-    #b8924f 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 6s linear infinite;
-}
-
-.glass {
-  background: rgba(23, 24, 28, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.glow-ring {
-  position: relative;
-}
-
-.glow-ring::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(233, 201, 135, 0.6),
-    rgba(63, 179, 127, 0.3),
-    rgba(233, 201, 135, 0.1)
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.scroll-fade {
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    #000 8%,
-    #000 92%,
-    transparent 100%
-  );
+::selection {
+  background: rgba(139, 197, 66, 0.35); /* sprout-500 */
+  color: #022515;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -88,31 +36,11 @@ body {
   }
 }
 
-::selection {
-  background: rgba(233, 201, 135, 0.35);
-  color: #fff;
-}
-
-.section-divider {
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255, 255, 255, 0.12),
-    transparent
-  );
-}
-
-/* ---------------------------------------------------------------------------
-   Light brand theme for the public site and coming-soon page (body.site-light).
-   The utilities above (.glass, .gradient-text, …) belong to the dark portal.
-   These live in the components layer so Tailwind utilities on the same element
-   (absolute, bg-*, border-*, shadow-*) still win.
-   ------------------------------------------------------------------------- */
-
-.site-light ::selection {
-  background: rgba(139, 197, 66, 0.35); /* sprout-500 */
-  color: #022515;
+/* Server-action forms start with hidden inputs (React's $ACTION_* fields and our
+   own ids). space-y-* counts them as siblings, pushing the first visible field
+   down. Reset the margin of the first visible child after that leading run. */
+form[class*="space-y-"] > input[type="hidden"]:first-child ~ :not(input[type="hidden"]):not(:not(input[type="hidden"]) ~ *) {
+  margin-top: 0 !important;
 }
 
 @layer components {
@@ -139,8 +67,8 @@ body {
     background: linear-gradient(to right, transparent, #c2ccc5, transparent);
   }
 
-  /* Soft brand gradient border (light counterpart of .glow-ring). The element
-     must be positioned; `relative` is only a default that utilities override. */
+  /* Soft brand gradient border. The element must be positioned; `relative` is
+     only a default that utilities override. */
   .ring-brand {
     position: relative;
   }

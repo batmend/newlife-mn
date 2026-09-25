@@ -35,7 +35,7 @@ export default async function AdminPage() {
 
   if (profilesError || groupsError) {
     return (
-      <p className="rounded-2xl border border-red-400/30 bg-red-500/10 px-5 py-4 text-sm text-red-200">
+      <p className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
         Мэдээлэл ачаалахад алдаа гарлаа. Хуудсыг дахин ачаална уу.
       </p>
     );
@@ -58,19 +58,30 @@ export default async function AdminPage() {
   return (
     <div className="space-y-10">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Удирдлага</p>
-        <h1 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">Админ</h1>
+        <p className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">Удирдлага</p>
+        <h1 className="mt-2 font-display text-3xl font-extrabold text-forest-800 sm:text-4xl">Админ</h1>
       </div>
 
       <SiteVisibility comingSoon={settings ? settings.coming_soon : null} updatedLabel={updatedLabel} />
 
       <div>
-        <h2 className="font-display text-2xl font-bold">Гишүүд ба эрх</h2>
+        <h2 className="font-display text-2xl font-bold text-sage-900">Гишүүд ба эрх</h2>
         <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
           {counts.map(({ role, count }) => (
-            <div key={role} className="glass rounded-2xl px-4 py-4">
-              <dt className="text-[11px] uppercase tracking-widest text-white/55">{ROLE_LABELS[role]}</dt>
-              <dd className={`mt-1 font-display text-2xl font-bold ${role === "pending" && count > 0 ? "text-gold-400" : ""}`}>
+            <div
+              key={role}
+              className={`card rounded-2xl px-4 py-4 first:col-span-2 sm:first:col-span-1 ${
+                role === "pending" && count > 0 ? "border-clay-300 bg-clay-50" : ""
+              }`}
+            >
+              <dt className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">
+                {ROLE_LABELS[role]}
+              </dt>
+              <dd
+                className={`mt-1 font-brand text-3xl font-bold ${
+                  role === "pending" && count > 0 ? "text-clay-700" : "text-forest-700"
+                }`}
+              >
                 {count}
               </dd>
             </div>

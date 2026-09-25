@@ -41,14 +41,14 @@ export default async function EditWordPage({
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
-        <Link href="/portal/words/manage" className="text-white/60 hover:text-white">
+        <Link href="/portal/words/manage" className="font-medium text-sage-600 transition hover:text-forest-700">
           ← Үг бэлтгэх
         </Link>
-        <Link href={`/portal/word/${word.publish_date}`} className="text-white/60 hover:text-white">
+        <Link href={`/portal/word/${word.publish_date}`} className="font-medium text-sage-600 transition hover:text-forest-700">
           Гишүүдэд харагдах байдлаар харах →
         </Link>
       </div>
-      <h1 className="font-display text-3xl font-extrabold">Үг засах</h1>
+      <h1 className="font-display text-3xl font-extrabold text-forest-800">Үг засах</h1>
       {error && <Notice tone="error">{error}</Notice>}
       <WordForm word={word} defaultDate={todayUB()} today={todayUB()} />
     </div>

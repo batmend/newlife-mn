@@ -16,7 +16,8 @@ export function PortalNav({ links }: { links: NavLink[] }) {
   const best = Math.max(0, ...scores);
 
   return (
-    <nav className="flex items-center gap-1 overflow-x-auto">
+    // Wraps on phones so every link stays visible (leaders/admins have six); one scrolling row from sm up.
+    <nav className="-ml-3.5 flex flex-wrap items-center gap-1 sm:ml-0 sm:flex-nowrap sm:overflow-x-auto">
       {links.map((link, i) => {
         const active = best > 0 && scores[i] === best;
         return (
@@ -25,7 +26,7 @@ export function PortalNav({ links }: { links: NavLink[] }) {
             href={link.href}
             aria-current={active ? "page" : undefined}
             className={`whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm font-medium transition ${
-              active ? "bg-white/10 text-white" : "text-white/55 hover:text-white"
+              active ? "bg-forest-50 font-semibold text-forest-700" : "text-sage-600 hover:bg-sage-50 hover:text-forest-700"
             }`}
           >
             {link.label}

@@ -55,19 +55,21 @@ export function ReflectionForm({
             rows={5}
             maxLength={REFLECTION_MAX}
             placeholder="Энэ үгнээс юу ойлгосон, юунд урамшсан бэ? Залбирлаа ч бичиж болно."
-            className="w-full rounded-2xl border border-white/10 bg-ink-950/60 px-4 py-3 text-base leading-relaxed text-white placeholder-white/50 outline-none transition focus:border-gold-500/60 focus:bg-ink-900 lg:text-sm"
+            className="w-full rounded-xl border border-sage-300 bg-white px-4 py-3 text-base leading-relaxed text-sage-900 placeholder-sage-500 outline-none transition hover:border-sage-400 focus:border-forest-600 focus:ring-2 focus:ring-forest-600/15 lg:text-sm"
             required
           />
         </label>
 
         <fieldset>
-          <legend className="text-xs font-semibold uppercase tracking-widest text-white/60">Хэнд харагдах вэ</legend>
+          <legend className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">Хэнд харагдах вэ</legend>
           <div className="mt-2 grid gap-2 sm:grid-cols-2">
             {(["leaders", "members"] as const).map((option) => (
               <label
                 key={option}
-                className={`flex cursor-pointer items-start gap-3 rounded-xl border px-4 py-3 transition ${
-                  visibility === option ? "border-gold-500/60 bg-gold-500/10" : "border-white/10 hover:border-white/25"
+                className={`flex cursor-pointer items-start gap-3 rounded-xl border px-4 py-3 transition focus-within:ring-2 focus-within:ring-forest-600/20 ${
+                  visibility === option
+                    ? "border-forest-600 bg-forest-50 shadow-sm shadow-forest-700/10"
+                    : "border-sage-200 bg-white hover:border-forest-600/50 hover:bg-sage-50"
                 }`}
               >
                 <input
@@ -76,11 +78,13 @@ export function ReflectionForm({
                   value={option}
                   checked={visibility === option}
                   onChange={() => setVisibility(option)}
-                  className="mt-1 accent-gold-400"
+                  className="mt-1 accent-forest-700"
                 />
                 <span>
-                  <span className="block text-sm font-semibold">{VISIBILITY_LABELS[option]}</span>
-                  <span className="block text-xs text-white/55">{VISIBILITY_HINTS[option]}</span>
+                  <span className={`block text-sm font-semibold ${visibility === option ? "text-forest-700" : "text-sage-900"}`}>
+                    {VISIBILITY_LABELS[option]}
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-relaxed text-sage-600">{VISIBILITY_HINTS[option]}</span>
                 </span>
               </label>
             ))}
@@ -100,7 +104,7 @@ export function ReflectionForm({
               type="button"
               onClick={onDelete}
               disabled={deleting}
-              className="text-sm text-white/60 underline-offset-4 hover:text-red-300 hover:underline disabled:opacity-50"
+              className="text-sm font-medium text-sage-600 underline-offset-4 transition hover:text-red-700 hover:underline disabled:opacity-50"
             >
               {deleting ? "Устгаж байна…" : "Тэмдэглэлээ устгах"}
             </button>

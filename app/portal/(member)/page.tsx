@@ -30,18 +30,21 @@ export default async function PortalHomePage() {
     return (
       <div className="mx-auto max-w-2xl">
         <Greeting name={firstName} />
-        <section className="glass mt-8 rounded-3xl p-7 sm:p-9">
-          <div className="flex items-center gap-3">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-gold-400" />
-            <h2 className="font-display text-xl font-bold">Бүртгэл баталгаажуулалт хүлээж байна</h2>
+        <section className="card mt-8 rounded-3xl p-7 sm:p-9">
+          <div className="flex items-start gap-3">
+            <span className="mt-[9px] h-2.5 w-2.5 flex-shrink-0 animate-pulse rounded-full bg-clay-400 ring-4 ring-clay-100" />
+            <h2 className="font-display text-xl font-bold text-sage-900">Бүртгэл баталгаажуулалт хүлээж байна</h2>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-white/70">
+          <p className="mt-4 text-sm leading-relaxed text-sage-700">
             Таны бүртгэл амжилттай үүслээ. Чуулганы админ таныг гишүүнээр баталгаажуулж, эрх олгосны дараа өдрийн үг, бүлгийн
             мэдээлэл болон бусад хэсэг танд нээгдэнэ.
           </p>
-          <p className="mt-4 text-sm text-white/50">
+          <p className="mt-4 text-sm leading-relaxed text-sage-600">
             Нэрээ зөв бичсэн эсэхээ{" "}
-            <Link href="/portal/profile" className="text-gold-400 underline-offset-4 hover:underline">
+            <Link
+              href="/portal/profile"
+              className="font-semibold text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:text-forest-800 hover:decoration-forest-700"
+            >
               профайл
             </Link>{" "}
             хэсгээс шалгаарай. Админ таныг нэрээр нь таньж баталгаажуулна.
@@ -126,7 +129,7 @@ export default async function PortalHomePage() {
       {pendingCount > 0 && (
         <Link
           href="/portal/admin"
-          className="flex items-center justify-between gap-4 rounded-2xl border border-gold-500/30 bg-gold-500/10 px-5 py-4 text-sm text-gold-400 transition hover:bg-gold-500/15"
+          className="flex items-center justify-between gap-4 rounded-2xl border border-clay-300 bg-clay-50 px-5 py-4 text-sm text-clay-700 transition hover:border-clay-400 hover:bg-clay-100"
         >
           <span>
             <strong className="font-semibold">{pendingCount}</strong> шинэ бүртгэл баталгаажуулалт хүлээж байна.
@@ -135,11 +138,11 @@ export default async function PortalHomePage() {
         </Link>
       )}
 
-      <section className="glass rounded-3xl p-6 sm:p-8">
+      <section className="card rounded-3xl p-6 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Өнөөдрийн үг</h2>
+          <h2 className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">Өнөөдрийн үг</h2>
           {streak > 0 && (
-            <span className="rounded-full border border-gold-500/40 bg-gold-500/10 px-3 py-1 text-xs font-semibold text-gold-400">
+            <span className="rounded-full border border-forest-200 bg-forest-50 px-3 py-1 font-brand text-xs font-semibold tracking-wide text-forest-700">
               {streak} өдөр дараалан уншсан
             </span>
           )}
@@ -147,24 +150,27 @@ export default async function PortalHomePage() {
         {todayWord ? (
           <div className="mt-4 flex flex-wrap items-end justify-between gap-5">
             <div className="min-w-0">
-              <p className="font-display text-2xl font-bold leading-tight">{todayWord.title}</p>
-              <p className="mt-1 text-sm text-gold-400">{todayWord.scripture_ref}</p>
+              <p className="font-display text-2xl font-bold leading-tight text-forest-800">{todayWord.title}</p>
+              <p className="mt-1.5 font-brand text-sm font-semibold tracking-wide text-clay-600">{todayWord.scripture_ref}</p>
             </div>
             <Link
               href={`/portal/word/${today}`}
               className={`inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition ${
                 readTodayWord
-                  ? "border border-leaf-500/40 bg-leaf-500/10 text-leaf-400 hover:bg-leaf-500/20"
-                  : "bg-white text-ink-950 hover:bg-gold-400"
+                  ? "border border-forest-200 bg-forest-50 text-forest-700 hover:border-forest-300 hover:bg-forest-100"
+                  : "bg-forest-700 text-white shadow-lg shadow-forest-700/15 hover:bg-forest-800"
               }`}
             >
               {readTodayWord ? "✓ Уншсан · бодол харах" : "Унших"}
             </Link>
           </div>
         ) : (
-          <p className="mt-3 text-sm leading-relaxed text-white/60">
+          <p className="mt-3 text-sm leading-relaxed text-sage-600">
             Өнөөдрийн үг хараахан нийтлэгдээгүй байна.{" "}
-            <Link href="/portal/words" className="text-gold-400 underline-offset-4 hover:underline">
+            <Link
+              href="/portal/words"
+              className="font-semibold text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:text-forest-800 hover:decoration-forest-700"
+            >
               Өмнөх үгсийг унших
             </Link>
           </p>
@@ -172,10 +178,10 @@ export default async function PortalHomePage() {
         {isMentor && todayWord && tracked.length > 0 && (
           <Link
             href="/portal/quiet-time"
-            className="mt-6 flex items-center justify-between gap-4 border-t border-white/5 pt-4 text-sm text-white/70 hover:text-white"
+            className="mt-6 flex items-center justify-between gap-4 border-t border-sage-200 pt-4 text-sm text-sage-700 transition hover:text-forest-700"
           >
             <span>
-              Таны хянадаг гишүүдээс өнөөдөр <strong className="text-white">{trackedReadToday}</strong>/{tracked.length}{" "}
+              Таны хянадаг гишүүдээс өнөөдөр <strong className="text-forest-800">{trackedReadToday}</strong>/{tracked.length}{" "}
               уншсан
             </span>
             <span aria-hidden>→</span>
@@ -184,37 +190,37 @@ export default async function PortalHomePage() {
       </section>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <section className="glass rounded-3xl p-6 sm:p-7">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Миний бүлэг</h2>
+        <section className="card rounded-3xl p-6 sm:p-7">
+          <h2 className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">Миний бүлэг</h2>
           {group ? (
             <>
-              <p className="mt-3 font-display text-2xl font-bold">{group.name}</p>
+              <p className="mt-3 font-display text-2xl font-bold text-sage-900">{group.name}</p>
               {mentor ? (
                 <div className="mt-5 flex items-center gap-3">
                   <Avatar name={mentor.full_name} url={mentor.avatar_url} size={40} />
                   <div>
-                    <p className="text-sm font-semibold">{mentor.full_name}</p>
-                    <p className="text-xs text-white/50">Чиглүүлэгч</p>
+                    <p className="text-sm font-semibold text-sage-900">{mentor.full_name}</p>
+                    <p className="text-xs text-sage-600">Чиглүүлэгч</p>
                   </div>
                 </div>
               ) : (
                 group.mentor_id !== profile.id && (
-                  <p className="mt-4 text-sm text-white/50">Энэ бүлэгт чиглүүлэгч хараахан томилогдоогүй байна.</p>
+                  <p className="mt-4 text-sm text-sage-600">Энэ бүлэгт чиглүүлэгч хараахан томилогдоогүй байна.</p>
                 )
               )}
             </>
           ) : (
-            <p className="mt-3 text-sm leading-relaxed text-white/60">
+            <p className="mt-3 text-sm leading-relaxed text-sage-600">
               Та одоогоор бүлэгт хуваарилагдаагүй байна. Админ таныг удахгүй бүлэгт оруулна.
             </p>
           )}
         </section>
 
         {hasRole(profile.role, "mentor") && (
-          <section className="glass rounded-3xl p-6 sm:p-7">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Миний хариуцсан гишүүд</h2>
+          <section className="card rounded-3xl p-6 sm:p-7">
+            <h2 className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">Миний хариуцсан гишүүд</h2>
             {mentoredGroups.length === 0 ? (
-              <p className="mt-3 text-sm leading-relaxed text-white/60">
+              <p className="mt-3 text-sm leading-relaxed text-sage-600">
                 Танд одоогоор хариуцах бүлэг оноогоогүй байна.
               </p>
             ) : (
@@ -223,15 +229,15 @@ export default async function PortalHomePage() {
                   const members = mentees.filter((m) => m.group_id === g.id);
                   return (
                     <div key={g.id}>
-                      <p className="text-sm font-semibold text-gold-400">
-                        {g.name} <span className="font-normal text-white/55">· {members.length} гишүүн</span>
+                      <p className="text-sm font-semibold text-forest-700">
+                        {g.name} <span className="font-normal text-sage-600">· {members.length} гишүүн</span>
                       </p>
                       {members.length > 0 ? (
                         <ul className="mt-3 flex flex-wrap gap-2">
                           {members.map((m) => (
                             <li
                               key={m.id}
-                              className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 py-1 pl-1 pr-3 text-sm"
+                              className="flex items-center gap-2 rounded-full border border-sage-200 bg-sage-50 py-1 pl-1 pr-3 text-sm text-sage-800"
                             >
                               <Avatar name={m.full_name} url={m.avatar_url} size={24} />
                               {m.full_name}
@@ -239,7 +245,7 @@ export default async function PortalHomePage() {
                           ))}
                         </ul>
                       ) : (
-                        <p className="mt-2 text-sm text-white/55">Энэ бүлэгт гишүүн хараахан алга.</p>
+                        <p className="mt-2 text-sm text-sage-600">Энэ бүлэгт гишүүн хараахан алга.</p>
                       )}
                     </div>
                   );
@@ -251,12 +257,12 @@ export default async function PortalHomePage() {
       </div>
 
       <section>
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/55">Удахгүй нэмэгдэнэ</h2>
+        <h2 className="font-brand text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">Удахгүй нэмэгдэнэ</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           {UPCOMING.map((item) => (
-            <div key={item.title} className="rounded-2xl border border-dashed border-white/10 p-5">
-              <p className="font-display text-lg font-bold text-white/85">{item.title}</p>
-              <p className="mt-2 text-sm leading-relaxed text-white/50">{item.body}</p>
+            <div key={item.title} className="rounded-2xl border border-dashed border-sage-300 bg-sage-50/60 p-5">
+              <p className="font-display text-lg font-bold text-sage-800">{item.title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-sage-600">{item.body}</p>
             </div>
           ))}
         </div>
@@ -268,8 +274,8 @@ export default async function PortalHomePage() {
 function Greeting({ name }: { name: string }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Гишүүдийн портал</p>
-      <h1 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">
+      <p className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">Гишүүдийн портал</p>
+      <h1 className="mt-2 font-display text-3xl font-extrabold text-forest-800 [overflow-wrap:anywhere] sm:text-4xl">
         Сайн байна уу{name ? `, ${name}` : ""}
       </h1>
     </div>

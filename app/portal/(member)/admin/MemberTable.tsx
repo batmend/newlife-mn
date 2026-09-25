@@ -12,7 +12,7 @@ type Member = Pick<Profile, "id" | "email" | "full_name" | "avatar_url" | "role"
 type Filter = "all" | MemberRole;
 
 const selectClass =
-  "w-full rounded-xl border border-white/10 bg-ink-950/70 px-3 py-2 text-base text-white outline-none transition focus:border-gold-500/60 disabled:opacity-60 lg:text-sm";
+  "w-full min-w-0 flex-1 rounded-xl border border-sage-300 bg-white px-3 py-2 text-base text-sage-900 outline-none transition hover:border-sage-400 focus:border-forest-600 focus:ring-2 focus:ring-forest-600/15 disabled:bg-sage-50 disabled:opacity-60 lg:text-sm";
 
 export function MemberTable({
   members,
@@ -49,14 +49,14 @@ export function MemberTable({
   return (
     <section>
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <h2 className="font-display text-xl font-bold">Гишүүдийн жагсаалт</h2>
+        <h2 className="font-display text-xl font-bold text-sage-900">Гишүүдийн жагсаалт</h2>
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Нэр эсвэл имэйлээр хайх"
           aria-label="Гишүүн хайх"
-          className="w-full rounded-full border border-white/10 bg-ink-950/60 px-4 py-2.5 text-base text-white placeholder-white/50 outline-none focus:border-gold-500/60 md:w-72 lg:text-sm"
+          className="w-full rounded-full border border-sage-300 bg-white px-4 py-2.5 text-base text-sage-900 placeholder-sage-500 outline-none transition hover:border-sage-400 focus:border-forest-600 focus:ring-2 focus:ring-forest-600/15 md:w-72 lg:text-sm"
         />
       </div>
 
@@ -69,8 +69,8 @@ export function MemberTable({
             aria-pressed={filter === f}
             className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold transition ${
               filter === f
-                ? "border-white bg-white text-ink-950"
-                : "border-white/10 text-white/60 hover:border-white/30 hover:text-white"
+                ? "border-forest-700 bg-forest-700 text-white shadow-sm shadow-forest-700/20"
+                : "border-sage-300 bg-white text-sage-700 hover:border-forest-600/50 hover:bg-forest-50 hover:text-forest-700"
             }`}
           >
             {f === "all" ? "Бүгд" : ROLE_LABELS[f]}
@@ -78,17 +78,17 @@ export function MemberTable({
         ))}
       </div>
 
-      <div className="mt-5 overflow-hidden rounded-2xl border border-white/10">
-        <div className="hidden grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] gap-4 border-b border-white/10 bg-white/[0.03] px-5 py-3 text-[11px] font-semibold uppercase tracking-widest text-white/55 md:grid">
+      <div className="card mt-5 overflow-hidden rounded-2xl">
+        <div className="hidden grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] gap-4 border-b border-sage-200 bg-sage-50 px-5 py-3 font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600 md:grid">
           <span>Гишүүн</span>
           <span>Эрх</span>
           <span>Бүлэг</span>
           <span className="w-32" />
         </div>
         {visible.length === 0 ? (
-          <p className="px-5 py-10 text-center text-sm text-white/55">{emptyMessage}</p>
+          <p className="px-5 py-10 text-center text-sm text-sage-600">{emptyMessage}</p>
         ) : (
-          <ul className="divide-y divide-white/5">
+          <ul className="divide-y divide-sage-200">
             {visible.map((m) => (
               <MemberRow
                 key={`${m.id}:${m.role}:${m.group_id ?? ""}`}
@@ -141,21 +141,21 @@ function MemberRow({
   }
 
   return (
-    <li className="grid gap-3 px-5 py-4 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center md:gap-4">
+    <li className="grid gap-3 px-5 py-4 transition hover:bg-forest-50/50 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center md:gap-4">
       <div className="flex min-w-0 items-center gap-3">
         <Avatar name={displayName} url={member.avatar_url} size={40} />
         <div className="min-w-0">
-          <p className="flex items-center gap-2 truncate text-sm font-semibold">
+          <p className="flex items-center gap-2 truncate text-sm font-semibold text-sage-900">
             <span className="truncate">{member.full_name || "Нэргүй"}</span>
-            {isSelf && <span className="text-[11px] font-normal text-white/55">(та)</span>}
+            {isSelf && <span className="text-[11px] font-normal text-sage-600">(та)</span>}
           </p>
-          <p className="truncate text-xs text-white/55">{member.email ?? "Имэйлгүй (Facebook)"}</p>
-          <p className="text-xs text-white/55">{member.joined}</p>
+          <p className="truncate text-xs text-sage-600">{member.email ?? "Имэйлгүй (Facebook)"}</p>
+          <p className="font-brand text-xs tracking-wide text-sage-600">{member.joined}</p>
         </div>
       </div>
 
-      <label className="block">
-        <span className="sr-only">Эрх</span>
+      <label className="flex items-center gap-3 md:block">
+        <span className="w-14 flex-shrink-0 font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600 md:sr-only">Эрх</span>
         <select
           value={role}
           onChange={(e) => setRole(e.target.value as MemberRole)}
@@ -170,8 +170,8 @@ function MemberRow({
         </select>
       </label>
 
-      <label className="block">
-        <span className="sr-only">Бүлэг</span>
+      <label className="flex items-center gap-3 md:block">
+        <span className="w-14 flex-shrink-0 font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600 md:sr-only">Бүлэг</span>
         <select
           value={groupId}
           onChange={(e) => setGroupId(e.target.value)}
@@ -192,14 +192,14 @@ function MemberRow({
           type="button"
           onClick={save}
           disabled={!dirty || saving}
-          className="w-full rounded-full bg-white px-4 py-2.5 text-xs font-semibold text-ink-950 transition hover:bg-gold-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40 md:w-auto md:py-2"
+          className="w-full rounded-full bg-forest-700 px-4 py-2.5 text-xs font-semibold text-white shadow-sm shadow-forest-700/20 transition hover:bg-forest-800 disabled:cursor-not-allowed disabled:bg-sage-100 disabled:text-sage-600 disabled:shadow-none md:w-auto md:py-2"
         >
           {saving ? "Хадгалж байна…" : "Хадгалах"}
         </button>
       </div>
 
       {error && (
-        <p role="alert" className="text-sm text-red-300 md:col-span-4">
+        <p role="alert" className="text-sm text-red-700 md:col-span-4">
           {error}
         </p>
       )}

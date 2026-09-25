@@ -10,8 +10,8 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="mx-auto max-w-md">
-      <h1 className="font-display text-3xl font-extrabold">Шинэ нууц үг</h1>
-      <form action={action} className="glass mt-6 space-y-4 rounded-3xl p-6 sm:p-8">
+      <h1 className="font-display text-3xl font-extrabold text-forest-800">Шинэ нууц үг</h1>
+      <form action={action} className="card mt-6 space-y-4 rounded-3xl p-6 sm:p-8">
         <Field
           label="Шинэ нууц үг"
           name="password"
@@ -26,7 +26,10 @@ export default function ResetPasswordPage() {
         {state?.message ? (
           <>
             <Notice tone="success">{state.message}</Notice>
-            <Link href="/portal" className="block text-center text-sm text-gold-400 hover:underline">
+            <Link
+              href="/portal"
+              className="block text-center text-sm font-medium text-forest-700 underline-offset-4 hover:text-forest-800 hover:underline"
+            >
               Нүүр хуудас руу
             </Link>
           </>

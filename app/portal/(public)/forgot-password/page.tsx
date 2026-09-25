@@ -9,9 +9,9 @@ export default function ForgotPasswordPage() {
   const [state, action] = useFormState(requestPasswordReset, null);
 
   return (
-    <div className="glass rounded-3xl p-7 sm:p-9">
-      <h1 className="text-center font-display text-2xl font-bold text-white">Нууц үг сэргээх</h1>
-      <p className="mt-2 text-center text-sm text-white/55">
+    <div className="card rounded-3xl p-7 sm:p-9">
+      <h1 className="text-center font-display text-2xl font-bold text-forest-800">Нууц үг сэргээх</h1>
+      <p className="mt-2 text-center text-sm text-sage-600">
         Бүртгэлтэй имэйл хаягаа оруулбал нууц үг шинэчлэх холбоос илгээнэ.
       </p>
       <form action={action} className="mt-7 space-y-4">
@@ -24,7 +24,10 @@ export default function ForgotPasswordPage() {
         )}
       </form>
       <p className="mt-6 text-center text-sm">
-        <Link href="/portal/login" className="text-white/55 underline-offset-4 hover:text-white hover:underline">
+        <Link
+          href="/portal/login"
+          className="font-medium text-forest-700 underline-offset-4 hover:text-forest-800 hover:underline"
+        >
           Нэвтрэх хуудас руу буцах
         </Link>
       </p>

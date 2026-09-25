@@ -56,9 +56,9 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Чиглүүлэгч</p>
-        <h1 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">Чимээгүй цаг</h1>
-        <p className="mt-2 text-sm text-white/60">
+        <p className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">Чиглүүлэгч</p>
+        <h1 className="mt-2 font-display text-3xl font-extrabold text-forest-800 sm:text-4xl">Чимээгүй цаг</h1>
+        <p className="mt-2 text-sm text-sage-600">
           {hasRole(profile.role, "leader")
             ? "Бүх гишүүдийн сүүлийн 14 хоногийн уншилт."
             : "Таны хариуцсан бүлгийн гишүүдийн сүүлийн 14 хоногийн уншилт."}
@@ -66,19 +66,19 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
       </div>
 
       <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <div className="glass rounded-2xl px-4 py-4">
-          <dt className="text-[11px] uppercase tracking-widest text-white/55">Өнөөдөр уншсан</dt>
-          <dd className="mt-1 font-display text-2xl font-bold">
+        <div className="card rounded-2xl px-4 py-4">
+          <dt className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">Өнөөдөр уншсан</dt>
+          <dd className="mt-1 font-brand text-3xl font-bold text-forest-700">
             {todayHasWord ? `${readToday}/${visible.length}` : "—"}
           </dd>
         </div>
-        <div className="glass rounded-2xl px-4 py-4">
-          <dt className="text-[11px] uppercase tracking-widest text-white/55">Гишүүд</dt>
-          <dd className="mt-1 font-display text-2xl font-bold">{visible.length}</dd>
+        <div className="card rounded-2xl px-4 py-4">
+          <dt className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">Гишүүд</dt>
+          <dd className="mt-1 font-brand text-3xl font-bold text-forest-700">{visible.length}</dd>
         </div>
-        <div className="glass col-span-2 rounded-2xl px-4 py-4 sm:col-span-1">
-          <dt className="text-[11px] uppercase tracking-widest text-white/55">14 хоногт нийтлэгдсэн үг</dt>
-          <dd className="mt-1 font-display text-2xl font-bold">{wordsInGrid}</dd>
+        <div className="card col-span-2 rounded-2xl px-4 py-4 sm:col-span-1">
+          <dt className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">14 хоногт нийтлэгдсэн үг</dt>
+          <dd className="mt-1 font-brand text-3xl font-bold text-forest-700">{wordsInGrid}</dd>
         </div>
       </dl>
 
@@ -101,27 +101,34 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
       )}
 
       {error ? (
-        <p className="rounded-2xl border border-red-400/30 bg-red-500/10 px-5 py-4 text-sm text-red-200">
+        <p className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700">
           Мэдээлэл ачаалахад алдаа гарлаа. Хуудсыг дахин ачаална уу.
         </p>
       ) : visible.length === 0 ? (
-        <p className="text-sm text-white/60">
+        <p className="text-sm text-sage-600">
           {hasRole(profile.role, "leader")
             ? "Одоогоор баталгаажсан гишүүн алга."
             : "Танд оноогдсон бүлэгт гишүүн алга. Админ таныг бүлгийн чиглүүлэгчээр томилсны дараа энд харагдана."}
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <div className="card overflow-x-auto rounded-2xl">
           <table className="w-full min-w-[720px] border-collapse text-sm">
             <thead>
-              <tr className="border-b border-white/10 bg-white/[0.03] text-[11px] uppercase tracking-widest text-white/55">
-                <th scope="col" className="sticky left-0 bg-ink-900 px-4 py-3 text-left font-semibold">
+              <tr className="border-b border-sage-200 bg-sage-50 font-brand text-xs uppercase tracking-[0.18em] text-sage-600">
+                <th
+                  scope="col"
+                  className="sticky left-0 bg-sage-50 px-4 py-3 text-left font-semibold shadow-[inset_-1px_0_0_theme(colors.sage.200)]"
+                >
                   Гишүүн
                 </th>
                 {days.map((d) => (
-                  <th key={d} scope="col" className="px-1 py-2 text-center font-semibold normal-case tracking-normal">
-                    <span className={`block text-[10px] ${d === today ? "text-gold-400" : ""}`}>{weekdayShort(d)}</span>
-                    <span className={`block ${d === today ? "text-gold-400" : ""}`}>{formatShortDate(d)}</span>
+                  <th
+                    key={d}
+                    scope="col"
+                    className={`px-1 py-2 text-center font-semibold normal-case tracking-normal ${d === today ? "bg-clay-100" : ""}`}
+                  >
+                    <span className={`block text-[10px] ${d === today ? "text-clay-700" : ""}`}>{weekdayShort(d)}</span>
+                    <span className={`block ${d === today ? "font-bold text-clay-800" : ""}`}>{formatShortDate(d)}</span>
                   </th>
                 ))}
                 <th scope="col" className="px-3 py-3 text-right font-semibold normal-case tracking-normal">
@@ -129,19 +136,22 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-sage-200">
               {visible.map((m) => {
                 const reads = new Set(m.read_dates);
                 const reflections = new Set(m.reflection_dates);
                 const streak = readingStreak(wordDatesDesc, reads, today);
                 return (
-                  <tr key={m.member_id}>
-                    <th scope="row" className="sticky left-0 bg-ink-950 px-4 py-3 text-left font-normal">
+                  <tr key={m.member_id} className="group transition-colors hover:bg-forest-50/50">
+                    <th
+                      scope="row"
+                      className="sticky left-0 bg-white px-4 py-3 text-left font-normal shadow-[inset_-1px_0_0_theme(colors.sage.200)] transition-colors group-hover:bg-[#f7fbf8]"
+                    >
                       <span className="flex items-center gap-3">
                         <Avatar name={m.full_name} url={m.avatar_url} size={28} />
                         <span className="min-w-0">
-                          <span className="block max-w-[160px] truncate font-semibold">{m.full_name}</span>
-                          <span className="block text-xs text-white/55">{m.group_name ?? "Бүлэггүй"}</span>
+                          <span className="block max-w-[160px] truncate font-semibold text-sage-900">{m.full_name}</span>
+                          <span className="block text-xs text-sage-600">{m.group_name ?? "Бүлэггүй"}</span>
                         </span>
                       </span>
                     </th>
@@ -149,7 +159,11 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
                       const title = titles.get(d);
                       if (!title) {
                         return (
-                          <td key={d} className="px-1 py-3 text-center text-white/45" title="Үг нийтлэгдээгүй">
+                          <td
+                            key={d}
+                            className={`px-1 py-3 text-center text-sage-500 ${d === today ? "bg-clay-50" : ""}`}
+                            title="Үг нийтлэгдээгүй"
+                          >
                             ·
                           </td>
                         );
@@ -158,17 +172,17 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
                       const didReflect = reflections.has(d);
                       const label = `${formatDateMn(d, false)}: ${didReflect ? "бодлоо бичсэн" : didRead ? "уншсан" : "уншаагүй"}`;
                       return (
-                        <td key={d} className="px-1 py-3 text-center">
+                        <td key={d} className={`px-1 py-3 text-center ${d === today ? "bg-clay-50" : ""}`}>
                           <Link
                             href={`/portal/word/${d}`}
                             title={`${label} · ${title}`}
                             aria-label={label}
-                            className={`mx-auto flex h-7 w-7 items-center justify-center rounded-lg text-xs font-bold transition hover:ring-2 hover:ring-white/30 ${
+                            className={`mx-auto flex h-7 w-7 items-center justify-center rounded-lg text-xs font-bold transition hover:ring-2 hover:ring-forest-600/50 hover:ring-offset-1 ${
                               didReflect
-                                ? "bg-gold-400/30 text-gold-400"
+                                ? "bg-forest-800 text-white"
                                 : didRead
-                                  ? "bg-leaf-500/25 text-leaf-400"
-                                  : "border border-white/35 text-transparent"
+                                  ? "bg-forest-600 text-white"
+                                  : "border border-sage-300 bg-sage-100 text-transparent"
                             }`}
                           >
                             {didReflect ? "✎" : didRead ? "✓" : "·"}
@@ -176,8 +190,8 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
                         </td>
                       );
                     })}
-                    <td className="px-3 py-3 text-right font-display font-bold">
-                      {streak > 0 ? `${streak} өдөр` : <span className="text-white/35">—</span>}
+                    <td className="px-3 py-3 text-right font-brand text-base font-bold text-forest-700">
+                      {streak > 0 ? `${streak} өдөр` : <span className="text-sage-500">—</span>}
                     </td>
                   </tr>
                 );
@@ -187,15 +201,15 @@ export default async function QuietTimePage({ searchParams }: { searchParams: { 
         </div>
       )}
 
-      <p className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-white/55">
+      <p className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-sage-600">
         <span>
-          <span className="mr-1 inline-block h-3 w-3 rounded bg-leaf-500/40 align-middle" /> Уншсан
+          <span className="mr-1 inline-block h-3 w-3 rounded bg-forest-600 align-middle" /> Уншсан
         </span>
         <span>
-          <span className="mr-1 inline-block h-3 w-3 rounded bg-gold-400/40 align-middle" /> Бодлоо бичсэн
+          <span className="mr-1 inline-block h-3 w-3 rounded bg-forest-800 align-middle" /> Бодлоо бичсэн
         </span>
         <span>
-          <span className="mr-1 inline-block h-3 w-3 rounded border border-white/35 align-middle" /> Уншаагүй
+          <span className="mr-1 inline-block h-3 w-3 rounded border border-sage-300 bg-sage-100 align-middle" /> Уншаагүй
         </span>
         <span>· Тухайн өдөр үг нийтлэгдээгүй</span>
       </p>
@@ -209,7 +223,9 @@ function FilterLink({ href, active, children }: { href: string; active: boolean;
       href={href}
       aria-current={active ? "page" : undefined}
       className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold transition ${
-        active ? "border-white bg-white text-ink-950" : "border-white/10 text-white/60 hover:border-white/30 hover:text-white"
+        active
+          ? "border-forest-700 bg-forest-700 text-white shadow-sm shadow-forest-700/20"
+          : "border-sage-300 bg-white text-sage-700 hover:border-forest-600/50 hover:bg-forest-50 hover:text-forest-700"
       }`}
     >
       {children}

@@ -9,7 +9,7 @@ export function LinkProviderButton({ name }: { name: string }) {
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-950 transition hover:bg-gold-400 disabled:cursor-wait disabled:opacity-70"
+      className="whitespace-nowrap rounded-full border border-forest-700/25 px-4 py-2 text-xs font-semibold text-forest-800 transition hover:border-forest-700/50 hover:bg-forest-50 disabled:cursor-wait disabled:opacity-70"
     >
       {pending ? `${name} руу шилжиж байна…` : `${name} холбох`}
     </button>

@@ -15,18 +15,21 @@ export default function DataDeletionPage() {
       <p>Та порталд хадгалагдсан өөрийн бүх мэдээллийг хүссэн үедээ, хэний ч зөвшөөрөлгүйгээр устгаж болно.</p>
 
       <LegalSection title="Порталаас устгах">
-        <ol className="list-decimal space-y-2 pl-5 marker:font-semibold marker:text-gold-400">
+        <ol className="list-decimal space-y-2 pl-5 marker:font-semibold marker:text-clay-600">
           <li>
-            <Link href="/portal/login" className="text-gold-400 underline underline-offset-4">
+            <Link
+              href="/portal/login"
+              className="text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:decoration-forest-700"
+            >
               newlife.mn/portal
             </Link>{" "}
             руу Facebook, Google эсвэл имэйлээрээ нэвтэрнэ.
           </li>
           <li>
-            Дээд цэсний <strong className="text-white">Профайл</strong> руу орно.
+            Дээд цэсний <strong className="text-sage-900">Профайл</strong> руу орно.
           </li>
           <li>
-            <strong className="text-white">Бүртгэл устгах</strong> хэсэгт «УСТГАХ» гэж бичээд товчийг дарна.
+            <strong className="text-sage-900">Бүртгэл устгах</strong> хэсэгт «УСТГАХ» гэж бичээд товчийг дарна.
           </li>
         </ol>
         <p>
@@ -38,8 +41,8 @@ export default function DataDeletionPage() {
 
       <LegalSection title="Facebook-ийн холболтыг салгах">
         <p>
-          Facebook → <strong className="text-white">Settings &amp; privacy → Settings → Apps and websites</strong> →
-          «Шинэ Амь портал» → <strong className="text-white">Remove</strong>. Ингэснээр Facebook порталд мэдээлэл
+          Facebook → <strong className="text-sage-900">Settings &amp; privacy → Settings → Apps and websites</strong> →
+          «Шинэ Амь портал» → <strong className="text-sage-900">Remove</strong>. Ингэснээр Facebook порталд мэдээлэл
           дамжуулахаа зогсооно. Порталд аль хэдийн хадгалагдсан мэдээллийг устгахын тулд дээрх алхмуудыг мөн хийнэ үү.
         </p>
       </LegalSection>
@@ -51,16 +54,16 @@ export default function DataDeletionPage() {
       </LegalSection>
 
       <EnglishVersion>
-        <h2 className="mt-4 font-display text-2xl font-bold text-white">Data Deletion Instructions</h2>
+        <h2 className="mt-4 font-display text-2xl font-bold text-forest-800">Data Deletion Instructions</h2>
         <div className="mt-6 space-y-4">
           <p>You can delete all of your data from the New Life member portal at any time, without anyone&apos;s approval:</p>
-          <ol className="list-decimal space-y-2 pl-5 marker:text-gold-400">
+          <ol className="list-decimal space-y-2 pl-5 marker:font-semibold marker:text-clay-600">
             <li>Sign in at newlife.mn/portal with Facebook, Google or email.</li>
             <li>
-              Open <strong className="text-white">Профайл</strong> (Profile) in the top menu.
+              Open <strong className="text-sage-900">Профайл</strong> (Profile) in the top menu.
             </li>
             <li>
-              In <strong className="text-white">Бүртгэл устгах</strong> (Delete account), type «УСТГАХ» and press the
+              In <strong className="text-sage-900">Бүртгэл устгах</strong> (Delete account), type «УСТГАХ» and press the
               button.
             </li>
           </ol>

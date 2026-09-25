@@ -14,7 +14,7 @@ export function WordForm({ word, defaultDate, today }: { word?: Word; defaultDat
 
   return (
     <div className="space-y-6">
-      <form action={action} className="glass space-y-5 rounded-3xl p-6 sm:p-8">
+      <form action={action} className="card space-y-5 rounded-3xl p-6 sm:p-8">
         {word && <input type="hidden" name="id" value={word.id} />}
         <Field
           label="Нийтлэх өдөр"
@@ -34,7 +34,7 @@ export function WordForm({ word, defaultDate, today }: { word?: Word; defaultDat
           required
         />
         <label className="block">
-          <span className="text-xs font-semibold uppercase tracking-widest text-white/60">Эшлэлийн текст</span>
+          <span className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">Эшлэлийн текст</span>
           <textarea
             name="scripture_text"
             defaultValue={word?.scripture_text}
@@ -44,7 +44,7 @@ export function WordForm({ word, defaultDate, today }: { word?: Word; defaultDat
           />
         </label>
         <label className="block">
-          <span className="text-xs font-semibold uppercase tracking-widest text-white/60">Үгийн агуулга</span>
+          <span className="font-brand text-xs font-semibold uppercase tracking-[0.18em] text-sage-600">Үгийн агуулга</span>
           <textarea
             name="body"
             defaultValue={word?.body}
@@ -53,7 +53,7 @@ export function WordForm({ word, defaultDate, today }: { word?: Word; defaultDat
             required
             className={`${inputClass} leading-relaxed`}
           />
-          <span className="mt-1.5 block text-xs text-white/55">Мөр шилжүүлсэн хэвээрээ харагдана.</span>
+          <span className="mt-1.5 block text-xs text-sage-600">Мөр шилжүүлсэн хэвээрээ харагдана.</span>
         </label>
         {state?.error && <Notice tone="error">{state.error}</Notice>}
         <SubmitButton className="sm:w-auto" pendingLabel="Хадгалж байна…">
@@ -62,10 +62,10 @@ export function WordForm({ word, defaultDate, today }: { word?: Word; defaultDat
       </form>
 
       {word && word.publish_date === today && (
-        <form action={sendAction} className="glass space-y-3 rounded-2xl border border-gold-500/30 p-5">
+        <form action={sendAction} className="space-y-3 rounded-2xl border border-clay-300 bg-clay-50 p-5">
           <input type="hidden" name="id" value={word.id} />
-          <p className="text-sm font-semibold">Гишүүдэд одоо илгээх</p>
-          <p className="text-xs text-white/55">
+          <p className="text-sm font-semibold text-clay-800">Гишүүдэд одоо илгээх</p>
+          <p className="text-xs leading-relaxed text-sage-700">
             Өнөөдрийн үгийг өглөө 6 цагаас хойш нэмсэн бол имэйлээр автоматаар очоогүй. Өглөө аль хэдийн илгээгдсэн бол
             дахин илгээхгүй.
           </p>
@@ -79,10 +79,10 @@ export function WordForm({ word, defaultDate, today }: { word?: Word; defaultDat
 
       {word && (
         <div className="grid gap-4 sm:grid-cols-2">
-          <form action={testAction} className="glass space-y-3 rounded-2xl p-5">
+          <form action={testAction} className="card space-y-3 rounded-2xl p-5">
             <input type="hidden" name="id" value={word.id} />
-            <p className="text-sm font-semibold">Туршилтын имэйл</p>
-            <p className="text-xs text-white/55">Өглөө гишүүдэд очих имэйлийг эхлээд өөртөө илгээж харах.</p>
+            <p className="text-sm font-semibold text-sage-900">Туршилтын имэйл</p>
+            <p className="text-xs leading-relaxed text-sage-600">Өглөө гишүүдэд очих имэйлийг эхлээд өөртөө илгээж харах.</p>
             {testState?.error && <Notice tone="error">{testState.error}</Notice>}
             {testState?.message && <Notice tone="success">{testState.message}</Notice>}
             <SubmitButton className="sm:w-auto" pendingLabel="Илгээж байна…">
@@ -94,11 +94,11 @@ export function WordForm({ word, defaultDate, today }: { word?: Word; defaultDat
             onSubmit={(e) => {
               if (!window.confirm(`"${word.title}" үгийг устгах уу?`)) e.preventDefault();
             }}
-            className="space-y-3 rounded-2xl border border-red-400/20 bg-red-500/[0.04] p-5"
+            className="space-y-3 rounded-2xl border border-red-200 bg-red-50/50 p-5"
           >
             <input type="hidden" name="id" value={word.id} />
-            <p className="text-sm font-semibold">Устгах</p>
-            <p className="text-xs text-white/55">Гишүүд уншсан эсвэл бодлоо үлдээсэн үгийг устгах боломжгүй.</p>
+            <p className="text-sm font-semibold text-red-700">Устгах</p>
+            <p className="text-xs leading-relaxed text-sage-600">Гишүүд уншсан эсвэл бодлоо үлдээсэн үгийг устгах боломжгүй.</p>
             <SubmitButton variant="danger" className="sm:w-auto" pendingLabel="Устгаж байна…">
               Үгийг устгах
             </SubmitButton>

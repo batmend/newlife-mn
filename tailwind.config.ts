@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand palette from the logo (public site). forest-700 = wordmark #056839,
+        // Brand palette from the logo (public site and portal). forest-700 = wordmark #056839,
         // forest-500 → sprout-500 = leaf gradient, clay-400 = cross #C49A6C.
         // On white, use forest-600+ / clay-600+ / sage-500+ for text (AA contrast);
         // lighter shades are for fills, borders and decoration only.
@@ -58,24 +58,6 @@ const config: Config = {
           800: "#27312b",
           900: "#17201b",
           950: "#0c120e",
-        },
-        // Dark palette, still used by the member portal.
-        ink: {
-          950: "#0a0a0c",
-          900: "#111114",
-          800: "#17181c",
-          700: "#1f2026",
-          600: "#2a2c34",
-        },
-        gold: {
-          400: "#e9c987",
-          500: "#d4b06a",
-          600: "#b8924f",
-        },
-        leaf: {
-          400: "#7fd1a8",
-          500: "#3fb37f",
-          600: "#2a8a60",
         },
       },
       fontFamily: {

@@ -20,28 +20,28 @@ export default function PrivacyPage() {
       <LegalSection title="1. Бидний цуглуулдаг мэдээлэл">
         <LegalList>
           <li>
-            <strong className="text-white">Бүртгэлийн мэдээлэл:</strong> овог нэр, имэйл хаяг, нууц үг. Нууц үгийг зөвхөн
+            <strong className="text-sage-900">Бүртгэлийн мэдээлэл:</strong> овог нэр, имэйл хаяг, нууц үг. Нууц үгийг зөвхөн
             нэг талын шифрлэлтээр хадгалдаг тул хэн ч, тэр дундаа бид ч харах боломжгүй.
           </li>
           <li>
-            <strong className="text-white">Facebook эсвэл Google-ээр нэвтэрвэл:</strong> тухайн үйлчилгээнээс таны нэр,
+            <strong className="text-sage-900">Facebook эсвэл Google-ээр нэвтэрвэл:</strong> тухайн үйлчилгээнээс таны нэр,
             имэйл хаяг, профайл зураг болон тухайн үйлчилгээн дэх хэрэглэгчийн дугаарыг (ID) авна. Найзуудын жагсаалт,
             нийтлэл, мессеж зэрэг бусад мэдээллийг авахгүй бөгөөд таны өмнөөс юу ч нийтлэхгүй.
           </li>
           <li>
-            <strong className="text-white">Чуулганы мэдээлэл:</strong> админаас олгосон эрх (гишүүн, чиглүүлэгч, удирдагч
+            <strong className="text-sage-900">Чуулганы мэдээлэл:</strong> админаас олгосон эрх (гишүүн, чиглүүлэгч, удирдагч
             г.м) болон таны харьяалагдах бүлэг.
           </li>
           <li>
-            <strong className="text-white">Өдрийн үгийн тэмдэглэл:</strong> та аль үгийг хэзээ уншсан, мөн таны бичсэн
+            <strong className="text-sage-900">Өдрийн үгийн тэмдэглэл:</strong> та аль үгийг хэзээ уншсан, мөн таны бичсэн
             бодлын тэмдэглэл болон түүнийг хэнд харуулахаар сонгосон.
           </li>
           <li>
-            <strong className="text-white">Техникийн мэдээлэл:</strong> нэвтрэх үед аюулгүй байдлын зорилгоор IP хаяг,
+            <strong className="text-sage-900">Техникийн мэдээлэл:</strong> нэвтрэх үед аюулгүй байдлын зорилгоор IP хаяг,
             хөтчийн мэдээлэл бүртгэгдэнэ.
           </li>
           <li>
-            <strong className="text-white">Cookie:</strong> зөвхөн таныг нэвтэрсэн төлөвт байлгахад ашиглана. Зар
+            <strong className="text-sage-900">Cookie:</strong> зөвхөн таныг нэвтэрсэн төлөвт байлгахад ашиглана. Зар
             сурталчилгааны болон хяналтын cookie ашигладаггүй.
           </li>
         </LegalList>
@@ -62,15 +62,15 @@ export default function PrivacyPage() {
       <LegalSection title="3. Хэн харах вэ">
         <LegalList>
           <li>
-            <strong className="text-white">Админ болон удирдагчид:</strong> бүх гишүүний нэр, имэйл, эрх, бүлэг, өдрийн
+            <strong className="text-sage-900">Админ болон удирдагчид:</strong> бүх гишүүний нэр, имэйл, эрх, бүлэг, өдрийн
             үг уншсан түүх болон бүх бодлын тэмдэглэл. Зохисгүй тэмдэглэлийг устгах эрхтэй.
           </li>
           <li>
-            <strong className="text-white">Чиглүүлэгч:</strong> зөвхөн өөрт оноогдсон бүлгийн гишүүдийн мэдээлэл, уншсан
+            <strong className="text-sage-900">Чиглүүлэгч:</strong> зөвхөн өөрт оноогдсон бүлгийн гишүүдийн мэдээлэл, уншсан
             түүх болон бодлын тэмдэглэл
           </li>
           <li>
-            <strong className="text-white">Бусад гишүүд:</strong> өөрийн бүлгийн чиглүүлэгчийн нэр, профайл зургийг
+            <strong className="text-sage-900">Бусад гишүүд:</strong> өөрийн бүлгийн чиглүүлэгчийн нэр, профайл зургийг
             харна. Мөн та бодлын тэмдэглэлээ «Бүх гишүүдэд» харуулахаар сонговол тэр тэмдэглэл таны нэр, зурагтай хамт
             бүх баталгаажсан гишүүдэд харагдана. Үүнээс гадна гишүүд бие биеийн мэдээллийг харахгүй.
           </li>
@@ -109,7 +109,7 @@ export default function PrivacyPage() {
           </li>
           <li>
             Бүртгэлээ хүссэн үедээ устгах —{" "}
-            <Link href="/portal/data-deletion" className="text-gold-400 underline underline-offset-4">
+            <Link href="/portal/data-deletion" className="text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:decoration-forest-700">
               мэдээлэл устгах заавар
             </Link>
           </li>
@@ -129,15 +129,15 @@ export default function PrivacyPage() {
       </LegalSection>
 
       <EnglishVersion>
-        <h2 className="mt-4 font-display text-2xl font-bold text-white">Privacy Policy</h2>
-        <p className="mt-2 text-sm text-white/55">Last updated: 25 September 2026</p>
+        <h2 className="mt-4 font-display text-2xl font-bold text-forest-800">Privacy Policy</h2>
+        <p className="mt-2 text-sm text-sage-500">Last updated: 25 September 2026</p>
         <div className="mt-6 space-y-4">
           <p>
             This policy explains how the member portal of New Life Christian Church (newlife.mn/portal) collects, uses and
             protects your information.
           </p>
           <p>
-            <strong className="text-white">What we collect.</strong> Your name, email address and password (stored only as a
+            <strong className="text-sage-900">What we collect.</strong> Your name, email address and password (stored only as a
             one-way hash). If you sign in with Facebook or Google we receive your name, email address, profile picture and
             your user ID with that service — never your friends list, posts or messages — and we never post on your
             behalf. We also store the role and group an administrator assigns to you, which daily devotionals you read and
@@ -146,32 +146,32 @@ export default function PrivacyPage() {
             no advertising or tracking cookies.
           </p>
           <p>
-            <strong className="text-white">How we use it.</strong> To sign you in, verify church membership, let mentors
+            <strong className="text-sage-900">How we use it.</strong> To sign you in, verify church membership, let mentors
             and leaders follow the quiet time (devotional reading) of the members assigned to them, and send portal emails
             (account confirmation, password reset, and the morning devotional, which you can switch off on your Profile
             page).
           </p>
           <p>
-            <strong className="text-white">Who can see it.</strong> Administrators and leaders see members&apos; names,
+            <strong className="text-sage-900">Who can see it.</strong> Administrators and leaders see members&apos; names,
             emails, roles, groups, reading history and all reflections, and may remove inappropriate reflections; mentors
             see the same only for the members of their own group. Members see their group mentor&apos;s name and profile picture, and any reflection another member
             chose to share with all members, shown with that member&apos;s name and picture; otherwise members cannot see
             each other&apos;s information. We do not sell your data or share it with advertisers.
           </p>
           <p>
-            <strong className="text-white">Processors.</strong> Supabase (database and authentication, Singapore), Vercel
+            <strong className="text-sage-900">Processors.</strong> Supabase (database and authentication, Singapore), Vercel
             (hosting), Resend (email delivery), Google Fonts (your browser downloads the site&apos;s fonts from Google),
             and Meta or Google when you sign in with them; profile pictures of members who signed in with Facebook or
             Google load directly from those services.
           </p>
           <p>
-            <strong className="text-white">Retention and your rights.</strong> We keep your data while your account exists.
+            <strong className="text-sage-900">Retention and your rights.</strong> We keep your data while your account exists.
             When you delete your account, the data stored in the portal is deleted permanently; technical logs kept by
             our service providers may retain your email and IP address for a limited time before they are deleted
             automatically, and emails already sent to you stay in your mailbox. You can view your data, edit your name
             and set a password on your Profile page (ask a church administrator to correct anything else), and delete
             your account at any time — see the{" "}
-            <Link href="/portal/data-deletion" className="text-gold-400 underline underline-offset-4">
+            <Link href="/portal/data-deletion" className="text-forest-700 underline decoration-forest-700/30 underline-offset-4 transition hover:decoration-forest-700">
               data deletion instructions
             </Link>
             . The portal is not intended for children under 13. We will update this policy before any new feature

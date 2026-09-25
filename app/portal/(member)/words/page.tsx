@@ -48,13 +48,13 @@ export default async function WordsArchivePage({ searchParams }: { searchParams:
     <div className="mx-auto max-w-2xl space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Өдрийн үг</p>
-          <h1 className="mt-2 font-display text-3xl font-extrabold">Бүх үгс</h1>
+          <p className="font-brand text-sm font-semibold uppercase tracking-[0.25em] text-clay-600">Өдрийн үг</p>
+          <h1 className="mt-2 font-display text-3xl font-extrabold text-forest-800">Бүх үгс</h1>
         </div>
         {hasRole(profile.role, "leader") && (
           <Link
             href="/portal/words/manage"
-            className="rounded-full border border-white/15 px-4 py-2 text-sm font-semibold transition hover:border-white/35"
+            className="rounded-full border border-forest-700/25 px-4 py-2 text-sm font-semibold text-forest-800 transition hover:border-forest-700/50 hover:bg-forest-50"
           >
             Үг бэлтгэх
           </Link>
@@ -62,31 +62,31 @@ export default async function WordsArchivePage({ searchParams }: { searchParams:
       </div>
 
       {(words ?? []).length === 0 ? (
-        <p className="text-sm text-white/60">Одоогоор нийтлэгдсэн үг алга.</p>
+        <p className="text-sm text-sage-600">Одоогоор нийтлэгдсэн үг алга.</p>
       ) : (
-        <ul className="divide-y divide-white/5 overflow-hidden rounded-2xl border border-white/10">
+        <ul className="card divide-y divide-sage-200 overflow-hidden rounded-2xl">
           {(words ?? []).map((w) => (
             <li key={w.id}>
               <Link
                 href={`/portal/word/${w.publish_date}`}
-                className="flex items-center gap-4 px-5 py-4 transition hover:bg-white/[0.04]"
+                className="flex items-center gap-4 px-5 py-4 transition hover:bg-forest-50/50"
               >
                 <span
                   aria-label={read.has(w.id) ? "Уншсан" : "Уншаагүй"}
-                  className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs ${
-                    read.has(w.id) ? "bg-leaf-500/20 text-leaf-400" : "border border-white/35 text-white/30"
+                  className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                    read.has(w.id) ? "bg-forest-600 text-white" : "border-2 border-sage-300 bg-white text-sage-500"
                   }`}
                 >
                   {read.has(w.id) ? "✓" : ""}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold">{w.title}</span>
-                  <span className="block text-xs text-white/55">
+                  <span className="block truncate text-sm font-semibold text-sage-900">{w.title}</span>
+                  <span className="mt-0.5 block text-xs text-sage-600">
                     {formatDateMn(w.publish_date)} · {w.scripture_ref}
                   </span>
                 </span>
                 {w.publish_date === today && (
-                  <span className="rounded-full bg-gold-400/20 px-2 py-0.5 text-[11px] font-semibold text-gold-400">
+                  <span className="flex-shrink-0 rounded-full border border-clay-300 bg-clay-50 px-2 py-0.5 text-[11px] font-semibold text-clay-700">
                     Өнөөдөр
                   </span>
                 )}
@@ -99,14 +99,17 @@ export default async function WordsArchivePage({ searchParams }: { searchParams:
       {(before || hasMore) && (
         <nav className="flex items-center justify-between text-sm">
           {before ? (
-            <Link href="/portal/words" className="text-white/60 hover:text-white">
+            <Link href="/portal/words" className="font-medium text-sage-600 transition hover:text-forest-700">
               ← Сүүлийн үгс
             </Link>
           ) : (
             <span />
           )}
           {hasMore && words.length > 0 && (
-            <Link href={`/portal/words?before=${words[words.length - 1].publish_date}`} className="text-white/60 hover:text-white">
+            <Link
+              href={`/portal/words?before=${words[words.length - 1].publish_date}`}
+              className="font-medium text-sage-600 transition hover:text-forest-700"
+            >
               Өмнөх үгс →
             </Link>
           )}
