@@ -17,12 +17,14 @@ const PROVIDER_LABELS: Record<OAuthProvider, string> = {
 export function AuthPanel({
   next,
   providers,
+  showFacebookAppHint,
   initialTab,
   queryError,
   queryNotice,
 }: {
   next: string;
   providers: OAuthProvider[];
+  showFacebookAppHint: boolean;
   initialTab: Tab;
   queryError?: string;
   queryNotice?: string;
@@ -50,6 +52,12 @@ export function AuthPanel({
               </form>
             ))}
           </div>
+          {showFacebookAppHint && (
+            <p className="mt-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-xs leading-relaxed text-white/60 sm:hidden">
+              Утсаараа нэвтэрч байна уу? Чуулганы Facebook групп эсвэл Messenger-ээр ирсэн холбоосоор нээвэл
+              Facebook-ээр нэг товшилтоор нэвтэрнэ.
+            </p>
+          )}
           <div className="my-6 flex items-center gap-3 text-xs text-white/55">
             <span className="h-px flex-1 bg-white/10" />
             эсвэл имэйлээр

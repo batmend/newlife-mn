@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { getEnabledOAuthProviders } from "@/lib/supabase/providers";
 import { safeNextPath } from "@/lib/portal/urls";
 import { AuthPanel } from "./AuthPanel";
@@ -39,6 +40,8 @@ export default async function LoginPage({
       ? QUERY_NOTICES[searchParams.notice]
       : undefined;
   const providers = await getEnabledOAuthProviders();
+  // Inside the Facebook/Messenger in-app browser the member is already signed in to Facebook.
+  const inFacebookApp = /FBAN|FBAV|FB_IAB/.test(headers().get("user-agent") ?? "");
 
   return (
     <>
@@ -50,6 +53,7 @@ export default async function LoginPage({
         <AuthPanel
           next={next}
           providers={providers}
+          showFacebookAppHint={providers.includes("facebook") && !inFacebookApp}
           initialTab={searchParams.tab === "signup" ? "signup" : "signin"}
           queryError={queryError}
           queryNotice={queryNotice}
